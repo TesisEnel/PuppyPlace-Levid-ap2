@@ -28,12 +28,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.project.puppyplace.R
+import com.project.puppyplace.navigation.Destination
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(
+    navController: NavController
+){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -52,7 +55,7 @@ fun LoginScreen(){
             verticalArrangement = Arrangement.Center
         ) {
             WelcomeMessageText()
-            LoginCard()
+            LoginCard(navController)
         }
         
     }
@@ -66,7 +69,9 @@ fun WelcomeMessageText(){
 }
 @ExperimentalMaterial3Api
 @Composable
-fun LoginCard(){
+fun LoginCard(
+    navController: NavController
+){
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -78,7 +83,7 @@ fun LoginCard(){
             EmailTextField()
             PasswordTextField()
             LoginButton()
-            SignUpButton()
+            SignUpButton(navController)
         }
     }
 }
@@ -150,7 +155,9 @@ fun LoginButton(){
 }
 
 @Composable
-fun SignUpButton(){
+fun SignUpButton(
+    navController: NavController
+){
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -167,13 +174,8 @@ fun SignUpButton(){
                 text = "Sign Up",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { /*TODO*/ }
+                modifier = Modifier.clickable { navController.navigate(Destination.signUp.route) }
             )
         }
     }
-}
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewLogin(){
-    LoginScreen()
 }

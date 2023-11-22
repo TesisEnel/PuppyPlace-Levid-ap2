@@ -35,13 +35,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.project.puppyplace.R
+import com.project.puppyplace.navigation.Destination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen(){
+fun SignUpScreen(
+    navController: NavController
+){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -59,7 +62,7 @@ fun SignUpScreen(){
             horizontalAlignment =  Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
-            SignUpCard()
+            SignUpCard(navController)
         }
 
     }
@@ -67,7 +70,9 @@ fun SignUpScreen(){
 
 @ExperimentalMaterial3Api
 @Composable
-fun SignUpCard(){
+fun SignUpCard(
+    navController: NavController
+){
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -117,7 +122,7 @@ fun SignUpCard(){
                 }
             }
             SignUpButton()
-            AlreadyAnAccountTextField()
+            AlreadyAnAccountTextField(navController)
         }
     }
 }
@@ -339,7 +344,9 @@ fun SignUpButton(){
 }
 
 @Composable
-fun AlreadyAnAccountTextField(){
+fun AlreadyAnAccountTextField(
+    navController: NavController
+){
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -356,13 +363,8 @@ fun AlreadyAnAccountTextField(){
                 text = "LogIn",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { /*TODO*/ }
+                modifier = Modifier.clickable { navController.navigate(Destination.login.route)}
             )
         }
     }
-}
-@Preview
-@Composable
-fun CardPreview(){
-    SignUpCard()
 }
