@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.project.puppyplace.R
 
 @Composable
-fun LogiScreen(){
+fun LoginScreen(){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -175,5 +175,5 @@ fun SignUpButton(){
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewLogin(){
-    LogiScreen()
+    LoginScreen()
 }
