@@ -22,19 +22,21 @@ val Typography = Typography(
     ),
     titleLarge = TextStyle(
         fontFamily = font,
+        fontSize = 20.sp
     ),
     labelSmall = TextStyle(
         fontFamily = font,
     ),
     displayLarge = TextStyle(
         fontFamily = font,
-        fontSize = 50.sp
+        fontSize = 54.sp
     ),
     displayMedium = TextStyle(
         fontFamily = font,
     ),
     headlineLarge = TextStyle(
         fontFamily = font,
+        fontSize = 32.sp
     ),
     headlineMedium = TextStyle(
         fontFamily = font,

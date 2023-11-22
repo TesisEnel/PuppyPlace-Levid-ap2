@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +34,7 @@ import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.navigation.Destination
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavController
@@ -78,7 +80,13 @@ fun LoginCard(
             .padding(16.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        Card {
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            ),
+            border = CardDefaults.outlinedCardBorder(enabled = true),
+        ) {
             LoginTitle()
             EmailTextField()
             PasswordTextField()
@@ -92,7 +100,7 @@ fun LoginCard(
 fun LoginTitle(){
     Text(
         text = "LogIn",
-        style = MaterialTheme.typography.headlineMedium,
+        style = MaterialTheme.typography.headlineLarge,
         modifier = Modifier.padding(16.dp)
     )
 }

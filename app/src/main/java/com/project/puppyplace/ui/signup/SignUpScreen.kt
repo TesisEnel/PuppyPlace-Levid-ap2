@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.Transgender
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -79,7 +80,14 @@ fun SignUpCard(
             .padding(16.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        Card {
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            ),
+            border = CardDefaults.outlinedCardBorder(enabled = true)
+
+        ){
             SignUpTitle()
             IdentificationNumberTextField()
             Row {
@@ -130,7 +138,7 @@ fun SignUpCard(
 fun SignUpTitle(){
     Text(
         text = "Sign Up",
-        style = MaterialTheme.typography.headlineMedium,
+        style = MaterialTheme.typography.headlineLarge,
         modifier = Modifier.padding(16.dp)
     )
 }
@@ -171,6 +179,7 @@ fun SurnameTextField(){
             .padding(8.dp)
     )
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IdentificationNumberTextField(){
     OutlinedTextField(
