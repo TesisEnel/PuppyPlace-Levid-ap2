@@ -18,9 +18,9 @@ import androidx.core.view.WindowCompat
 
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFEB72B),
-    secondary = Color(0xFEB72B),
-    tertiary = Color(0xFEB72B)
+    primary = Yellow40,
+    secondary = Yellow60,
+    tertiary = GreenYellow90
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -37,7 +37,7 @@ private val LightColorScheme = lightColorScheme(
 fun PuppyPlaceTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = LightColorScheme
