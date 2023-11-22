@@ -9,7 +9,7 @@ import okio.IOException
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class DogsRepository @Inject constructor(
+class HomeRepository @Inject constructor(
     private val puppyPlaceApi: PuppyPlaceAPI
 ) {
     fun getDogs(): Flow<Resource<List<DogDto>>> = flow {
