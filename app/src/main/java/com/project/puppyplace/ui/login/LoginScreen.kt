@@ -90,7 +90,7 @@ fun LoginCard(
             LoginTitle()
             EmailTextField()
             PasswordTextField()
-            LoginButton()
+            LoginButton(navController)
             SignUpButton(navController)
         }
     }
@@ -144,7 +144,7 @@ fun PasswordTextField(){
 }
 
 @Composable
-fun LoginButton(){
+fun LoginButton(navController: NavController){
     Box(
         modifier = Modifier.fillMaxWidth()
     ){
@@ -152,7 +152,7 @@ fun LoginButton(){
             modifier = Modifier
                 .padding(8.dp)
                 .align(Alignment.Center),
-            onClick = { /*TODO*/ }
+            onClick = { navController.navigate(Destination.home.route) }
         ) {
             Text(
                 text = "LogIn",
