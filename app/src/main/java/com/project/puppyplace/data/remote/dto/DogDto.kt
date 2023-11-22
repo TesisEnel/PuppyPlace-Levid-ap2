@@ -15,7 +15,7 @@ data class DogDto(
     val hairColor: String,
     @Json(name = "sterilization")
     val isSterilized: Boolean,
-    val behavior: String,
+    val behavior: String?,
     val activityLevel: String,
     val origin: String,
     val image: String
