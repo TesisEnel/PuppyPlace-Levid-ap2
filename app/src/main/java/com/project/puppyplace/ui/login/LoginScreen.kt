@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.navigation.Destination
@@ -37,6 +38,7 @@ import com.project.puppyplace.navigation.Destination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
+    viewModel: LoginViewModel = hiltViewModel(),
     navController: NavController
 ){
     Box(
@@ -57,7 +59,7 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center
         ) {
             WelcomeMessageText()
-            LoginCard(navController)
+            LoginCard(viewModel, navController)
         }
         
     }
@@ -72,6 +74,7 @@ fun WelcomeMessageText(){
 @ExperimentalMaterial3Api
 @Composable
 fun LoginCard(
+    viewModel: LoginViewModel,
     navController: NavController
 ){
     Column(
@@ -88,9 +91,9 @@ fun LoginCard(
             border = CardDefaults.outlinedCardBorder(enabled = true),
         ) {
             LoginTitle()
-            EmailTextField()
-            PasswordTextField()
-            LoginButton(navController)
+            EmailTextField(viewModel = viewModel)
+            PasswordTextField(viewModel = viewModel)
+            LoginButton(viewModel, navController)
             SignUpButton(navController)
         }
     }
@@ -106,10 +109,10 @@ fun LoginTitle(){
 }
 @ExperimentalMaterial3Api
 @Composable
-fun EmailTextField(){
+fun EmailTextField(viewModel: LoginViewModel){
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        value = viewModel.email,
+        onValueChange = { viewModel.email = it },
         label = { Text(text = "Email") },
         leadingIcon = {
             Icon(
@@ -121,14 +124,15 @@ fun EmailTextField(){
             .fillMaxWidth()
             .padding(8.dp)
     )
+    Text(text = viewModel.emailMessage, color = MaterialTheme.colorScheme.error)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField(){
+fun PasswordTextField(viewModel: LoginViewModel){
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        value = viewModel.password,
+        onValueChange = { viewModel.password = it },
         label = { Text(text = "Password") },
         leadingIcon = {
             Icon(
@@ -141,10 +145,11 @@ fun PasswordTextField(){
             .padding(8.dp),
         maxLines = 1
     )
+    Text(text = viewModel.passwordMessage, color = MaterialTheme.colorScheme.error)
 }
 
 @Composable
-fun LoginButton(navController: NavController){
+fun LoginButton(viewModel: LoginViewModel, navController: NavController){
     Box(
         modifier = Modifier.fillMaxWidth()
     ){
@@ -152,7 +157,11 @@ fun LoginButton(navController: NavController){
             modifier = Modifier
                 .padding(8.dp)
                 .align(Alignment.Center),
-            onClick = { navController.navigate(Destination.home.route) }
+            onClick = {
+                if(viewModel.validate()){
+                    navController.navigate(Destination.home.route)
+                }
+            }
         ) {
             Text(
                 text = "LogIn",
