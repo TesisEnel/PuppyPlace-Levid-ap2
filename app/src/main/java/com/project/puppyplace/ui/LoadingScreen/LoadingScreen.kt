@@ -21,11 +21,11 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import com.project.puppyplace.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.project.puppyplace.R
 import com.project.puppyplace.navigation.Destination
 
 
@@ -61,14 +61,15 @@ fun LoadingScreen(
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier
-                    .padding(top = 400.dp)
+                    .padding(top = 405.dp)
                     .fillMaxWidth(),
                 color = Color.White
             )
         }
         Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(20.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal=16.dp),
             horizontalArrangement = Arrangement.End
         ) {
             Button(
@@ -77,9 +78,9 @@ fun LoadingScreen(
                     containerColor = Color.White,
                     contentColor = Color.Black
                 ),
-                shape = RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(10.dp),
             ) {
-                Text(text = "Next")
+                Text(text = "Let's Go!")
             }
         }
 
