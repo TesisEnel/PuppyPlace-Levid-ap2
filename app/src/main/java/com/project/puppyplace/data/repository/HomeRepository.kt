@@ -25,4 +25,18 @@ class HomeRepository @Inject constructor(
             emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
         }
     }
+
+    fun getDogById(id: Int): Flow<Resource<DogDto>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val dog = puppyPlaceApi.getDogById(id)
+
+            emit(Resource.Success(dog))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
+        }
+    }
 }
