@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.project.puppyplace.ui.dogDetail
 
 import androidx.compose.foundation.Image
@@ -21,8 +23,11 @@ import androidx.compose.material.icons.filled.SignalCellular0Bar
 import androidx.compose.material.icons.filled.Transgender
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,22 +42,30 @@ import com.project.puppyplace.R
 fun DogDetailScreen(
     DogDetailViewModel: DogDetailViewModel = hiltViewModel()
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ){
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "Login background image",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillHeight
-        )
-        Column(
+    Scaffold(
+        floatingActionButton = {
+            FABAdoptMe()
+        }
+    ) {paddingValues ->
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .align(alignment = Alignment.BottomCenter)
-                .border(1.dp, color = MaterialTheme.colorScheme.onSurface),
-        ) {
-            DisplayDogInfo()
+                .fillMaxSize()
+                .padding(paddingValues)
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Login background image",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillHeight
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(alignment = Alignment.BottomCenter)
+                    .border(1.dp, color = MaterialTheme.colorScheme.onSurface),
+            ) {
+                DisplayDogInfo()
+            }
         }
     }
 }
@@ -221,6 +234,24 @@ fun DisplayDogInfo(){
             Row {
                 Text(text = "Description")
             }
+        }
+    }
+}
+
+@Composable
+fun FABAdoptMe(){
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ){
+        ExtendedFloatingActionButton(
+            onClick = { /*TODO*/ },
+            containerColor = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
+            Text(
+                text = "Adopt me!",
+                style = MaterialTheme.typography.titleLarge,
+            )
         }
     }
 }
