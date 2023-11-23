@@ -5,8 +5,8 @@ import com.project.puppyplace.data.remote.dto.UserDto
 import retrofit2.http.GET
 
 interface PuppyPlaceAPI {
-    @GET("Dog")
+    @GET("api/Dogs")
     suspend fun getDogs(): List<DogDto>
-    @GET("User")
+    @GET("api/Users")
     suspend fun getUsers(): List<UserDto>
 }

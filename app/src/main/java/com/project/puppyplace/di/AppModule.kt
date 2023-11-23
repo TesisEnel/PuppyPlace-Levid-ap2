@@ -25,7 +25,7 @@ object AppModule {
     @Singleton
     fun providePuppyPlaceAPI(moshi: Moshi): PuppyPlaceAPI {
         return Retrofit.Builder()
-            .baseUrl("https://my-json-server.typicode.com/JaSsT20/ApiMock/")
+            .baseUrl("https://api-puppyplace.azurewebsites.net/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(PuppyPlaceAPI::class.java)
