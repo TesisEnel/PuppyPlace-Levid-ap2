@@ -3,6 +3,7 @@
 package com.project.puppyplace.ui.home
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,12 +14,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.HeartBroken
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Transgender
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -54,8 +58,37 @@ fun HomeScreenContent(dogsList: List<DogDto>, navController: NavController){
     Column {
         HomeTopBar()
         SearchTextField()
+        ChipGroup()
         DogsList(dogsList = dogsList, navController = navController)
     }
+}
+@Composable
+fun HomeTopBar(){
+    CenterAlignedTopAppBar(
+        title = {
+            Text(text = "Discover")
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = { /*TODO*/ }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Menu,
+                    contentDescription = "Menu"
+                )
+            }
+        },
+        actions = {
+            IconButton(
+                onClick = { /*TODO*/ }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.AccountCircle,
+                    contentDescription = "Logout"
+                )
+            }
+        }
+    )
 }
 @Composable
 fun SearchTextField(){
@@ -79,33 +112,77 @@ fun SearchTextField(){
     )
 
 }
+
 @Composable
-fun HomeTopBar(){
-    CenterAlignedTopAppBar(
-        title = {
-            Text(text = "Discover")
-        },
-        navigationIcon = {
-            IconButton(
-                onClick = { /*TODO*/ }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Logout"
+fun ChipGroup(){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState())
+        ) {
+            Column {
+                Text(
+                    text = "More",
+                    modifier = Modifier
+                        .padding(8.dp),
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
-        },
-        actions = {
-            IconButton(
-                onClick = { /*TODO*/ }
+            Column(
+                modifier = Modifier.padding(end = 8.dp)
+            ){
+                AssistChip(
+                    onClick = { /*TODO*/ },
+                    label = { Text(text = "Female") },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        labelColor = MaterialTheme.colorScheme.onTertiary
+                    )
+                )
+            }
+            Column(
+                modifier = Modifier.padding(end = 8.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "Logout"
+                AssistChip(
+                    onClick = { /*TODO*/ },
+                    label = { Text(text = "Male") },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = MaterialTheme.colorScheme.onTertiary,
+                        labelColor = MaterialTheme.colorScheme.surface
+                    )
+                )
+            }
+            Column(
+                modifier = Modifier.padding(end = 8.dp)
+            ) {
+                AssistChip(
+                    onClick = { /*TODO*/ },
+                    label = { Text(text = "Corgi") },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        labelColor = MaterialTheme.colorScheme.onTertiary
+                    )
+                )
+            }
+            Column(
+                modifier = Modifier.padding(end = 8.dp)
+            ){
+                AssistChip(
+                    onClick = { /*TODO*/ },
+                    label = { Text(text = "Golden") },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        labelColor = MaterialTheme.colorScheme.onTertiary
+                    )
                 )
             }
         }
-    )
+    }
 }
 @Composable
 fun DogsList(dogsList: List<DogDto>, navController: NavController){
