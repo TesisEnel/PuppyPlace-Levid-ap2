@@ -5,9 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.HomeRepository
 import com.project.puppyplace.di.AppModule.sharedDog
+import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,8 +30,15 @@ class HomeViewModel @Inject constructor(
 
     var searchItem by mutableStateOf("")
 
-    fun onDogSelected(dog: DogDto){
+    fun logOut(navController: NavController) {
+        FirebaseAuth.getInstance().signOut()
+
+        navController.popBackStack()
+        navController.navigate(Destination.login.route)
+    }
+    fun onDogSelected(navController: NavController, dog: DogDto){
         sharedDog = dog
+        navController.navigate(Destination.dogDetail.route)
     }
     fun onSearchItemChanged(searchItem: String){
         this.searchItem = searchItem

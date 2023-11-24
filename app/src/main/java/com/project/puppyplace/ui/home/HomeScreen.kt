@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
 
 package com.project.puppyplace.ui.home
 
@@ -46,7 +48,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.project.puppyplace.data.remote.dto.DogDto
-import com.project.puppyplace.navigation.Destination
 
 @Composable
 fun HomeScreen(
@@ -64,14 +65,14 @@ fun HomeScreenContent(
     viewModel: HomeViewModel
 ){
     Column {
-        HomeTopBar()
+        HomeTopBar(viewModel, navController)
         SearchTextField(viewModel)
         ChipGroup(viewModel)
         DogsList(dogsList = dogsList, navController = navController, viewModel = viewModel)
     }
 }
 @Composable
-fun HomeTopBar(){
+fun HomeTopBar(viewModel: HomeViewModel, navController: NavController){
     CenterAlignedTopAppBar(
         title = {
             Text(text = "Discover")
@@ -88,7 +89,9 @@ fun HomeTopBar(){
         },
         actions = {
             IconButton(
-                onClick = { /*TODO*/ }
+                onClick = {
+                    viewModel.logOut(navController)
+                }
             ) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
@@ -256,8 +259,7 @@ fun DogItem(
     ) {
         Box(
             modifier = Modifier.clickable {
-                viewModel.onDogSelected(dog)
-                navController.navigate(Destination.dogDetail.route)
+                viewModel.onDogSelected(dog = dog, navController = navController)
             }
         ){
             AsyncImage(
