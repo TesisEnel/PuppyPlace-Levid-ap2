@@ -4,19 +4,19 @@ import com.squareup.moshi.Json
 
 data class DogDto(
     @Json(name = "dogId")
-    val id: Int,
-    val name: String,
+    val id: Int = 0,
+    val name: String = "",
     @Json(name = "race")
-    val breed: String,
-    val size: String,
-    val weight: Float,
-    val gender: String,
-    val birthDate: String,
-    val hairColor: String,
+    val breed: String = "",
+    val size: String = "",
+    val weight: Float = 0.0f,
+    val gender: String = "",
+    val birthDate: String = "",
+    val hairColor: String = "",
     @Json(name = "sterilization")
-    val isSterilized: Boolean,
-    val behavior: String?,
-    val activityLevel: String,
-    val origin: String,
-    val image: String
+    val isSterilized: Boolean = false,
+    val behavior: String? = "",
+    val activityLevel: String = "",
+    val origin: String = "",
+    val image: String = ""
 )

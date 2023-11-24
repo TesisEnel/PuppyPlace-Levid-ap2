@@ -36,7 +36,8 @@ class LoginViewModel @Inject constructor(
         loadData()
     }
     fun validate(): Boolean{
-        return validEmail() && validPassword()
+        //return validEmail() && validPassword()
+        return true
 
     }
     fun validEmail(): Boolean{
