@@ -14,8 +14,8 @@ import androidx.compose.material.icons.filled.Beenhere
 import androidx.compose.material.icons.filled.Bloodtype
 import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.DownhillSkiing
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Healing
-import androidx.compose.material.icons.filled.HeartBroken
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Scanner
 import androidx.compose.material.icons.filled.SignalCellular0Bar
@@ -98,7 +98,10 @@ fun DisplayDogInfo(dog: DogDto){
                     )
                 }
                 Column {
-                    Icon(imageVector = Icons.Filled.HeartBroken, contentDescription = "")
+                    Icon(
+                        imageVector = Icons.Filled.Favorite,
+                        contentDescription = ""
+                    )
                 }
             }
             Row {
