@@ -43,7 +43,7 @@ fun DogDetailScreen(
     viewModel: DogDetailViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val dog: DogDto = viewModel.dog
+    val dog = viewModel.dog
     Scaffold(
         floatingActionButton = {
             FABAdoptMe()
@@ -54,25 +54,27 @@ fun DogDetailScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ){
+
             AsyncImage(
                 model = dog.image,
                 contentDescription = dog.name,
-                contentScale = ContentScale.FillHeight,
+                contentScale = ContentScale.Fit,
             )
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(alignment = Alignment.BottomCenter)
                     .border(1.dp, color = MaterialTheme.colorScheme.onSurface),
             ) {
-                DisplayDogInfo()
+                DisplayDogInfo(dog)
             }
         }
     }
 }
 
 @Composable
-fun DisplayDogInfo(){
+fun DisplayDogInfo(dog: DogDto){
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -88,7 +90,7 @@ fun DisplayDogInfo(){
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = "Name",
+                        text = dog.name,
                         style = MaterialTheme.typography.headlineLarge,
                     )
                 }
@@ -100,7 +102,7 @@ fun DisplayDogInfo(){
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text(text = "Breed")
+                    Text(text = dog.breed)
                 }
                 Column {
                     Icon(imageVector = Icons.Filled.Scanner, contentDescription = "")
@@ -118,7 +120,7 @@ fun DisplayDogInfo(){
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = "Age")
+                        Text(text = dog.birthDate)
                     }
                 }
                 Column(
@@ -132,7 +134,7 @@ fun DisplayDogInfo(){
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = "Gender")
+                        Text(text = dog.gender)
                     }
                 }
             }
@@ -148,7 +150,7 @@ fun DisplayDogInfo(){
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = "Height")
+                        Text(text = dog.size)
                     }
                 }
                 Column(
@@ -162,7 +164,7 @@ fun DisplayDogInfo(){
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = "Weight")
+                        Text(text = dog.weight.toString())
                     }
                 }
             }
@@ -178,7 +180,7 @@ fun DisplayDogInfo(){
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = "Color")
+                        Text(text = dog.hairColor)
                     }
                 }
                 Column(
@@ -192,7 +194,7 @@ fun DisplayDogInfo(){
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = "Activity")
+                        Text(text = dog.activityLevel)
                     }
                 }
             }
@@ -208,7 +210,7 @@ fun DisplayDogInfo(){
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = "Origin")
+                        Text(text = dog.origin)
                     }
                 }
                 Column(
@@ -222,7 +224,7 @@ fun DisplayDogInfo(){
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = "Personality")
+                        Text(text = dog.behavior ?: "Unknown")
                     }
                 }
             }
