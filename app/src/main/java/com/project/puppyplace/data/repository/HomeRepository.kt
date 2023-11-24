@@ -25,6 +25,45 @@ class HomeRepository @Inject constructor(
             emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
         }
     }
+    fun getDogsByBreed(breed: String): Flow<Resource<List<DogDto>>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val dogs = puppyPlaceApi.getDogsByBreed(breed)
+
+            emit(Resource.Success(dogs))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
+        }
+    }
+    fun getDogsBySize(size: String): Flow<Resource<List<DogDto>>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val dogs = puppyPlaceApi.getDogsBySize(size)
+
+            emit(Resource.Success(dogs))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
+        }
+    }
+    fun getDogsBySex(sex: String): Flow<Resource<List<DogDto>>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val dogs = puppyPlaceApi.getDogsBySex(sex)
+
+            emit(Resource.Success(dogs))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
+        }
+    }
 
     suspend fun getDogById(id: Int) = puppyPlaceApi.getDogById(id)
 //    fun getDogById(id: Int): Flow<Resource<DogDto>> = flow {
