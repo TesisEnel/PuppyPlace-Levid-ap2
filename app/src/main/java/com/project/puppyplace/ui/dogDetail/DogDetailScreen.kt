@@ -59,6 +59,9 @@ fun DogDetailScreen(
                 model = dog.image,
                 contentDescription = dog.name,
                 contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(alignment = Alignment.TopCenter)
             )
 
             Column(
