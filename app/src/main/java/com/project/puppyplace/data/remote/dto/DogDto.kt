@@ -18,5 +18,6 @@ data class DogDto(
     val behavior: String? = "",
     val activityLevel: String = "",
     val origin: String = "",
-    val image: String = ""
+    val image: String = "",
+    val age: Int = 0,
 )
