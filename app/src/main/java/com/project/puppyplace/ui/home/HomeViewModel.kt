@@ -2,7 +2,9 @@ package com.project.puppyplace.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.HomeRepository
+import com.project.puppyplace.di.AppModule.sharedDog
 import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +20,11 @@ class HomeViewModel @Inject constructor(
 ): ViewModel(){
     private var _state = MutableStateFlow(HomeListState())
     val state: StateFlow<HomeListState> = _state.asStateFlow()
+
+    fun onDogSelected(dog: DogDto){
+        sharedDog = dog
+    }
+
     init {
         homeRepository.getDogs().onEach { result ->
             when (result) {
