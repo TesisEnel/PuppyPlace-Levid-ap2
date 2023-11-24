@@ -3,6 +3,7 @@ package com.project.puppyplace.data.remote
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.remote.dto.UserDto
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface PuppyPlaceAPI {
     @GET("api/Dogs")
@@ -10,11 +11,11 @@ interface PuppyPlaceAPI {
     @GET("api/Dogs/{id}")
     suspend fun getDogById(id: Int): DogDto
     @GET("api/Dogs/breed/{breed}")
-    suspend fun getDogsByBreed(breed: String): List<DogDto>
+    suspend fun getDogsByBreed(@Path("breed")breed: String): List<DogDto>
     @GET("api/Dogs/size/{size}")
-    suspend fun getDogsBySize(size: String): List<DogDto>
+    suspend fun getDogsBySize(@Path("size")size: String): List<DogDto>
     @GET("api/Dogs/sex/{sex}")
-    suspend fun getDogsBySex(sex: String): List<DogDto>
+    suspend fun getDogsBySex(@Path("sex")sex: String): List<DogDto>
 
     //User
     @GET("api/Users")
