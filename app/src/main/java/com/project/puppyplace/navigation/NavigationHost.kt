@@ -15,7 +15,7 @@ fun NavigationHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Destination.loading.route
+        startDestination = Destination.login.route
     ){
         composable(Destination.loading.route){
             LoadingScreen(navController = navController)

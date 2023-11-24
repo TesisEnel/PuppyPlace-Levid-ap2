@@ -158,9 +158,7 @@ fun LoginButton(viewModel: LoginViewModel, navController: NavController){
                 .padding(8.dp)
                 .align(Alignment.Center),
             onClick = {
-                if(viewModel.validate()){
-                    navController.navigate(Destination.home.route)
-                }
+                viewModel.logIn(navController)
             }
         ) {
             Text(

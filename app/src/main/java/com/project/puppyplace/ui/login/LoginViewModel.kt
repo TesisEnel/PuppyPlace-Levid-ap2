@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.data.repository.LoginRepository
+import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,13 +35,26 @@ class LoginViewModel @Inject constructor(
     //
     private var userList: List<UserDto> by mutableStateOf(emptyList())
 
+    var access by mutableStateOf(false)
+
     init{
         loadData()
     }
-    fun validate(): Boolean{
-        //return validEmail() && validPassword()
-        return true
+    fun logIn(navController: NavController): Boolean{
+        if(validate()){
+            FirebaseAuth.getInstance()
+                .signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(){
+                    access = it.isSuccessful
+            }
+            navController.popBackStack()
+            navController.navigate(Destination.home.route)
+        }
+        return access
+    }
 
+    fun validate(): Boolean{
+        return validEmail() && validPassword()
     }
     fun validEmail(): Boolean{
         if(email.isEmpty()){
