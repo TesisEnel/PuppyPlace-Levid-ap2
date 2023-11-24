@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -91,6 +92,13 @@ dependencies {
 
     //Extended icons
     implementation("androidx.compose.material:material-icons-extended")
+
+    //Fire BoM --> Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    //Google analytics
+    implementation("com.google.firebase:firebase-analytics")
+    //Google auth
+    implementation("com.google.firebase:firebase-auth-ktx")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
