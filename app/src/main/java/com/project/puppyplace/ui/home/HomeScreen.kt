@@ -50,16 +50,20 @@ fun HomeScreen(
     navController: NavController
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
-    HomeScreenContent(state.value.dogsList, navController)
+    HomeScreenContent(state.value.dogsList, navController, viewModel)
 
 }
 @Composable
-fun HomeScreenContent(dogsList: List<DogDto>, navController: NavController){
+fun HomeScreenContent(
+    dogsList: List<DogDto>,
+    navController: NavController,
+    viewModel: HomeViewModel
+){
     Column {
         HomeTopBar()
         SearchTextField()
         ChipGroup()
-        DogsList(dogsList = dogsList, navController = navController)
+        DogsList(dogsList = dogsList, navController = navController, viewModel = viewModel)
     }
 }
 @Composable
@@ -185,19 +189,27 @@ fun ChipGroup(){
     }
 }
 @Composable
-fun DogsList(dogsList: List<DogDto>, navController: NavController){
+fun DogsList(
+    dogsList: List<DogDto>,
+    navController: NavController,
+    viewModel: HomeViewModel
+){
     LazyVerticalGrid(
         GridCells.Fixed(2),
         modifier = Modifier.fillMaxHeight()
     ) {
         items(dogsList) { dog ->
-            DogItem(dog = dog, navController)
+            DogItem(dog = dog, navController, viewModel)
         }
     }
 }
 
 @Composable
-fun DogItem(dog: DogDto, navController: NavController){
+fun DogItem(
+    dog: DogDto,
+    navController: NavController,
+    viewModel: HomeViewModel
+){
     Column(
         modifier = Modifier
             .size(200.dp)
@@ -206,7 +218,8 @@ fun DogItem(dog: DogDto, navController: NavController){
     ) {
         Box(
             modifier = Modifier.clickable {
-                navController.navigate(Destination.login.route)
+                viewModel.onDogSelected(dog)
+                navController.navigate(Destination.dogDetail.route)
             }
         ){
             AsyncImage(
