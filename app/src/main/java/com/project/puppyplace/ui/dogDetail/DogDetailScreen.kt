@@ -2,7 +2,6 @@
 
 package com.project.puppyplace.ui.dogDetail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,15 +32,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.project.puppyplace.R
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.project.puppyplace.data.remote.dto.DogDto
 
 @Composable
 fun DogDetailScreen(
-    DogDetailViewModel: DogDetailViewModel = hiltViewModel()
+    viewModel: DogDetailViewModel = hiltViewModel(),
+    navController: NavController
 ) {
+    val dog: DogDto = viewModel.dog
     Scaffold(
         floatingActionButton = {
             FABAdoptMe()
@@ -52,11 +54,10 @@ fun DogDetailScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ){
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Login background image",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillHeight
+            AsyncImage(
+                model = dog.image,
+                contentDescription = dog.name,
+                contentScale = ContentScale.FillHeight,
             )
             Column(
                 modifier = Modifier
