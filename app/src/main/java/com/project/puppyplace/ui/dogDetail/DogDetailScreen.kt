@@ -2,7 +2,6 @@
 
 package com.project.puppyplace.ui.dogDetail
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -75,7 +74,6 @@ fun DogDetailScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(alignment = Alignment.BottomCenter)
-                    .border(1.dp, color = MaterialTheme.colorScheme.onSurface),
             ) {
                 DisplayDogInfo(dog)
             }
