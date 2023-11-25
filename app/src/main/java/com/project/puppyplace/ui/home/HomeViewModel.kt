@@ -28,11 +28,10 @@ class HomeViewModel @Inject constructor(
     private var _state = MutableStateFlow(HomeListState())
     val state: StateFlow<HomeListState> = _state.asStateFlow()
 
-
     var searchItem by mutableStateOf("")
 
     fun onLikedClicked(dog: DogDto){
-        viewModelScope.launch {
+        val isUpdated = viewModelScope.launch {
             homeRepository.updateDog(
                 DogDto(
                     id = dog.id,
@@ -53,6 +52,9 @@ class HomeViewModel @Inject constructor(
                     status = dog.status
                 )
             )
+        }
+        isUpdated.invokeOnCompletion {
+            getDogs()
         }
     }
     fun logOut(navController: NavController) {
