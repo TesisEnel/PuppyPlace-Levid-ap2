@@ -260,7 +260,7 @@ fun DogItem(
     var isLiked by remember { mutableStateOf(dog.isLiked) }
     Column(
         modifier = Modifier
-            .size(200.dp)
+            .size(250.dp)
             .padding(8.dp)
             .clip(MaterialTheme.shapes.medium)
     ) {
