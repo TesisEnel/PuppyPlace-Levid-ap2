@@ -30,8 +30,8 @@ class HomeViewModel @Inject constructor(
 
     var searchItem by mutableStateOf("")
 
-    fun onLikedClicked(dog: DogDto){
-        val isUpdated = viewModelScope.launch {
+    fun onLikedClicked(dog: DogDto, isLiked: Boolean){
+        viewModelScope.launch {
             homeRepository.updateDog(
                 DogDto(
                     id = dog.id,
@@ -48,13 +48,10 @@ class HomeViewModel @Inject constructor(
                     origin = dog.origin,
                     image = dog.image,
                     age = dog.age,
-                    isLiked = !dog.isLiked,
+                    isLiked = isLiked,
                     status = dog.status
                 )
             )
-        }
-        isUpdated.invokeOnCompletion {
-            getDogs()
         }
     }
     fun logOut(navController: NavController) {
