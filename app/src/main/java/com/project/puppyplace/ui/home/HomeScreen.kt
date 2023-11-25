@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -34,10 +37,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -237,9 +236,12 @@ fun DogsList(
     navController: NavController,
     viewModel: HomeViewModel
 ){
-    dogsList.forEach {
-        Column{
-            DogItem(dog = it, navController = navController, viewModel = viewModel)
+    LazyVerticalGrid(
+        GridCells.Fixed(2),
+        modifier = Modifier.fillMaxHeight()
+    ) {
+        items(dogsList) { dog ->
+            DogItem(dog = dog, navController, viewModel)
         }
     }
 }
@@ -251,7 +253,6 @@ fun DogItem(
     navController: NavController,
     viewModel: HomeViewModel
 ){
-    var isLiked by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .size(200.dp)
@@ -303,9 +304,9 @@ fun DogItem(
                         modifier = Modifier.weight(1f)
                     ) {
                         IconButton(onClick = {
-                            isLiked = !isLiked
+                            viewModel.onLikedClicked(dog)
                         }) {
-                            if(isLiked){
+                            if(dog.isLiked){
                                 Icon(
                                     imageVector = Icons.Filled.Favorite,
                                     contentDescription = "Liked",
