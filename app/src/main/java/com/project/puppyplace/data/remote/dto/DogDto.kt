@@ -22,5 +22,6 @@ data class DogDto(
     val age: Int = 0,
     @Json(name = "isFavorite")
     var isLiked: Boolean = false,
-    var status: Boolean = false
+    var status: Boolean = false,
+    val description: String = ""
 )
