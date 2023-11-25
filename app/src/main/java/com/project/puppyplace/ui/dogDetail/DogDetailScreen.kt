@@ -230,7 +230,7 @@ fun DisplayDogInfo(dog: DogDto){
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = dog.behavior ?: "Unknown")
+                        Text(text = dog.behaviour)
                     }
                 }
             }
