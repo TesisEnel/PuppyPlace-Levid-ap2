@@ -29,7 +29,6 @@ class HomeViewModel @Inject constructor(
     val state: StateFlow<HomeListState> = _state.asStateFlow()
 
     var searchItem by mutableStateOf("")
-
     fun onLikedClicked(dog: DogDto, isLiked: Boolean){
         viewModelScope.launch {
             homeRepository.updateDog(
@@ -49,7 +48,8 @@ class HomeViewModel @Inject constructor(
                     image = dog.image,
                     age = dog.age,
                     isLiked = isLiked,
-                    status = dog.status
+                    status = dog.status,
+                    description = dog.description
                 )
             )
         }
