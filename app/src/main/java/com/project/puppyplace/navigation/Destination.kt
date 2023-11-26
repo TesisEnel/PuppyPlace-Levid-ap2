@@ -7,4 +7,5 @@ sealed class Destination(val route: String){
     object home: Destination("homeScreen")
     object dogDetail: Destination("dogDetailScreen")
     object like: Destination("likeScreen")
+    object user: Destination("userScreen")
 }
