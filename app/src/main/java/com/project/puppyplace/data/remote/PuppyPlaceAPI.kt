@@ -24,9 +24,9 @@ interface PuppyPlaceAPI {
     suspend fun updateDog(@Path("id")id: Int, @Body dog: DogDto): DogDto
 
     //Appointments
-    @GET("api/Appointments")
+    @GET("api/Appointment")
     suspend fun getAppointments(): List<AppointmentDto>
-    @POST("api/Appointments")
+    @POST("api/Appointment")
     suspend fun createAppointment(@Body appointment: AppointmentDto): AppointmentDto
 
 
