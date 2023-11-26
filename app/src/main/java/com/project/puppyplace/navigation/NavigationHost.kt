@@ -8,6 +8,7 @@ import com.project.puppyplace.ui.LoadingScreen.LoadingScreen
 import com.project.puppyplace.ui.adoption.AdoptionScreen
 import com.project.puppyplace.ui.dogDetail.DogDetailScreen
 import com.project.puppyplace.ui.home.HomeScreen
+import com.project.puppyplace.ui.like.LikeScreen
 import com.project.puppyplace.ui.login.LoginScreen
 import com.project.puppyplace.ui.signup.SignUpScreen
 
@@ -35,6 +36,8 @@ fun NavigationHost() {
         }
         composable(Destination.adoption.route){
             AdoptionScreen(navController = navController)
+        composable(Destination.like.route){
+            LikeScreen(navController = navController)
         }
     }
 }

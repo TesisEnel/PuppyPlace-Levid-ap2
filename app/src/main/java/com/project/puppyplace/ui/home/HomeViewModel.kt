@@ -69,6 +69,10 @@ class HomeViewModel @Inject constructor(
         sharedDog = dog
         navController.navigate(Destination.dogDetail.route)
     }
+
+    fun goToLike(navController: NavController){
+        navController.navigate(Destination.like.route)
+    }
     fun onSearchItemChanged(searchItem: String){
         this.searchItem = searchItem
     }

@@ -85,11 +85,13 @@ fun HomeTopBar(viewModel: HomeViewModel, navController: NavController){
         },
         navigationIcon = {
             IconButton(
-                onClick = { /*TODO*/ }
+                onClick = {
+                    viewModel.goToLike(navController)
+                }
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Menu"
+                    imageVector = Icons.Filled.Favorite,
+                    contentDescription = "Like"
                 )
             }
         },
