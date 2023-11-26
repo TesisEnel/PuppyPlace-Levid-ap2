@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.project.puppyplace.navigation.NavigationHost
+import com.project.puppyplace.ui.like.LikeScreen
 import com.project.puppyplace.ui.theme.PuppyPlaceTheme
 import dagger.hilt.android.AndroidEntryPoint
 
