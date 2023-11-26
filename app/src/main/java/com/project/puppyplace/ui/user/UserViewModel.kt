@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.data.repository.UserRepository
 import com.project.puppyplace.navigation.Destination
@@ -57,5 +58,12 @@ class UserViewModel @Inject constructor(
     }
     fun BackHome(navController: NavController){
         navController.navigate(Destination.home.route)
+    }
+
+    fun logOut(navController: NavController) {
+        FirebaseAuth.getInstance().signOut()
+
+        navController.popBackStack()
+        navController.navigate(Destination.login.route)
     }
 }
