@@ -29,6 +29,10 @@ class HomeViewModel @Inject constructor(
     val state: StateFlow<HomeListState> = _state.asStateFlow()
 
     var searchItem by mutableStateOf("")
+
+    fun isMale(dog:DogDto): Boolean{
+        return dog.gender == "Male"
+    }
     fun onLikedClicked(dog: DogDto, isLiked: Boolean){
         viewModelScope.launch {
             homeRepository.updateDog(
@@ -61,6 +65,7 @@ class HomeViewModel @Inject constructor(
         navController.navigate(Destination.login.route)
     }
     fun onDogSelected(navController: NavController, dog: DogDto){
+        getDogs()
         sharedDog = dog
         navController.navigate(Destination.dogDetail.route)
     }

@@ -22,10 +22,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.HeartBroken
+import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Transgender
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -300,10 +301,14 @@ fun DogItem(
                         modifier = Modifier.weight(2f)
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.Transgender,
-                            contentDescription = "Gender",
-                            tint = MaterialTheme.colorScheme.onSecondary
+                            imageVector =
+                            if(viewModel.isMale(dog)) Icons.Filled.Male
+                            else Icons.Filled.Female,
+                            contentDescription = "Male gender",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(35.dp)
                         )
+
                     }
                     Column(
                         modifier = Modifier.weight(1f)
@@ -312,20 +317,15 @@ fun DogItem(
                             isLiked = !isLiked
                             viewModel.onLikedClicked(dog, isLiked)
                         }) {
-                            if(isLiked){
-                                Icon(
-                                    imageVector = Icons.Filled.Favorite,
-                                    contentDescription = "Liked",
-                                    tint = MaterialTheme.colorScheme.error
-                                )
-                            }
-                            else{
-                                Icon(
-                                    imageVector = Icons.Filled.HeartBroken,
-                                    contentDescription = "Not Liked",
-                                    tint = MaterialTheme.colorScheme.onSecondary
-                                )
-                            }
+                            Icon(
+                                imageVector =
+                                    if(isLiked) Icons.Filled.Favorite
+                                    else Icons.Filled.HeartBroken,
+                                contentDescription = "Like icon",
+                                tint =
+                                    if(isLiked) MaterialTheme.colorScheme.error
+                                    else MaterialTheme.colorScheme.onSecondary,
+                            )
                         }
                     }
                 }
