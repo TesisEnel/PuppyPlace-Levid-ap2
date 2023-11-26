@@ -202,7 +202,10 @@ fun DateField(viewModel: AdoptionViewModel) {
         onValueChange = { viewModel.onDateChange(it)},
         trailingIcon = {
             IconButton(
-                onClick = { datePickerDialog.show() }
+                onClick = {
+                    datePickerDialog.show()
+                    viewModel.dateError = ""
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.DateRange,
@@ -212,6 +215,7 @@ fun DateField(viewModel: AdoptionViewModel) {
             }
         },
     )
+    Text(text = viewModel.dateError, color = MaterialTheme.colorScheme.error)
 }
 
 @Composable
