@@ -4,10 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.AdoptionRepository
 import com.project.puppyplace.di.AppModule.sharedDog
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,6 +37,45 @@ class AdoptionViewModel @Inject constructor(
     var cellphoneError by mutableStateOf("")
     var emailError by mutableStateOf("")
     var addressError by mutableStateOf("")
+
+
+    fun onAdoptClick(){
+        viewModelScope.launch {
+            if(isValid()){
+                adoptionRepository.createAppointment(
+                    AppointmentDto(
+                        dogId = dog.id,
+                        date = date,
+                        userName = userName,
+                        userSurname = userSurname,
+                        identificationNumber = identificationNumber,
+                        telephone = telephone,
+                        cellphone = cellphone,
+                        email = email,
+                        address = address
+                    )
+                )
+            }
+        }
+    }
+    fun isValid(): Boolean{
+        onDateChange(date)
+        onUserNameChange(userName)
+        onUserSurnameChange(userSurname)
+        onIdentificationNumberChange(identificationNumber)
+        onTelephoneChange(telephone)
+        onCellphoneChange(cellphone)
+        onEmailChange(email)
+        onAddressChange(address)
+        return dateError.isEmpty() &&
+                userNameError.isEmpty() &&
+                userSurnameError.isEmpty() &&
+                identificationNumberError.isEmpty() &&
+                telephoneError.isEmpty() &&
+                cellphoneError.isEmpty() &&
+                emailError.isEmpty() &&
+                addressError.isEmpty()
+    }
 
     fun onUserNameChange(userName: String){
         this.userName = userName
@@ -108,7 +150,6 @@ class AdoptionViewModel @Inject constructor(
             ""
         }
     }
-
 
     init{
         dog = sharedDog!!

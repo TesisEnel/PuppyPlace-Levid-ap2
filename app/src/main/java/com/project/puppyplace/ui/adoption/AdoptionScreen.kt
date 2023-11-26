@@ -2,6 +2,9 @@
 
 package com.project.puppyplace.ui.adoption
 
+import android.app.DatePickerDialog
+import android.widget.DatePicker
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,27 +15,36 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArtTrack
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Person2
+import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import java.util.Calendar
+import java.util.Date
 
 @Composable
 fun AdoptionScreen(
@@ -89,6 +101,21 @@ fun AdoptionForm(viewModel: AdoptionViewModel) {
         Row {
             Column(
                 modifier = Modifier
+                    .weight(1.5f)
+            ) {
+                DogNameField(viewModel = viewModel)
+            }
+            Spacer(modifier = Modifier.padding(8.dp))
+            Column(
+                modifier = Modifier
+                    .weight(2f)
+            ) {
+                DateField(viewModel = viewModel)
+            }
+        }
+        Row {
+            Column(
+                modifier = Modifier
                     .weight(1f)
             ) {
                 UserNameField(viewModel = viewModel)
@@ -119,9 +146,72 @@ fun AdoptionForm(viewModel: AdoptionViewModel) {
             }
         }
         EmailField(viewModel = viewModel)
-
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            AdoptButton(viewModel = viewModel)
+        }
     }
 }
+
+@Composable
+fun DogNameField(viewModel: AdoptionViewModel){
+    OutlinedTextField(
+        value = viewModel.dog.name,
+        onValueChange = {},
+        label = { Text(text = "Dog name") },
+        trailingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Pets,
+                contentDescription = "Dog name"
+            )
+        },
+        maxLines = 1,
+        modifier = Modifier.fillMaxWidth(),
+        readOnly = true,
+        enabled = false
+    )
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DateField(viewModel: AdoptionViewModel) {
+    val calendar: Calendar = Calendar.getInstance()
+    val year: Int = calendar.get(Calendar.YEAR)
+    val month: Int = (calendar.get(Calendar.MONTH))
+    val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
+    calendar.time = Date()
+
+    val date = remember { mutableStateOf("") }
+    val datePickerDialog = DatePickerDialog(
+        LocalContext.current,
+        { _: DatePicker, yearPicked: Int, monthPicked: Int, dayOfMonth: Int ->
+            date.value = "$dayOfMonth/${monthPicked + 1}/$yearPicked"
+            viewModel.date = date.value
+        }, year, month, day
+    )
+
+    OutlinedTextField(
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+        value = viewModel.date,
+        label = { Text(text = "Appointment date") },
+        singleLine = true,
+        onValueChange = { viewModel.onDateChange(it)},
+        trailingIcon = {
+            IconButton(
+                onClick = { datePickerDialog.show() }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.DateRange,
+                    contentDescription = "Date icon",
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+        },
+    )
+}
+
 @Composable
 fun UserNameField(viewModel: AdoptionViewModel) {
     OutlinedTextField(
@@ -252,4 +342,17 @@ fun EmailField(viewModel: AdoptionViewModel) {
         modifier = Modifier.fillMaxWidth()
     )
     Text(text = viewModel.emailError, color = MaterialTheme.colorScheme.error)
+}
+
+@Composable
+fun AdoptButton(viewModel: AdoptionViewModel){
+    Button(
+        onClick = { viewModel.onAdoptClick() },
+
+    ) {
+        Text(
+            text = "Adopt me!",
+            style = MaterialTheme.typography.titleLarge
+        )
+    }
 }
