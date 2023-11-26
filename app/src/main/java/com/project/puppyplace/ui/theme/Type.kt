@@ -53,11 +53,9 @@ val Typography = Typography(
     ),
     bodyMedium = TextStyle(
         fontFamily = font,
-
     ),
     bodySmall = TextStyle(
         fontFamily = font,
-        fontSize = 26.sp
     ),
     labelLarge = TextStyle(
         fontFamily = font,
