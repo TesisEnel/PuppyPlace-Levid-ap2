@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.AdoptionRepository
+import com.project.puppyplace.di.AppModule.sharedAppointment
 import com.project.puppyplace.di.AppModule.sharedDog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -44,7 +45,6 @@ class AdoptionViewModel @Inject constructor(
     fun onBackPressed(navController: NavController){
         navController.popBackStack()
     }
-
     fun onAdoptClick(){
         viewModelScope.launch {
             if(isValid()){
@@ -177,7 +177,23 @@ class AdoptionViewModel @Inject constructor(
         }
     }
 
+    fun onModify(){
+        if (sharedAppointment != null){
+            dog = sharedDog!!
+            date = sharedAppointment!!.date
+            userName = sharedAppointment!!.userName
+            userSurname = sharedAppointment!!.userSurname
+            identificationNumber = sharedAppointment!!.identificationNumber
+            telephone = sharedAppointment!!.telephone
+            cellphone = sharedAppointment!!.cellphone
+            email = sharedAppointment!!.email
+            address = sharedAppointment!!.address
+        }
+        else{
+            dog = sharedDog!!
+        }
+    }
     init{
-        dog = sharedDog!!
+        onModify()
     }
 }

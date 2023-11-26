@@ -75,7 +75,7 @@ fun UserScreen(
             TopBar(navController = navController)
             NameUserText(viewModel = viewModel)
             InfoUser(viewModel = viewModel)
-            AppointmentsList(appointments.adoptionList, viewModel)
+            AppointmentsList(appointments.adoptionList, viewModel, navController)
         }
     }
 }
@@ -215,20 +215,20 @@ fun TopBar(navController: NavController, viewModel: UserViewModel= hiltViewModel
 }
 
 @Composable
-fun AppointmentsList(appoiments: List<AppointmentDto>, viewModel: UserViewModel){
+fun AppointmentsList(appoiments: List<AppointmentDto>, viewModel: UserViewModel, navController: NavController){
     Text(text = "Appointments: ",
         style = MaterialTheme.typography.titleLarge
     )
     LazyColumn{
         items(appoiments){
-            appoiment -> AppoimentItem(viewModel, appoiment)
+            appoiment -> AppoimentItem(viewModel, appoiment, navController = navController)
         }
     }
 
 }
 
 @Composable
-fun AppoimentItem(viewModel:UserViewModel, appoiment: AppointmentDto){
+fun AppoimentItem(viewModel:UserViewModel, appoiment: AppointmentDto, navController: NavController){
     Card(
         colors = CardDefaults.cardColors(
             containerColor= MaterialTheme.colorScheme.tertiary
@@ -327,7 +327,12 @@ fun AppoimentItem(viewModel:UserViewModel, appoiment: AppointmentDto){
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 TextButton(
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        viewModel.onModifyPressed(
+                        navController = navController,
+                        appointmentDto = appoiment
+                        )
+                    }
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),

@@ -79,7 +79,19 @@ class HomeRepository @Inject constructor(
     }
     suspend fun updateDog(dog: DogDto) = puppyPlaceApi.updateDog(dog.id, dog)
 
-    suspend fun getDogById(id: Int) = puppyPlaceApi.getDogById(id)
+    suspend fun getDogById(id: Int): Flow<Resource<DogDto>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val dog = puppyPlaceApi.getDogById(id)
+
+            emit(Resource.Success(dog))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message ?: "Error HTTP"))
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message ?: "No internet"))
+        }
+    }
 //    fun getDogById(id: Int): Flow<Resource<DogDto>> = flow {
 //        try {
 //            emit(Resource.Loading())
