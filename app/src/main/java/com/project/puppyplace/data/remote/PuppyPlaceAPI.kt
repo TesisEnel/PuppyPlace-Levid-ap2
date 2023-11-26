@@ -22,6 +22,9 @@ interface PuppyPlaceAPI {
     suspend fun getDogsBySex(@Path("sex")sex: String): List<DogDto>
     @PUT("api/Dogs/{id}")
     suspend fun updateDog(@Path("id")id: Int, @Body dog: DogDto): DogDto
+    @GET("api/Dogs/Favorites")
+    suspend fun getFavorites(): List<DogDto>
+
 
     //Appointments
     @GET("api/Appointment")
