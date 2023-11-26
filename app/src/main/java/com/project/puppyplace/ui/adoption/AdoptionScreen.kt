@@ -187,7 +187,7 @@ fun DateField(viewModel: AdoptionViewModel) {
     val datePickerDialog = DatePickerDialog(
         LocalContext.current,
         { _: DatePicker, yearPicked: Int, monthPicked: Int, dayOfMonth: Int ->
-            date.value = "$dayOfMonth/${monthPicked + 1}/$yearPicked"
+            date.value = "$yearPicked-${monthPicked + 1}-$day"
             viewModel.date = date.value
         }, year, month, day
     )
