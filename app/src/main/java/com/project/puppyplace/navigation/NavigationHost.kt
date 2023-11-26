@@ -34,8 +34,9 @@ fun NavigationHost() {
         composable(Destination.dogDetail.route){
             DogDetailScreen(navController = navController)
         }
-        composable(Destination.adoption.route){
+        composable(Destination.adoption.route) {
             AdoptionScreen(navController = navController)
+        }
         composable(Destination.like.route){
             LikeScreen(navController = navController)
         }
