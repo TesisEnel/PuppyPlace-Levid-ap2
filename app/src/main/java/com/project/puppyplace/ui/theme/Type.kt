@@ -33,6 +33,7 @@ val Typography = Typography(
     ),
     displayMedium = TextStyle(
         fontFamily = font,
+        fontSize = 36.sp
     ),
     headlineLarge = TextStyle(
         fontFamily = font,
@@ -52,9 +53,11 @@ val Typography = Typography(
     ),
     bodyMedium = TextStyle(
         fontFamily = font,
+
     ),
     bodySmall = TextStyle(
         fontFamily = font,
+        fontSize = 26.sp
     ),
     labelLarge = TextStyle(
         fontFamily = font,
