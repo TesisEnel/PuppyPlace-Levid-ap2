@@ -11,6 +11,7 @@ import com.project.puppyplace.ui.home.HomeScreen
 import com.project.puppyplace.ui.like.LikeScreen
 import com.project.puppyplace.ui.login.LoginScreen
 import com.project.puppyplace.ui.signup.SignUpScreen
+import com.project.puppyplace.ui.user.UserScreen
 
 @Composable
 fun NavigationHost() {
@@ -39,6 +40,9 @@ fun NavigationHost() {
         }
         composable(Destination.like.route){
             LikeScreen(navController = navController)
+        }
+        composable(Destination.user.route){
+            UserScreen(navController = navController)
         }
     }
 }

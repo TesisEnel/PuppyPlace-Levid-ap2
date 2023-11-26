@@ -121,12 +121,12 @@ fun HomeTopBar(viewModel: HomeViewModel, navController: NavController){
         actions = {
             IconButton(
                 onClick = {
-                    viewModel.logOut(navController)
+                    viewModel.goToUser(navController)
                 }
             ) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "Logout"
+                    contentDescription = "User"
                 )
             }
         }
