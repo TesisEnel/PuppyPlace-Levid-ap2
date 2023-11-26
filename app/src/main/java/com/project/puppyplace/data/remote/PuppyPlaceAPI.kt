@@ -29,11 +29,9 @@ interface PuppyPlaceAPI {
     @POST("api/Appointment")
     suspend fun createAppointment(@Body appointment: AppointmentDto): AppointmentDto
 
-
     //User
     @GET("api/Users")
     suspend fun getUsers(): List<UserDto>
-
     @GET("api/Users/{id}")
     suspend fun getUsersById(@Path("id")id: Int): UserDto
 }
