@@ -14,9 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material3.Card
@@ -180,6 +182,21 @@ fun TopBar(navController: NavController, viewModel: UserViewModel= hiltViewModel
                     tint = Color(0xFF4E2A00)
                 )
 
+            }
+        },
+        actions = {
+            IconButton(
+                onClick = {
+                    viewModel.logOut(navController)
+                }
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(40.dp),
+                    imageVector = Icons.Filled.Logout,
+                    contentDescription = "Logout",
+                    tint = Color(0xFF4E2A00)
+                )
             }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
