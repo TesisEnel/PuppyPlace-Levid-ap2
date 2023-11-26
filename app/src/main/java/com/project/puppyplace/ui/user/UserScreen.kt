@@ -60,7 +60,7 @@ fun UserScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource(R.drawable.user_background),
+            painter = painterResource(R.drawable.background_user),
             contentDescription = "User background image",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillHeight
