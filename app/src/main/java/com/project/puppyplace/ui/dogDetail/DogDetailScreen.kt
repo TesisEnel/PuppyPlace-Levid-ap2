@@ -29,10 +29,15 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -75,16 +80,19 @@ fun DogDetailScreen(
                     .fillMaxWidth()
                     .align(alignment = Alignment.BottomCenter)
             ) {
-                DisplayDogInfo(dog)
+                DisplayDogInfo(dog, viewModel)
             }
         }
     }
 }
 
 @Composable
-fun DisplayDogInfo(dog: DogDto){
+fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
+    var isLiked by remember { mutableStateOf(false) }
     Card(
-        modifier = Modifier.fillMaxWidth().height(340.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(340.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
@@ -104,18 +112,18 @@ fun DisplayDogInfo(dog: DogDto){
                     )
                 }
                 Column {
-                    if(dog.isLiked){
+                    IconButton(onClick = {
+                        isLiked = !isLiked
+                        viewModel.onLikedClicked(dog, isLiked)
+                    }) {
                         Icon(
-                            imageVector = Icons.Filled.Favorite,
+                            imageVector =
+                                if(dog.isLiked) Icons.Filled.Favorite
+                                else Icons.Filled.HeartBroken,
                             contentDescription = "",
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                    else{
-                        Icon(
-                            imageVector = Icons.Filled.HeartBroken,
-                            contentDescription = "",
-                            tint = MaterialTheme.colorScheme.onTertiary
+                            tint =
+                                if(dog.isLiked) MaterialTheme.colorScheme.error
+                                else MaterialTheme.colorScheme.onTertiary
                         )
                     }
                 }
@@ -280,7 +288,8 @@ fun FABAdoptMe(){
         FloatingActionButton(
             onClick = { /*TODO*/ },
             containerColor = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 32.dp)
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 32.dp)
                 .align(alignment = Alignment.BottomEnd)
         ) {
             Icon(
