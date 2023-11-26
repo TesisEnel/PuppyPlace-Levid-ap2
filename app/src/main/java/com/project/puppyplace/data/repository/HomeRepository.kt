@@ -64,7 +64,7 @@ class HomeRepository @Inject constructor(
             emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
         }
     }
-    fun getFavorites(sex: String): Flow<Resource<List<DogDto>>> = flow {
+    fun getFavorites(): Flow<Resource<List<DogDto>>> = flow {
         try {
             emit(Resource.Loading())
 
