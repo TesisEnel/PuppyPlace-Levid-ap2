@@ -44,30 +44,16 @@ class UserViewModel @Inject constructor(
 
     var dog by mutableStateOf(DogDto())
 
+    fun getDogFromAppointment(id: Int){
+        viewModelScope.launch {
+            dog = homeRepository.getDogById(id)
+        }
+    }
     fun onModifyPressed(navController: NavController, appointmentDto: AppointmentDto){
         getDogFromAppointment(appointmentDto.dogId)
         sharedDog = dog
         sharedAppointment = appointmentDto
         navController.navigate(Destination.adoption.route)
-    }
-    fun getDogFromAppointment(id: Int){
-        viewModelScope.launch {
-            homeRepository.getDogById(id).onEach { result ->
-                when (result) {
-                    is Resource.Loading -> {
-
-                    }
-
-                    is Resource.Success -> {
-                        dog = result.data ?: DogDto()
-                    }
-
-                    is Resource.Error -> {
-                        _stateAdoption.value = AdoptionListState(error = result.message ?: "Unknown error")
-                    }
-                }
-            }.launchIn(viewModelScope)
-        }
     }
     fun deleteAppointment(id: Int){
         viewModelScope.launch {
