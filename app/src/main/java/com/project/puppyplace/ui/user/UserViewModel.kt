@@ -8,9 +8,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.project.puppyplace.data.remote.dto.AppointmentDto
+import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.data.repository.AdoptionRepository
+import com.project.puppyplace.data.repository.HomeRepository
 import com.project.puppyplace.data.repository.UserRepository
+import com.project.puppyplace.di.AppModule.sharedAppointment
+import com.project.puppyplace.di.AppModule.sharedDog
 import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.ui.adoption.AdoptionListState
 import com.project.puppyplace.util.Resource
@@ -26,7 +30,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val adoptionRepository: AdoptionRepository
+    private val adoptionRepository: AdoptionRepository,
+    private val homeRepository: HomeRepository
 ): ViewModel() {
     private var _state = MutableStateFlow(UserListState())
     val state: StateFlow<UserListState> = _state.asStateFlow()
@@ -37,6 +42,19 @@ class UserViewModel @Inject constructor(
     var user by mutableStateOf(UserDto())
     var adoption by mutableStateOf(AppointmentDto())
 
+    var dog by mutableStateOf(DogDto())
+
+    fun getDogFromAppointment(id: Int){
+        viewModelScope.launch {
+            dog = homeRepository.getDogById(id)
+        }
+    }
+    fun onModifyPressed(navController: NavController, appointmentDto: AppointmentDto){
+        getDogFromAppointment(appointmentDto.dogId)
+        sharedDog = dog
+        sharedAppointment = appointmentDto
+        navController.navigate(Destination.adoption.route)
+    }
     fun deleteAppointment(id: Int){
         viewModelScope.launch {
             userRepository.deleteAppointment(id)

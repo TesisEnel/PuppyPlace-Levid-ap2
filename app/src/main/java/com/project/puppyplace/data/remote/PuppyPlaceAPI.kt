@@ -14,7 +14,7 @@ interface PuppyPlaceAPI {
     @GET("api/Dogs")
     suspend fun getDogs(): List<DogDto>
     @GET("api/Dogs/{id}")
-    suspend fun getDogById(id: Int): DogDto
+    suspend fun getDogById(@Path("id")id: Int): DogDto
     @GET("api/Dogs/breed/{breed}")
     suspend fun getDogsByBreed(@Path("breed")breed: String): List<DogDto>
     @GET("api/Dogs/size/{size}")

@@ -1,6 +1,7 @@
 package com.project.puppyplace.di
 
 import com.project.puppyplace.data.remote.PuppyPlaceAPI
+import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -16,6 +17,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
     var sharedDog: DogDto? = null
+    var sharedAppointment: AppointmentDto? = null
     @Provides
     @Singleton
     fun provideMoshi(): Moshi {
