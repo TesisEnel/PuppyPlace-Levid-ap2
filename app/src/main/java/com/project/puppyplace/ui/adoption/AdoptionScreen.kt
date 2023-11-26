@@ -273,7 +273,7 @@ fun IdentificationNumberField(viewModel: AdoptionViewModel){
 @Composable
 fun AddressField(viewModel: AdoptionViewModel){
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
         value = viewModel.address,
         onValueChange = { viewModel.onAddressChange(it) },
         label = { Text(text = "Address") },
