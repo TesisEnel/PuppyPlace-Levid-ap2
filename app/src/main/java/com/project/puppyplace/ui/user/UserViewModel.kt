@@ -37,6 +37,12 @@ class UserViewModel @Inject constructor(
     var user by mutableStateOf(UserDto())
     var adoption by mutableStateOf(AppointmentDto())
 
+    fun deleteAppointment(id: Int){
+        viewModelScope.launch {
+            userRepository.deleteAppointment(id)
+        }
+        getAppoiment()
+    }
     fun getUsers(){
         viewModelScope.launch {
             userRepository.getUsers().onEach { result ->
