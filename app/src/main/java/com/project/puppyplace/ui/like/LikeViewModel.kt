@@ -83,4 +83,7 @@ class LikeViewModel @Inject constructor(
     fun onHomeSelected(navController: NavController){
         navController.navigate(Destination.home.route)
     }
+    fun onBackPressed(navController: NavController){
+        navController.popBackStack()
+    }
 }

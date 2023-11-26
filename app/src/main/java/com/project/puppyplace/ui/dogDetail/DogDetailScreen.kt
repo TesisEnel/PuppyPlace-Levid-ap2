@@ -2,6 +2,7 @@
 
 package com.project.puppyplace.ui.dogDetail
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,8 +23,10 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.InvertColors
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SignalCellular0Bar
 import androidx.compose.material.icons.outlined.MonitorHeart
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,6 +61,9 @@ fun DogDetailScreen(
     Scaffold(
         floatingActionButton = {
             FABAdoptMe(viewModel, navController)
+        },
+        bottomBar = {
+            BottomBar(navController, viewModel)
         }
     ) {paddingValues ->
         Box(
@@ -296,7 +302,7 @@ fun FABAdoptMe(viewModel: DogDetailViewModel, navController: NavController){
             onClick = { viewModel.onAdoptionButtonPressed(navController)},
             containerColor = MaterialTheme.colorScheme.primary,
             modifier = Modifier
-                .padding(horizontal = 8.dp, vertical = 32.dp)
+                .padding(horizontal = 8.dp)
                 .align(alignment = Alignment.BottomEnd)
         ) {
             Icon(
@@ -304,6 +310,58 @@ fun FABAdoptMe(viewModel: DogDetailViewModel, navController: NavController){
                 contentDescription = "",
                 tint = MaterialTheme.colorScheme.onPrimary
             )
+        }
+    }
+}
+
+@Composable
+fun BottomBar(
+    navController: NavController,
+    viewModel: DogDetailViewModel
+) {
+    BottomAppBar {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            IconButton(
+                onClick = {
+                    viewModel.onHomeSelected(navController)
+                }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Icon(Icons.Filled.Home, contentDescription = "Home")
+                    Text("Home")
+                }
+            }
+            IconButton(
+                onClick = {
+                    viewModel.onLikeIconPressed(navController)
+                }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Icon(Icons.Filled.Favorite, contentDescription = "Favorite")
+                    Text("Favorite")
+                }
+            }
+            IconButton(
+                onClick = {
+                }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Icon(Icons.Filled.Settings, contentDescription = "Settings")
+                    Text("Settings")
+                }
+            }
         }
     }
 }
