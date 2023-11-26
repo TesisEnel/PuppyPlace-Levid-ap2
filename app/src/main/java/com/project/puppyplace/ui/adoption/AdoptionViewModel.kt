@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.AdoptionRepository
@@ -39,6 +40,10 @@ class AdoptionViewModel @Inject constructor(
     var addressError by mutableStateOf("")
 
     var showDialog by mutableStateOf(false)
+
+    fun onBackPressed(navController: NavController){
+        navController.popBackStack()
+    }
 
     fun onAdoptClick(){
         viewModelScope.launch {

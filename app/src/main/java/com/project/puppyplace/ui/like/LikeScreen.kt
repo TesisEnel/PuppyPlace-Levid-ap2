@@ -197,7 +197,7 @@ fun TopBar(
         },
         navigationIcon = {
             IconButton(onClick = {
-                viewModel.onHomeSelected(navController)
+                viewModel.onBackPressed(navController = navController)
             }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
