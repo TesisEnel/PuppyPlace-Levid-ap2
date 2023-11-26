@@ -58,12 +58,6 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
-    fun logOut(navController: NavController) {
-        FirebaseAuth.getInstance().signOut()
-
-        navController.popBackStack()
-        navController.navigate(Destination.login.route)
-    }
     fun onDogSelected(navController: NavController, dog: DogDto){
         getDogs()
         sharedDog = dog
@@ -72,6 +66,9 @@ class HomeViewModel @Inject constructor(
 
     fun goToLike(navController: NavController){
         navController.navigate(Destination.like.route)
+    }
+    fun goToUser(navController: NavController){
+        navController.navigate(Destination.user.route)
     }
     fun onSearchItemChanged(searchItem: String){
         this.searchItem = searchItem
