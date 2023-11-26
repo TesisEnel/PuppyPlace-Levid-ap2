@@ -63,8 +63,7 @@ class HomeViewModel @Inject constructor(
         sharedDog = dog
         navController.navigate(Destination.dogDetail.route)
     }
-
-    fun goToLike(navController: NavController){
+    fun onLikeIconPressed(navController: NavController){
         navController.navigate(Destination.like.route)
     }
     fun goToUser(navController: NavController){

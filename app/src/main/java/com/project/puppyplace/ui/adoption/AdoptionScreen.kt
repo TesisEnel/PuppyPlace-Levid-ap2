@@ -14,9 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArtTrack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.InsertEmoticon
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Person2
 import androidx.compose.material.icons.filled.Pets
@@ -26,11 +28,13 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -43,42 +47,57 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.project.puppyplace.data.remote.dto.DogDto
+import com.project.puppyplace.navigation.Destination
 import java.util.Calendar
 import java.util.Date
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdoptionScreen(
     viewModel: AdoptionViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ){
-        AsyncImage(
-            model = viewModel.dog.image,
-            contentDescription = viewModel.dog.name,
-            contentScale = ContentScale.Fit,
+    Scaffold(
+        topBar = {
+            TopBar(
+                navController = navController,
+                viewModel = viewModel,
+                dog = viewModel.dog
+            )
+        }
+    ) {paddingValues ->
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .align(alignment = Alignment.TopCenter)
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(alignment = Alignment.BottomCenter)
-        ) {
-            Card(
+                .fillMaxSize()
+                .padding(paddingValues)
+        ){
+            AsyncImage(
+                model = viewModel.dog.image,
+                contentDescription = viewModel.dog.name,
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                )
-            ){
-                AdoptionForm(viewModel = viewModel)
+                    .fillMaxWidth()
+                    .align(alignment = Alignment.TopCenter)
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(alignment = Alignment.BottomCenter)
+            ) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    )
+                ){
+                    AdoptionForm(viewModel = viewModel)
+                }
             }
         }
     }
@@ -384,4 +403,40 @@ fun ConfirmDialog(viewModel: AdoptionViewModel){
             }
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar(
+    navController: NavController,
+    viewModel: AdoptionViewModel,
+    dog: DogDto
+) {
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = dog.name
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = {
+                viewModel.onBackPressed(navController = navController)
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Back icon",
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = {
+                navController.navigate(Destination.home.route)
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.InsertEmoticon,
+                    contentDescription = "Logout",
+                )
+            }
+        }
+    )
 }

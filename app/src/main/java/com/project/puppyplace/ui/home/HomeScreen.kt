@@ -6,8 +6,10 @@ package com.project.puppyplace.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,16 +26,20 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.HeartBroken
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Male
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -61,18 +67,35 @@ fun HomeScreen(
     navController: NavController
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
-    HomeScreenContent(state.value.dogsList, navController, viewModel)
+    Scaffold(
+        topBar = {
+            HomeTopBar(viewModel, navController)
+        },
+        bottomBar = {
+            BottomBar(navController, viewModel)
+        }
+    ) {paddingValues ->
+        HomeScreenContent(
+            state.value.dogsList,
+            navController,
+            viewModel,
+            paddingValues
+        )
+    }
 
 }
 @Composable
 fun HomeScreenContent(
     dogsList: List<DogDto>,
     navController: NavController,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    paddingValues: PaddingValues
 ){
-    Column {
-        HomeTopBar(viewModel, navController)
+    Column(
+        modifier = Modifier.padding(paddingValues)
+    ) {
         SearchTextField(viewModel)
+        //HomeTopBar(viewModel, navController)
         ChipGroup(viewModel)
         DogsList(dogsList = dogsList, navController = navController, viewModel = viewModel)
     }
@@ -86,11 +109,11 @@ fun HomeTopBar(viewModel: HomeViewModel, navController: NavController){
         navigationIcon = {
             IconButton(
                 onClick = {
-                    viewModel.goToLike(navController)
+                    /*TODO QUE LADRE AL PULSAR LA PATITA*/
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Favorite,
+                    imageVector = Icons.Filled.Pets,
                     contentDescription = "Like"
                 )
             }
@@ -330,6 +353,57 @@ fun DogItem(
                             )
                         }
                     }
+                }
+            }
+        }
+    }
+}
+@Composable
+fun BottomBar(
+    navController: NavController,
+    viewModel: HomeViewModel
+) {
+    BottomAppBar {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            IconButton(
+                onClick = {
+
+                }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Icon(Icons.Filled.Home, contentDescription = "Home")
+                    Text("Home")
+                }
+            }
+            IconButton(
+                onClick = {
+                    viewModel.onLikeIconPressed(navController)
+                }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Icon(Icons.Filled.Favorite, contentDescription = "Favorite")
+                    Text("Favorite")
+                }
+            }
+            IconButton(
+                onClick = {
+                }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Icon(Icons.Filled.Settings, contentDescription = "Settings")
+                    Text("Settings")
                 }
             }
         }
