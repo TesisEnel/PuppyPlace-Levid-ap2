@@ -107,28 +107,36 @@ class AdoptionViewModel @Inject constructor(
         identificationNumberError = if(identificationNumber.isEmpty()){
             "Identification Number required."
         } else if(identificationNumber.length < 11){
-            "Identification Number must be 11 digits."
-        } else{
+            "Identification Number must be ${identificationNumber.length}/11 digits."
+        } else if(identificationNumber.length > 11){
+            "Identification Number must be ${identificationNumber.length}/11 digits."
+        }
+        else{
             ""
         }
     }
     fun onTelephoneChange(telephone: String){
         this.telephone = telephone
-        if(telephone.isEmpty()){
-            telephoneError = "Telephone required."
-        }
-        else if(telephone.length < 10) {
-            telephoneError = "Telephone must be 10 digits."
+        telephoneError = if(telephone.isEmpty()){
+            "Telephone required."
+        } else if(telephone.length < 10) {
+            "Telephone must be ${telephone.length}/10 digits."
+        } else if(telephone.length > 10){
+            "Telephone must be ${telephone.length}/10 digits."
         }
         else{
-            telephoneError = ""
+            ""
         }
     }
     fun onCellphoneChange(cellphone: String){
         this.cellphone = cellphone
         cellphoneError = if(cellphone.isEmpty()){
             "Cellphone required."
-        }else{
+        } else if (cellphone.length < 10){
+            "Cellphone must be ${cellphone.length}/10 digits."
+        } else if(cellphone.length > 10){
+            "Cellphone must be ${cellphone.length}/10 digits."
+        } else{
             ""
         }
     }
@@ -143,19 +151,23 @@ class AdoptionViewModel @Inject constructor(
                 ""
             }
     }
-    fun onDateChange(date: String){
-        this.date = date
-        dateError = if(date.isEmpty()){
-            "Date required."
-        }else{
-            ""
-        }
-    }
     fun onAddressChange(address: String){
         this.address = address
         addressError = if(address.isEmpty()){
             "Address required."
         }else{
+            ""
+        }
+    }
+    fun onDateChange(date: String){
+        this.date = date
+        dateError = if(date.isEmpty()){
+            "Date required."
+        }
+         else if(!date.matches(Regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}$"))){
+            "Invalid format should be: yyyy-MM-dd"
+        }
+        else{
             ""
         }
     }
