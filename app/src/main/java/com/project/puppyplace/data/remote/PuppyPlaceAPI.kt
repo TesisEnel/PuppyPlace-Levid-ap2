@@ -1,9 +1,11 @@
 package com.project.puppyplace.data.remote
 
+import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.remote.dto.UserDto
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
@@ -20,6 +22,12 @@ interface PuppyPlaceAPI {
     suspend fun getDogsBySex(@Path("sex")sex: String): List<DogDto>
     @PUT("api/Dogs/{id}")
     suspend fun updateDog(@Path("id")id: Int, @Body dog: DogDto): DogDto
+
+    //Appointments
+    @GET("api/Appointments")
+    suspend fun getAppointments(): List<AppointmentDto>
+    @POST("api/Appointments")
+    suspend fun createAppointment(@Body appointment: AppointmentDto): AppointmentDto
 
 
     //User
