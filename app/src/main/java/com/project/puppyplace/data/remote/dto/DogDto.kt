@@ -15,9 +15,13 @@ data class DogDto(
     val hairColor: String = "",
     @Json(name = "sterilization")
     val isSterilized: Boolean = false,
-    val behavior: String? = "",
+    val behaviour: String = "",
     val activityLevel: String = "",
     val origin: String = "",
     val image: String = "",
     val age: Int = 0,
+    @Json(name = "isFavorite")
+    var isLiked: Boolean = false,
+    var status: Boolean = false,
+    val description: String = ""
 )

@@ -21,10 +21,12 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.HeartBroken
+import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Transgender
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -36,6 +38,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -245,15 +251,17 @@ fun DogsList(
     }
 }
 
+
 @Composable
 fun DogItem(
     dog: DogDto,
     navController: NavController,
     viewModel: HomeViewModel
 ){
+    var isLiked by remember { mutableStateOf(dog.isLiked) }
     Column(
         modifier = Modifier
-            .size(200.dp)
+            .size(250.dp)
             .padding(8.dp)
             .clip(MaterialTheme.shapes.medium)
     ) {
@@ -293,27 +301,35 @@ fun DogItem(
                         modifier = Modifier.weight(2f)
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.Transgender,
-                            contentDescription = "Gender",
-                            tint = MaterialTheme.colorScheme.onSecondary
+                            imageVector =
+                            if(viewModel.isMale(dog)) Icons.Filled.Male
+                            else Icons.Filled.Female,
+                            contentDescription = "Male gender",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(35.dp)
                         )
+
                     }
                     Column(
                         modifier = Modifier.weight(1f)
                     ) {
                         IconButton(onClick = {
-
+                            isLiked = !isLiked
+                            viewModel.onLikedClicked(dog, isLiked)
                         }) {
                             Icon(
-                                imageVector = Icons.Filled.HeartBroken,
-                                contentDescription = "LikeIcon",
-                                tint = MaterialTheme.colorScheme.onSecondary
+                                imageVector =
+                                    if(isLiked) Icons.Filled.Favorite
+                                    else Icons.Filled.HeartBroken,
+                                contentDescription = "Like icon",
+                                tint =
+                                    if(isLiked) MaterialTheme.colorScheme.error
+                                    else MaterialTheme.colorScheme.onSecondary,
                             )
                         }
                     }
                 }
             }
-
         }
     }
 }

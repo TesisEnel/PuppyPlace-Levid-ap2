@@ -64,6 +64,7 @@ class HomeRepository @Inject constructor(
             emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
         }
     }
+    suspend fun updateDog(dog: DogDto) = puppyPlaceApi.updateDog(dog.id, dog)
 
     suspend fun getDogById(id: Int) = puppyPlaceApi.getDogById(id)
 //    fun getDogById(id: Int): Flow<Resource<DogDto>> = flow {

@@ -30,6 +30,34 @@ class HomeViewModel @Inject constructor(
 
     var searchItem by mutableStateOf("")
 
+    fun isMale(dog:DogDto): Boolean{
+        return dog.gender == "Male"
+    }
+    fun onLikedClicked(dog: DogDto, isLiked: Boolean){
+        viewModelScope.launch {
+            homeRepository.updateDog(
+                DogDto(
+                    id = dog.id,
+                    name = dog.name,
+                    breed = dog.breed,
+                    size = dog.size,
+                    weight = dog.weight,
+                    gender = dog.gender,
+                    birthDate = dog.birthDate,
+                    hairColor = dog.hairColor,
+                    isSterilized = dog.isSterilized,
+                    behaviour = dog.behaviour,
+                    activityLevel = dog.activityLevel,
+                    origin = dog.origin,
+                    image = dog.image,
+                    age = dog.age,
+                    isLiked = isLiked,
+                    status = dog.status,
+                    description = dog.description
+                )
+            )
+        }
+    }
     fun logOut(navController: NavController) {
         FirebaseAuth.getInstance().signOut()
 
@@ -37,6 +65,7 @@ class HomeViewModel @Inject constructor(
         navController.navigate(Destination.login.route)
     }
     fun onDogSelected(navController: NavController, dog: DogDto){
+        getDogs()
         sharedDog = dog
         navController.navigate(Destination.dogDetail.route)
     }
@@ -85,7 +114,6 @@ class HomeViewModel @Inject constructor(
             }.launchIn(viewModelScope)
         }
     }
-
     fun getDogsBySex(sex: String){
         viewModelScope.launch {
             homeRepository.getDogsBySex(sex).onEach { result ->
@@ -105,7 +133,6 @@ class HomeViewModel @Inject constructor(
             }.launchIn(viewModelScope)
         }
     }
-
     fun getDogs(){
         viewModelScope.launch {
             homeRepository.getDogs().onEach { result ->
@@ -125,7 +152,6 @@ class HomeViewModel @Inject constructor(
             }.launchIn(viewModelScope)
         }
     }
-
     init {
         getDogs()
     }
