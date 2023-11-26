@@ -64,6 +64,19 @@ class HomeRepository @Inject constructor(
             emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
         }
     }
+    fun getFavorites(sex: String): Flow<Resource<List<DogDto>>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val dogs = puppyPlaceApi.getFavorites()
+
+            emit(Resource.Success(dogs))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
+        }
+    }
     suspend fun updateDog(dog: DogDto) = puppyPlaceApi.updateDog(dog.id, dog)
 
     suspend fun getDogById(id: Int) = puppyPlaceApi.getDogById(id)
