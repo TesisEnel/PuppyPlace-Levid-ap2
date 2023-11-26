@@ -21,6 +21,14 @@ class DogDetailViewModel @Inject constructor(
         dog = sharedDog ?: DogDto()
     }
 
+    fun isMale(dog:DogDto): Boolean{
+        return dog.gender == "Male"
+    }
+
+    fun isSterilized(dog:DogDto): Boolean{
+        return dog.isSterilized
+    }
+
     fun onLikedClicked(dog: DogDto, isLiked: Boolean){
         viewModelScope.launch {
             homeRepository.updateDog(

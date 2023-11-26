@@ -12,18 +12,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Beenhere
-import androidx.compose.material.icons.filled.Bloodtype
+import androidx.compose.material.icons.filled.Adjust
+import androidx.compose.material.icons.filled.Anchor
 import androidx.compose.material.icons.filled.Cake
-import androidx.compose.material.icons.filled.DownhillSkiing
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Healing
+import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.HeartBroken
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Scanner
+import androidx.compose.material.icons.filled.InvertColors
+import androidx.compose.material.icons.filled.Male
+import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.SignalCellular0Bar
-import androidx.compose.material.icons.filled.Transgender
+import androidx.compose.material.icons.outlined.MonitorHeart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,7 +54,7 @@ fun DogDetailScreen(
     viewModel: DogDetailViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val dog = viewModel.dog
+    val dog by remember { mutableStateOf(viewModel.dog) }
     Scaffold(
         floatingActionButton = {
             FABAdoptMe()
@@ -135,7 +135,12 @@ fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
                     Text(text = dog.breed)
                 }
                 Column {
-                    Icon(imageVector = Icons.Filled.Scanner, contentDescription = "")
+                    if(viewModel.isSterilized(dog)){
+                        Icon(
+                            imageVector = Icons.Filled.Adjust,
+                            contentDescription = "Sterilized icon"
+                        )
+                    }
                 }
             }
             Row {
@@ -147,7 +152,7 @@ fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
                     ) {
                         Icon(
                             imageVector = Icons.Default.Cake,
-                            contentDescription = "",
+                            contentDescription = "BirthDate icon ${dog.birthDate}",
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Text(text = dog.birthDate)
@@ -160,8 +165,10 @@ fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
                         modifier = Modifier.padding(8.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Transgender,
-                            contentDescription = "",
+                            imageVector =
+                                if(viewModel.isMale(dog)) Icons.Filled.Male
+                                else Icons.Filled.Female,
+                            contentDescription = "Dog gender ${dog.gender}",
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Text(text = dog.gender)
@@ -176,7 +183,7 @@ fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
                         modifier = Modifier.padding(8.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.SignalCellular0Bar,
+                            imageVector = Icons.Filled.SignalCellular0Bar,
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
@@ -190,11 +197,11 @@ fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
                         modifier = Modifier.padding(8.dp)
                     ){
                         Icon(
-                            imageVector = Icons.Default.Beenhere,
+                            imageVector = Icons.Filled.Anchor,
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Text(text = dog.weight.toString())
+                        Text(text = "${dog.weight} kg")
                     }
                 }
             }
@@ -206,7 +213,7 @@ fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
                         modifier = Modifier.padding(8.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Bloodtype,
+                            imageVector = Icons.Default.InvertColors,
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
@@ -220,7 +227,7 @@ fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
                         modifier = Modifier.padding(8.dp)
                     ){
                         Icon(
-                            imageVector = Icons.Default.Healing,
+                            imageVector = Icons.Outlined.MonitorHeart,
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
@@ -250,7 +257,7 @@ fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
                         modifier = Modifier.padding(8.dp)
                     ){
                         Icon(
-                            imageVector = Icons.Default.DownhillSkiing,
+                            imageVector = Icons.Default.Pets,
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.primary
                         )
@@ -293,7 +300,7 @@ fun FABAdoptMe(){
                 .align(alignment = Alignment.BottomEnd)
         ) {
             Icon(
-                imageVector = Icons.Default.Add,
+                imageVector = Icons.Default.Pets,
                 contentDescription = "",
                 tint = MaterialTheme.colorScheme.onPrimary
             )
