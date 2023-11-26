@@ -237,19 +237,28 @@ fun AppoimentItem(appoiment: AppointmentDto){
         modifier = Modifier
             .fillMaxWidth()
     ){
-        Row {
-            Column(
-                modifier = Modifier
-                    .padding(8.dp)
 
-            ) {
-                Row {
-                    Icon(imageVector = Icons.Filled.Update, contentDescription = "Update")
-                    Text(text = appoiment.date)
-                    Text(text = "-" + appoiment.address)
-                }
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+
+        ) {
+            Row {
+                Icon(imageVector = Icons.Filled.Update, contentDescription = "update")
+                Text(text = appoiment.date)
             }
         }
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+
+        ) {
+            Row {
+                Icon(imageVector = Icons.Filled.LocationOn, contentDescription = "location")
+                Text(text = appoiment.address)
+            }
+        }
+
         Row {
             Column(
                 modifier = Modifier
