@@ -38,6 +38,7 @@ class AdoptionViewModel @Inject constructor(
     var emailError by mutableStateOf("")
     var addressError by mutableStateOf("")
 
+    var showDialog by mutableStateOf(false)
 
     fun onAdoptClick(){
         viewModelScope.launch {
@@ -57,6 +58,14 @@ class AdoptionViewModel @Inject constructor(
                 )
             }
         }
+        showDialog = false
+    }
+    fun onShowDialog(){
+        if(isValid())
+            showDialog = true
+    }
+    fun onDismissDialog(){
+        showDialog = false
     }
     fun isValid(): Boolean{
         onDateChange(date)

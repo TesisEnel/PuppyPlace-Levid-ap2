@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Person2
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,6 +32,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -347,12 +349,35 @@ fun EmailField(viewModel: AdoptionViewModel) {
 @Composable
 fun AdoptButton(viewModel: AdoptionViewModel){
     Button(
-        onClick = { viewModel.onAdoptClick() },
+        onClick = { viewModel.onShowDialog() },
 
     ) {
         Text(
             text = "Adopt me!",
             style = MaterialTheme.typography.titleLarge
+        )
+        ConfirmDialog(viewModel)
+    }
+}
+
+@Composable
+fun ConfirmDialog(viewModel: AdoptionViewModel){
+    if(viewModel.showDialog){
+        AlertDialog(
+            icon = { Icon(imageVector = Icons.Filled.Pets, contentDescription = "") } ,
+            title = { Text(text = "Someone is going to be happy!!") },
+            text = { Text(text = "Are you sure you want to adopt this dog?")},
+            onDismissRequest = { viewModel.onDismissDialog() },
+            confirmButton = {
+                TextButton(onClick = { viewModel.onAdoptClick() }) {
+                    Text(text = "YES I WANT IT!")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.onDismissDialog() }) {
+                    Text(text = "Cancel")
+                }
+            }
         )
     }
 }
