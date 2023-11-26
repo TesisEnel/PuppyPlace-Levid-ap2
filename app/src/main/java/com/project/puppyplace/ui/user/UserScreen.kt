@@ -327,7 +327,7 @@ fun AppoimentItem(viewModel:UserViewModel, appoiment: AppointmentDto){
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 TextButton(
-                    onClick = { viewModel.deleteAppointment(appoiment.id) }
+                    onClick = { /*TODO*/ }
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
