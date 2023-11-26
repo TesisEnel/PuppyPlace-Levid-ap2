@@ -5,9 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.HomeRepository
 import com.project.puppyplace.di.AppModule.sharedDog
+import com.project.puppyplace.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,6 +31,9 @@ class DogDetailViewModel @Inject constructor(
         return dog.isSterilized
     }
 
+    fun onAdoptionButtonPressed(navController: NavController){
+        navController.navigate(Destination.adoption.route)
+    }
     fun onLikedClicked(dog: DogDto, isLiked: Boolean){
         viewModelScope.launch {
             homeRepository.updateDog(

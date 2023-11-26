@@ -6,5 +6,6 @@ sealed class Destination(val route: String){
     object signUp: Destination("signUpScreen")
     object home: Destination("homeScreen")
     object dogDetail: Destination("dogDetailScreen")
+    object adoption: Destination("adoptionScreen")
     object like: Destination("likeScreen")
 }

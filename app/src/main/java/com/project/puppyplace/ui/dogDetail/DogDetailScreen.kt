@@ -57,7 +57,7 @@ fun DogDetailScreen(
     val dog by remember { mutableStateOf(viewModel.dog) }
     Scaffold(
         floatingActionButton = {
-            FABAdoptMe()
+            FABAdoptMe(viewModel, navController)
         }
     ) {paddingValues ->
         Box(
@@ -288,12 +288,12 @@ fun DisplayDogInfo(dog: DogDto, viewModel: DogDetailViewModel){
 }
 
 @Composable
-fun FABAdoptMe(){
+fun FABAdoptMe(viewModel: DogDetailViewModel, navController: NavController){
     Box(
         modifier = Modifier.fillMaxWidth()
     ){
         FloatingActionButton(
-            onClick = { /*TODO*/ },
+            onClick = { viewModel.onAdoptionButtonPressed(navController)},
             containerColor = MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 32.dp)
