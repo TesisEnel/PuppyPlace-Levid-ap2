@@ -10,4 +10,5 @@ data class AppointmentDto(
     val telephone: String = "",
     val cellphone: String = "",
     val email: String = "",
+    val address: String = ""
 )
