@@ -2,6 +2,7 @@ package com.project.puppyplace.ui.user
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Logout
@@ -26,11 +29,13 @@ import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,7 +56,6 @@ fun UserScreen(
     viewModel: UserViewModel = hiltViewModel(),
     navController: NavController
 ){
-    val user by viewModel.state.collectAsStateWithLifecycle()
     val appointments by viewModel.stateAdoption.collectAsStateWithLifecycle()
     Box(
         modifier = Modifier.fillMaxSize()
@@ -71,11 +75,10 @@ fun UserScreen(
             TopBar(navController = navController)
             NameUserText(viewModel = viewModel)
             InfoUser(viewModel = viewModel)
-            AppointmentsList(appointments.adoptionList)
+            AppointmentsList(appointments.adoptionList, viewModel)
         }
     }
 }
-
 
 @Composable
 fun NameUserText(viewModel: UserViewModel){
@@ -212,20 +215,20 @@ fun TopBar(navController: NavController, viewModel: UserViewModel= hiltViewModel
 }
 
 @Composable
-fun AppointmentsList(appoiments: List<AppointmentDto>){
+fun AppointmentsList(appoiments: List<AppointmentDto>, viewModel: UserViewModel){
     Text(text = "Appointments: ",
         style = MaterialTheme.typography.titleLarge
     )
     LazyColumn{
         items(appoiments){
-            appoiment -> AppoimentItem(appoiment)
+            appoiment -> AppoimentItem(viewModel, appoiment)
         }
     }
 
 }
 
 @Composable
-fun AppoimentItem(appoiment: AppointmentDto){
+fun AppoimentItem(viewModel:UserViewModel, appoiment: AppointmentDto){
     Card(
         colors = CardDefaults.cardColors(
             containerColor= MaterialTheme.colorScheme.tertiary
@@ -285,6 +288,62 @@ fun AppoimentItem(appoiment: AppointmentDto){
                 Row {
                     Icon(imageVector = Icons.Filled.PhoneAndroid, contentDescription = "cellphone")
                     Text(text = appoiment.cellphone)
+                }
+            }
+        }
+        //Botones
+        Divider(thickness = 1.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                TextButton(
+                    onClick = { viewModel.deleteAppointment(appoiment.id) }
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = "Delete",
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                            Text(text = "Delete", color = MaterialTheme.colorScheme.error)
+                        }
+                    }
+                }
+            }
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                TextButton(
+                    onClick = { viewModel.deleteAppointment(appoiment.id) }
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Edit,
+                                contentDescription = "Modify"
+                            )
+                            Text(text = "Edit")
+                        }
+                    }
                 }
             }
         }

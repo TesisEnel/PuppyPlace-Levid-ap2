@@ -4,6 +4,7 @@ import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.remote.dto.UserDto
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -31,6 +32,10 @@ interface PuppyPlaceAPI {
     suspend fun getAppointments(): List<AppointmentDto>
     @POST("api/Appointment")
     suspend fun createAppointment(@Body appointment: AppointmentDto): AppointmentDto
+    @DELETE("api/Appointment/{id}")
+    suspend fun deleteAppointment(@Path("id")id: Int): AppointmentDto
+    @GET("api/Appointment/{id}")
+    suspend fun getAppointmentById(@Path("id")id: Int): AppointmentDto
 
     //User
     @GET("api/Users")
