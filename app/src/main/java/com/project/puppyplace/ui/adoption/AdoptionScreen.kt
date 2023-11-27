@@ -96,7 +96,7 @@ fun AdoptionScreen(
                         containerColor = MaterialTheme.colorScheme.surface,
                     )
                 ){
-                    AdoptionForm(viewModel = viewModel)
+                    AdoptionForm(viewModel = viewModel, navController = navController)
                 }
             }
         }
@@ -104,7 +104,7 @@ fun AdoptionScreen(
 }
 
 @Composable
-fun AdoptionForm(viewModel: AdoptionViewModel) {
+fun AdoptionForm(viewModel: AdoptionViewModel, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -172,7 +172,7 @@ fun AdoptionForm(viewModel: AdoptionViewModel) {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            AdoptButton(viewModel = viewModel)
+            AdoptButton(viewModel = viewModel, navController = navController)
         }
     }
 }
@@ -370,7 +370,7 @@ fun EmailField(viewModel: AdoptionViewModel) {
 }
 
 @Composable
-fun AdoptButton(viewModel: AdoptionViewModel){
+fun AdoptButton(viewModel: AdoptionViewModel, navController: NavController){
     Button(
         onClick = { viewModel.onShowDialog() },
 
@@ -379,12 +379,12 @@ fun AdoptButton(viewModel: AdoptionViewModel){
             text = "Adopt me!",
             style = MaterialTheme.typography.titleLarge
         )
-        ConfirmDialog(viewModel)
+        ConfirmDialog(viewModel, navController = navController)
     }
 }
 
 @Composable
-fun ConfirmDialog(viewModel: AdoptionViewModel){
+fun ConfirmDialog(viewModel: AdoptionViewModel, navController: NavController){
     if(viewModel.showDialog){
         AlertDialog(
             icon = { Icon(imageVector = Icons.Filled.Pets, contentDescription = "") } ,
@@ -392,7 +392,7 @@ fun ConfirmDialog(viewModel: AdoptionViewModel){
             text = { Text(text = "Are you sure you want to adopt this dog?")},
             onDismissRequest = { viewModel.onDismissDialog() },
             confirmButton = {
-                TextButton(onClick = { viewModel.onAdoptClick() }) {
+                TextButton(onClick = { viewModel.onAdoptClick(navController) }) {
                     Text(text = "YES I WANT IT!")
                 }
             },

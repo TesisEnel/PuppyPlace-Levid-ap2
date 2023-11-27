@@ -13,14 +13,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -29,6 +33,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -131,6 +138,7 @@ fun EmailTextField(viewModel: LoginViewModel){
 @Composable
 fun PasswordTextField(viewModel: LoginViewModel){
     OutlinedTextField(
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
         value = viewModel.password,
         onValueChange = { viewModel.password = it },
         label = { Text(text = "Password") },
@@ -140,10 +148,20 @@ fun PasswordTextField(viewModel: LoginViewModel){
                 contentDescription = "Password icon"
             )
         },
+        trailingIcon = {
+            IconButton(onClick = { viewModel.onShowPasswordClick() }) {
+                Icon(
+                    imageVector = if(!viewModel.hidePassword) Icons.Filled.RemoveRedEye
+                    else Icons.Filled.Remove,
+                    contentDescription = "Password icon"
+                )
+            }
+        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        maxLines = 1
+        maxLines = 1,
+        visualTransformation = if(viewModel.hidePassword) PasswordVisualTransformation() else VisualTransformation.None
     )
     Text(text = viewModel.passwordMessage, color = MaterialTheme.colorScheme.error)
 }
