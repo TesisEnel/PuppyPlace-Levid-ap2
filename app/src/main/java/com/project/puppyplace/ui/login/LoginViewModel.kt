@@ -36,9 +36,13 @@ class LoginViewModel @Inject constructor(
     private var userList: List<UserDto> by mutableStateOf(emptyList())
 
     var access by mutableStateOf(false)
+    var hidePassword by mutableStateOf(true)
 
     init{
         loadData()
+    }
+    fun onShowPasswordClick(){
+        hidePassword = !hidePassword
     }
     fun logIn(navController: NavController): Boolean{
         if(validate()){
