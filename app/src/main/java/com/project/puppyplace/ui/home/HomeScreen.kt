@@ -52,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -102,6 +103,7 @@ fun HomeScreenContent(
 }
 @Composable
 fun HomeTopBar(viewModel: HomeViewModel, navController: NavController){
+    val context = LocalContext.current
     CenterAlignedTopAppBar(
         title = {
             Text(text = "Discover")
@@ -109,7 +111,7 @@ fun HomeTopBar(viewModel: HomeViewModel, navController: NavController){
         navigationIcon = {
             IconButton(
                 onClick = {
-                    /*TODO QUE LADRE AL PULSAR LA PATITA*/
+                    viewModel.onPetsPressed(context = context)
                 }
             ) {
                 Icon(

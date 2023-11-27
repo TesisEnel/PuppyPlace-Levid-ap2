@@ -19,6 +19,7 @@ import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.ui.adoption.AdoptionListState
 import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -55,12 +56,17 @@ class UserViewModel @Inject constructor(
         sharedAppointment = appointmentDto
         navController.navigate(Destination.adoption.route)
     }
-    fun deleteAppointment(id: Int){
+
+    fun deleteAppointment(id: Int) {
         viewModelScope.launch {
-            userRepository.deleteAppointment(id)
+            val deferred = async {
+                userRepository.deleteAppointment(id)
+            }
+            deferred.await()
+            getAppoiment()
         }
-        getAppoiment()
     }
+
     fun getUsers(){
         viewModelScope.launch {
             userRepository.getUsers().onEach { result ->

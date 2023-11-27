@@ -1,12 +1,14 @@
 package com.project.puppyplace.ui.home
 
+import android.content.Context
+import android.media.MediaPlayer
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
+import com.project.puppyplace.R
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.HomeRepository
 import com.project.puppyplace.di.AppModule.sharedDog
@@ -57,6 +59,13 @@ class HomeViewModel @Inject constructor(
                 )
             )
         }
+    }
+    fun onPetsPressed(context: Context){
+        val mp: MediaPlayer = MediaPlayer.create(
+            context,
+            R.raw.dog_bark
+        )
+        mp.start()
     }
     fun onDogSelected(navController: NavController, dog: DogDto){
         getDogs()
