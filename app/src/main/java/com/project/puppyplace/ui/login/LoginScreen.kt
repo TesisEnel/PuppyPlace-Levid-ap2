@@ -131,7 +131,11 @@ fun EmailTextField(viewModel: LoginViewModel){
             .fillMaxWidth()
             .padding(8.dp)
     )
-    Text(text = viewModel.emailError, color = MaterialTheme.colorScheme.error)
+    Text(
+        text = viewModel.emailError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 16.dp)
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -163,7 +167,11 @@ fun PasswordTextField(viewModel: LoginViewModel){
         maxLines = 1,
         visualTransformation = if(viewModel.hidePassword) PasswordVisualTransformation() else VisualTransformation.None
     )
-    Text(text = viewModel.passwordError, color = MaterialTheme.colorScheme.error)
+    Text(
+        text = viewModel.passwordError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 16.dp)
+    )
 }
 
 @Composable
