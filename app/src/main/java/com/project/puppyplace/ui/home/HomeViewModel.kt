@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -61,9 +62,16 @@ class HomeViewModel @Inject constructor(
         }
     }
     fun onPetsPressed(context: Context){
+        val effectsList = listOf(
+            R.raw.dog_bark,
+            R.raw.dog_bark2,
+            R.raw.dog_bark3
+        )
+        val randomIndex = Random.nextInt(effectsList.size)
+        val effectResource = effectsList[randomIndex]
         val mp: MediaPlayer = MediaPlayer.create(
             context,
-            R.raw.dog_bark
+            effectResource
         )
         mp.start()
     }
