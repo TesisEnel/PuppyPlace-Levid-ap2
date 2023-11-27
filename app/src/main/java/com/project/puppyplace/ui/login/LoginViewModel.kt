@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.data.repository.LoginRepository
+import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,8 +49,13 @@ class LoginViewModel @Inject constructor(
         if(validate()){
             FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(){
+                .addOnCompleteListener{
                     access = it.isSuccessful
+            }
+            if(!access){
+                viewModelScope.launch {
+                    userLoged = loginRepository.getUserByEmail(email)
+                }
             }
             navController.popBackStack()
             navController.navigate(Destination.home.route)
