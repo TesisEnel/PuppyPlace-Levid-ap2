@@ -15,7 +15,8 @@ data class UserDto(
     val cellphone: String = "",
     @Json(name = "sex")
     val gender: String = "",
-    val appointmentDate: String? = null,
+    val appointmentDate: String? = "0001-01-01",
     val houseType: String = "",
-    val role: String = "User"
+    val role: String = "User",
+    val favoriteDogs: List<DogDto> = emptyList()
 )

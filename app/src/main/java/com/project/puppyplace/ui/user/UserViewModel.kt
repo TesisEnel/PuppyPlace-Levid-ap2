@@ -15,6 +15,7 @@ import com.project.puppyplace.data.repository.HomeRepository
 import com.project.puppyplace.data.repository.UserRepository
 import com.project.puppyplace.di.AppModule.sharedAppointment
 import com.project.puppyplace.di.AppModule.sharedDog
+import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.ui.adoption.AdoptionListState
 import com.project.puppyplace.util.Resource
@@ -66,30 +67,8 @@ class UserViewModel @Inject constructor(
             getAppoiment()
         }
     }
-
-    fun getUsers(){
-        viewModelScope.launch {
-            userRepository.getUsers().onEach { result ->
-                when (result) {
-                    is Resource.Loading -> {
-                        _state.value = UserListState(isLoading = true)
-                    }
-
-                    is Resource.Success -> {
-                        _state.value = UserListState(userList = result.data ?: emptyList())
-                        user = _state.value.userList[1]
-
-                    }
-
-                    is Resource.Error -> {
-                        _state.value = UserListState(error = result.message ?: "Unknown error")
-                    }
-                }
-            }.launchIn(viewModelScope)
-        }
-    }
     init {
-        getUsers()
+        user = userLoged!!
         getAppoiment()
     }
     fun BackHome(navController: NavController){
@@ -98,9 +77,12 @@ class UserViewModel @Inject constructor(
 
     fun logOut(navController: NavController) {
         FirebaseAuth.getInstance().signOut()
-
-        navController.popBackStack()
-        navController.navigate(Destination.login.route)
+        userLoged = null
+        navController.navigate(Destination.login.route) {
+            popUpTo(navController.graph.startDestinationRoute!!) {
+                inclusive = true
+            }
+        }
     }
 
     fun getAppoiment(){

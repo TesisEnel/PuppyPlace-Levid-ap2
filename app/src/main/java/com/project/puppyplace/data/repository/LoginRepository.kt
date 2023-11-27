@@ -25,4 +25,8 @@ class LoginRepository @Inject constructor(
             emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
         }
     }
+
+    suspend fun getUserById(id: Int) = puppyPlaceApi.getUsersById(id)
+    suspend fun existUserById(id: Int) = puppyPlaceApi.existUserById(id)
+    suspend fun getUserByEmail(email: String) = puppyPlaceApi.getUserByEmail(email)
 }

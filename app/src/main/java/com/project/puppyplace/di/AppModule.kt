@@ -3,6 +3,7 @@ package com.project.puppyplace.di
 import com.project.puppyplace.data.remote.PuppyPlaceAPI
 import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.data.remote.dto.DogDto
+import com.project.puppyplace.data.remote.dto.UserDto
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -18,6 +19,8 @@ import javax.inject.Singleton
 object AppModule {
     var sharedDog: DogDto? = null
     var sharedAppointment: AppointmentDto? = null
+    var userLoged: UserDto? = null
+
     @Provides
     @Singleton
     fun provideMoshi(): Moshi {

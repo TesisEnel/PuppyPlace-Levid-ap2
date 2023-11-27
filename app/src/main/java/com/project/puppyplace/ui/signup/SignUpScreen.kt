@@ -13,30 +13,37 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.ArtTrack
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.HomeWork
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.PhoneAndroid
-import androidx.compose.material.icons.filled.Transgender
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.navigation.Destination
@@ -44,26 +51,32 @@ import com.project.puppyplace.navigation.Destination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
+    viewModel: SignUpViewModel = hiltViewModel(),
     navController: NavController
 ){
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Image(
-            painter = painterResource(R.drawable.signup_background),
-            contentDescription = "Login background image",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillHeight
-        )
-        Column(
+    Scaffold(
+        snackbarHost = { viewModel.snackbarHostState },
+    ) {paddingValues ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment =  Alignment.Start,
-            verticalArrangement = Arrangement.Center
-        ) {
-            SignUpCard(navController)
+                .padding(paddingValues),
+            contentAlignment = Alignment.Center
+        ){
+            Image(
+                painter = painterResource(R.drawable.signup_background),
+                contentDescription = "Login background image",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillHeight
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment =  Alignment.Start,
+                verticalArrangement = Arrangement.Center
+            ) {
+                SignUpCard(viewModel, navController)
+            }
         }
 
     }
@@ -72,6 +85,7 @@ fun SignUpScreen(
 @ExperimentalMaterial3Api
 @Composable
 fun SignUpCard(
+    viewModel: SignUpViewModel,
     navController: NavController
 ){
     Column(
@@ -89,48 +103,36 @@ fun SignUpCard(
 
         ){
             SignUpTitle()
-            IdentificationNumberTextField()
+            IdentificationNumberTextField(viewModel = viewModel)
             Row {
                 Column(
                     modifier = Modifier.weight(1f)
                 ){
-                    NameTextField()
+                    NameTextField(viewModel = viewModel)
                 }
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    SurnameTextField()
+                    SurnameTextField(viewModel = viewModel)
                 }
             }
-            EmailTextField()
-            PasswordTextField()
-            AddressTextField()
+            EmailTextField(viewModel = viewModel)
+            PasswordTextField(viewModel = viewModel)
+            AddressTextField(viewModel = viewModel)
             Row {
                 Column(
                     modifier = Modifier.weight(1f)
                 ){
-                    TelephoneTextField()
+                    TelephoneTextField(viewModel = viewModel)
                 }
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    CellphoneTextField()
+                    CellphoneTextField(viewModel = viewModel)
                 }
             }
-            Row {
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    GenderTextField()
-                }
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    HouseTypeTextField()
-                }
-            }
-            SignUpButton()
-            AlreadyAnAccountTextField(navController)
+            SignUpButton(viewModel = viewModel, navController = navController)
+            AlreadyAnAccountTextField(viewModel = viewModel, navController)
         }
     }
 }
@@ -145,10 +147,10 @@ fun SignUpTitle(){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NameTextField(){
+fun NameTextField(viewModel: SignUpViewModel) {
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        value = viewModel.name,
+        onValueChange = { viewModel.onNameChange(it) },
         label = { Text(text = "First Name") },
         leadingIcon = {
             Icon(
@@ -156,17 +158,23 @@ fun NameTextField(){
                 contentDescription = "At icon"
             )
         },
+        isError = viewModel.nameError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
     )
+    Text(
+        text = viewModel.nameError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 8.dp)
+    )
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SurnameTextField(){
+fun SurnameTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        value = viewModel.surname,
+        onValueChange = { viewModel.onSurnameChange(it) },
         label = { Text(text = "Surname") },
         leadingIcon = {
             Icon(
@@ -174,17 +182,23 @@ fun SurnameTextField(){
                 contentDescription = "At icon"
             )
         },
+        isError = viewModel.surnameError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
     )
+    Text(text = viewModel.surnameError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 8.dp)
+    )
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IdentificationNumberTextField(){
+fun IdentificationNumberTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+        value = viewModel.identificationNumber,
+        onValueChange = { viewModel.onIdentificationNumberChange(it) },
         label = { Text(text = "Identification number") },
         leadingIcon = {
             Icon(
@@ -192,18 +206,23 @@ fun IdentificationNumberTextField(){
                 contentDescription = "At icon"
             )
         },
+        isError = viewModel.identificationNumberError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+    )
+    Text(text = viewModel.identificationNumberError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 8.dp)
     )
 }
 
 @ExperimentalMaterial3Api
 @Composable
-fun EmailTextField(){
+fun EmailTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        value = viewModel.email,
+        onValueChange = { viewModel.onEmailChange(it) },
         label = { Text(text = "Email") },
         leadingIcon = {
             Icon(
@@ -211,17 +230,24 @@ fun EmailTextField(){
                 contentDescription = "At icon"
             )
         },
+        isError = viewModel.emailError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
     )
+    Text(
+        text = viewModel.emailError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 8.dp)
+    )
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField(){
+fun PasswordTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+        value = viewModel.password,
+        onValueChange = { viewModel.onPasswordChange(it) },
         label = { Text(text = "Password") },
         leadingIcon = {
             Icon(
@@ -229,18 +255,36 @@ fun PasswordTextField(){
                 contentDescription = "Password icon"
             )
         },
+        trailingIcon = {
+            IconButton(onClick = { viewModel.onHidePasswordPressed() }) {
+                Icon(
+                    imageVector =  if(viewModel.hidePassword) Icons.Filled.Remove
+                    else Icons.Filled.RemoveRedEye,
+                    contentDescription = "Password icon"
+                )
+            }
+        },
+        isError = viewModel.passwordError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        maxLines = 1
+        maxLines = 1,
+       visualTransformation =
+       if(viewModel.hidePassword) PasswordVisualTransformation()
+       else VisualTransformation.None
+    )
+    Text(
+        text = viewModel.passwordError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 8.dp)
     )
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddressTextField(){
+fun AddressTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        value = viewModel.address,
+        onValueChange = { viewModel.onAddressChange(it) },
         label = { Text(text = "Address") },
         leadingIcon = {
             Icon(
@@ -248,19 +292,26 @@ fun AddressTextField(){
                 contentDescription = "Address icon"
             )
         },
+        isError = viewModel.addressError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         maxLines = 1
     )
+    Text(
+        text = viewModel.addressError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 8.dp)
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TelephoneTextField(){
+fun TelephoneTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+        value = viewModel.telephone,
+        onValueChange = { viewModel.onTelephoneChange(it) },
         label = { Text(text = "Telephone") },
         leadingIcon = {
             Icon(
@@ -268,18 +319,25 @@ fun TelephoneTextField(){
                 contentDescription = "Telephone icon"
             )
         },
+        isError = viewModel.telephoneError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         maxLines = 1
     )
+    Text(
+        text = viewModel.telephoneError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 8.dp)
+    )
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CellphoneTextField(){
+fun CellphoneTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+        value = viewModel.cellphone,
+        onValueChange = { viewModel.onCellphoneChange(it) },
         label = { Text(text = "Cellphone") },
         leadingIcon = {
             Icon(
@@ -287,54 +345,60 @@ fun CellphoneTextField(){
                 contentDescription = "Cellphone icon"
             )
         },
+        isError = viewModel.cellphoneError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         maxLines = 1
+    )
+    Text(
+        text = viewModel.cellphoneError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 8.dp)
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun GenderTextField(){
-    OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
-        label = { Text(text = "Gender") },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Transgender,
-                contentDescription = "Sex icon"
-            )
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        maxLines = 1
-    )
-}
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun GenderTextField(){
+//    OutlinedTextField(
+//        value = "",
+//        onValueChange = { TODO() },
+//        label = { Text(text = "Gender") },
+//        leadingIcon = {
+//            Icon(
+//                imageVector = Icons.Filled.Transgender,
+//                contentDescription = "Sex icon"
+//            )
+//        },
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(8.dp),
+//        maxLines = 1
+//    )
+//}
 
-@OptIn(ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun HouseTypeTextField(){
+//    OutlinedTextField(
+//        value = "",
+//        onValueChange = { TODO() },
+//        label = { Text(text = "House type") },
+//        leadingIcon = {
+//            Icon(
+//                imageVector = Icons.Filled.HomeWork,
+//                contentDescription = "House icon"
+//            )
+//        },
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(8.dp),
+//        maxLines = 1
+//    )
+//}
 @Composable
-fun HouseTypeTextField(){
-    OutlinedTextField(
-        value = "",
-        onValueChange = { TODO() },
-        label = { Text(text = "House type") },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.HomeWork,
-                contentDescription = "House icon"
-            )
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        maxLines = 1
-    )
-}
-@Composable
-fun SignUpButton(){
+fun SignUpButton(viewModel: SignUpViewModel, navController: NavController){
     Box(
         modifier = Modifier.fillMaxWidth()
     ){
@@ -342,7 +406,7 @@ fun SignUpButton(){
             modifier = Modifier
                 .padding(8.dp)
                 .align(Alignment.Center),
-            onClick = { /*TODO*/ }
+            onClick = { viewModel.onSignUpClick(navController = navController) }
         ) {
             Text(
                 text = "Sign Up",
@@ -354,6 +418,7 @@ fun SignUpButton(){
 
 @Composable
 fun AlreadyAnAccountTextField(
+    viewModel: SignUpViewModel,
     navController: NavController
 ){
     Box(

@@ -119,7 +119,7 @@ fun LoginTitle(){
 fun EmailTextField(viewModel: LoginViewModel){
     OutlinedTextField(
         value = viewModel.email,
-        onValueChange = { viewModel.email = it },
+        onValueChange = { viewModel.onEmailChange(it)},
         label = { Text(text = "Email") },
         leadingIcon = {
             Icon(
@@ -131,7 +131,11 @@ fun EmailTextField(viewModel: LoginViewModel){
             .fillMaxWidth()
             .padding(8.dp)
     )
-    Text(text = viewModel.emailMessage, color = MaterialTheme.colorScheme.error)
+    Text(
+        text = viewModel.emailError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 16.dp)
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -140,7 +144,7 @@ fun PasswordTextField(viewModel: LoginViewModel){
     OutlinedTextField(
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
         value = viewModel.password,
-        onValueChange = { viewModel.password = it },
+        onValueChange = { viewModel.onPasswordChange(it) },
         label = { Text(text = "Password") },
         leadingIcon = {
             Icon(
@@ -163,7 +167,11 @@ fun PasswordTextField(viewModel: LoginViewModel){
         maxLines = 1,
         visualTransformation = if(viewModel.hidePassword) PasswordVisualTransformation() else VisualTransformation.None
     )
-    Text(text = viewModel.passwordMessage, color = MaterialTheme.colorScheme.error)
+    Text(
+        text = viewModel.passwordError,
+        color = MaterialTheme.colorScheme.error,
+        modifier = Modifier.padding(start = 16.dp)
+    )
 }
 
 @Composable
