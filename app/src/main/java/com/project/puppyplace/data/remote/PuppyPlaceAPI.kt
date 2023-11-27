@@ -42,4 +42,6 @@ interface PuppyPlaceAPI {
     suspend fun getUsers(): List<UserDto>
     @GET("api/Users/{id}")
     suspend fun getUsersById(@Path("id")id: Int): UserDto
+    @GET("api/Users/auth/{email}")
+    suspend fun getUserByEmail(@Path("email")email: String): UserDto
 }
