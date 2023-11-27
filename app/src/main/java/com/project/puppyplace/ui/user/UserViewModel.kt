@@ -77,9 +77,12 @@ class UserViewModel @Inject constructor(
 
     fun logOut(navController: NavController) {
         FirebaseAuth.getInstance().signOut()
-
-        navController.popBackStack()
-        navController.navigate(Destination.login.route)
+        userLoged = null
+        navController.navigate(Destination.login.route) {
+            popUpTo(navController.graph.startDestinationRoute!!) {
+                inclusive = true
+            }
+        }
     }
 
     fun getAppoiment(){
