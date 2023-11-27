@@ -41,7 +41,11 @@ class LoginViewModel @Inject constructor(
                     if(it.isSuccessful){
                         userLoged = user
                         Log.d("LOGIN", "Successful")
-                        navController.navigate(Destination.home.route)
+                        navController.navigate(Destination.home.route){
+                            popUpTo(navController.graph.startDestinationRoute!!) {
+                                inclusive = true
+                            }
+                        }
                     }else{
                         Log.d("LOGIN", "Failed")
                     }
