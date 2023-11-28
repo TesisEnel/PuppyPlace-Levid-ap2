@@ -33,6 +33,8 @@ class HomeViewModel @Inject constructor(
 
     var searchItem by mutableStateOf("")
 
+    var isLoadig by mutableStateOf(false)
+
     fun isMale(dog:DogDto): Boolean{
         return dog.gender == "Male"
     }

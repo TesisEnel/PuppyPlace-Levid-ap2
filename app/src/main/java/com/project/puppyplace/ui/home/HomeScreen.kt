@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,6 +36,7 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -76,12 +78,16 @@ fun HomeScreen(
             BottomBar(navController, viewModel)
         }
     ) {paddingValues ->
-        HomeScreenContent(
-            state.value.dogsList,
-            navController,
-            viewModel,
-            paddingValues
-        )
+        if(state.value.isLoading){
+            LoadingIndicator()
+        }else{
+            HomeScreenContent(
+                state.value.dogsList,
+                navController,
+                viewModel,
+                paddingValues
+            )
+        }
     }
 
 }
@@ -409,5 +415,15 @@ fun BottomBar(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun LoadingIndicator(){
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
     }
 }
