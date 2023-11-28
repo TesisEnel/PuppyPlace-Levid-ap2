@@ -10,8 +10,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.data.remote.dto.DogDto
+import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.data.repository.HomeRepository
 import com.project.puppyplace.di.AppModule.sharedDog
+import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,31 +38,54 @@ class HomeViewModel @Inject constructor(
     fun isMale(dog:DogDto): Boolean{
         return dog.gender == "Male"
     }
-    fun onLikedClicked(dog: DogDto, isLiked: Boolean){
+
+    fun onLikedClicked(dog: DogDto, isLiked:Boolean){
+        val favDogs = userLoged!!.favoriteDogs
+        favDogs.add(dog)
+        userLoged!!.favoriteDogs = favDogs
         viewModelScope.launch {
-            homeRepository.updateDog(
-                DogDto(
-                    id = dog.id,
-                    name = dog.name,
-                    breed = dog.breed,
-                    size = dog.size,
-                    weight = dog.weight,
-                    gender = dog.gender,
-                    birthDate = dog.birthDate,
-                    hairColor = dog.hairColor,
-                    isSterilized = dog.isSterilized,
-                    behaviour = dog.behaviour,
-                    activityLevel = dog.activityLevel,
-                    origin = dog.origin,
-                    image = dog.image,
-                    age = dog.age,
-                    isLiked = isLiked,
-                    status = dog.status,
-                    description = dog.description
+            homeRepository.updateUser(
+                UserDto(
+                    id = userLoged!!.id,
+                    name = userLoged!!.name,
+                    surname = userLoged!!.surname,
+                    identificationNumber = userLoged!!.identificationNumber,
+                    address = userLoged!!.address,
+                    email = userLoged!!.email,
+                    password = userLoged!!.password,
+                    telephone = userLoged!!.telephone,
+                    cellphone = userLoged!!.cellphone,
+                    favoriteDogs = favDogs
                 )
             )
         }
     }
+
+//    fun onLikedClicked(dog: DogDto, isLiked: Boolean){
+//        viewModelScope.launch {
+//            homeRepository.updateDog(
+//                DogDto(
+//                    id = dog.id,
+//                    name = dog.name,
+//                    breed = dog.breed,
+//                    size = dog.size,
+//                    weight = dog.weight,
+//                    gender = dog.gender,
+//                    birthDate = dog.birthDate,
+//                    hairColor = dog.hairColor,
+//                    isSterilized = dog.isSterilized,
+//                    behaviour = dog.behaviour,
+//                    activityLevel = dog.activityLevel,
+//                    origin = dog.origin,
+//                    image = dog.image,
+//                    age = dog.age,
+//                    isLiked = isLiked,
+//                    status = dog.status,
+//                    description = dog.description
+//                )
+//            )
+//        }
+//    }
     fun onPetsPressed(context: Context){
         val effectsList = listOf(
             R.raw.dog_bark,

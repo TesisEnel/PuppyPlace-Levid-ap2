@@ -46,6 +46,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.project.puppyplace.data.remote.dto.DogDto
+import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 
 
@@ -88,7 +89,7 @@ fun LikeList(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(dogs.size){ index ->
+        items(userLoged!!.favoriteDogs.size){ index ->
             DogItem(
                 dog = dogs[index],
                 navController = navController,

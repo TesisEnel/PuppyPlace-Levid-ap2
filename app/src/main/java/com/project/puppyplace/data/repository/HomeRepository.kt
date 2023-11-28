@@ -2,6 +2,7 @@ package com.project.puppyplace.data.repository
 
 import com.project.puppyplace.data.remote.PuppyPlaceAPI
 import com.project.puppyplace.data.remote.dto.DogDto
+import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -80,18 +81,6 @@ class HomeRepository @Inject constructor(
     suspend fun updateDog(dog: DogDto) = puppyPlaceApi.updateDog(dog.id, dog)
 
     suspend fun getDogById(id: Int) = puppyPlaceApi.getDogById(id)
-//
-//    fun getDogById(id: Int): Flow<Resource<DogDto>> = flow {
-//        try {
-//            emit(Resource.Loading())
-//
-//            val dog = puppyPlaceApi.getDogById(id)
-//
-//            emit(Resource.Success(dog))
-//        } catch (e: HttpException) {
-//            emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
-//        } catch (e: IOException) {
-//            emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
-//        }
-//    }
+
+    suspend fun updateUser(user: UserDto) = puppyPlaceApi.updateUser(user.id, user)
 }
