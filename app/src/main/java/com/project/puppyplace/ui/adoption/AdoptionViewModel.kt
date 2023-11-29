@@ -11,6 +11,7 @@ import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.AdoptionRepository
 import com.project.puppyplace.di.AppModule.sharedAppointment
 import com.project.puppyplace.di.AppModule.sharedDog
+import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -197,5 +198,12 @@ class AdoptionViewModel @Inject constructor(
     }
     init{
         onModify()
+        userName = userLoged!!.name
+        userSurname = userLoged!!.surname
+        identificationNumber = userLoged!!.identificationNumber
+        telephone = userLoged!!.telephone
+        cellphone = userLoged!!.cellphone
+        email = userLoged!!.email
+        address = userLoged!!.address
     }
 }

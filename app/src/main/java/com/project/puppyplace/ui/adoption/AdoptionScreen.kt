@@ -251,6 +251,7 @@ fun UserNameField(viewModel: AdoptionViewModel) {
             )
         },
         maxLines = 1,
+        readOnly = true,
         modifier = Modifier.fillMaxWidth()
     )
     Text(text = viewModel.userNameError, color = MaterialTheme.colorScheme.error)
@@ -268,7 +269,8 @@ fun SurnameField(viewModel: AdoptionViewModel) {
                 contentDescription = "Person name"
             )
         },
-        maxLines = 1
+        maxLines = 1,
+        readOnly = true
     )
     Text(text = viewModel.userSurnameError, color = MaterialTheme.colorScheme.error)
 }
@@ -288,7 +290,8 @@ fun IdentificationNumberField(viewModel: AdoptionViewModel){
             )
         },
         maxLines = 1,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        readOnly = true
     )
     Text(text = viewModel.identificationNumberError, color = MaterialTheme.colorScheme.error)
 }
@@ -308,7 +311,8 @@ fun AddressField(viewModel: AdoptionViewModel){
             )
         },
         maxLines = 1,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        readOnly = true
     )
     Text(text = viewModel.addressError, color = MaterialTheme.colorScheme.error)
 }
@@ -327,7 +331,8 @@ fun TelephoneField(viewModel: AdoptionViewModel){
                 contentDescription = "Telephone icon"
             )
         },
-        maxLines = 1
+        maxLines = 1,
+        readOnly = true
     )
     Text(text = viewModel.telephoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -345,7 +350,8 @@ fun CellphoneField(viewModel: AdoptionViewModel) {
                 contentDescription = "Cellphone icon"
             )
         },
-        maxLines = 1
+        maxLines = 1,
+        readOnly = true
     )
     Text(text = viewModel.cellphoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -364,7 +370,8 @@ fun EmailField(viewModel: AdoptionViewModel) {
             )
         },
         maxLines = 1,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        readOnly = true
     )
     Text(text = viewModel.emailError, color = MaterialTheme.colorScheme.error)
 }
