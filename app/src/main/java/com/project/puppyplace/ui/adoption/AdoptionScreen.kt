@@ -52,8 +52,10 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.navigation.Destination
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -204,12 +206,17 @@ fun DateField(viewModel: AdoptionViewModel) {
     val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
     calendar.time = Date()
 
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
     val date = remember { mutableStateOf("") }
+
     val datePickerDialog = DatePickerDialog(
         LocalContext.current,
         { _: DatePicker, yearPicked: Int, monthPicked: Int, dayOfMonth: Int ->
-            date.value = "$yearPicked-${monthPicked + 1}-$day"
-            viewModel.date = date.value
+            calendar.set(yearPicked, monthPicked, dayOfMonth)
+            val formattedDate = dateFormat.format(calendar.time)
+            date.value = formattedDate
+            viewModel.date = formattedDate
         }, year, month, day
     )
 
@@ -251,6 +258,7 @@ fun UserNameField(viewModel: AdoptionViewModel) {
             )
         },
         maxLines = 1,
+        readOnly = true,
         modifier = Modifier.fillMaxWidth()
     )
     Text(text = viewModel.userNameError, color = MaterialTheme.colorScheme.error)
@@ -268,7 +276,8 @@ fun SurnameField(viewModel: AdoptionViewModel) {
                 contentDescription = "Person name"
             )
         },
-        maxLines = 1
+        maxLines = 1,
+        readOnly = true
     )
     Text(text = viewModel.userSurnameError, color = MaterialTheme.colorScheme.error)
 }
@@ -288,7 +297,8 @@ fun IdentificationNumberField(viewModel: AdoptionViewModel){
             )
         },
         maxLines = 1,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        readOnly = true
     )
     Text(text = viewModel.identificationNumberError, color = MaterialTheme.colorScheme.error)
 }
@@ -308,7 +318,8 @@ fun AddressField(viewModel: AdoptionViewModel){
             )
         },
         maxLines = 1,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        readOnly = true
     )
     Text(text = viewModel.addressError, color = MaterialTheme.colorScheme.error)
 }
@@ -327,7 +338,8 @@ fun TelephoneField(viewModel: AdoptionViewModel){
                 contentDescription = "Telephone icon"
             )
         },
-        maxLines = 1
+        maxLines = 1,
+        readOnly = true
     )
     Text(text = viewModel.telephoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -345,7 +357,8 @@ fun CellphoneField(viewModel: AdoptionViewModel) {
                 contentDescription = "Cellphone icon"
             )
         },
-        maxLines = 1
+        maxLines = 1,
+        readOnly = true
     )
     Text(text = viewModel.cellphoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -364,7 +377,8 @@ fun EmailField(viewModel: AdoptionViewModel) {
             )
         },
         maxLines = 1,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        readOnly = true
     )
     Text(text = viewModel.emailError, color = MaterialTheme.colorScheme.error)
 }

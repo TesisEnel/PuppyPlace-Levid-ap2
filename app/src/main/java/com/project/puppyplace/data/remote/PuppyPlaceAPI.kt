@@ -37,6 +37,10 @@ interface PuppyPlaceAPI {
     suspend fun deleteAppointment(@Path("id")id: Int): AppointmentDto
     @GET("api/Appointment/{id}")
     suspend fun getAppointmentById(@Path("id")id: Int): AppointmentDto
+    @GET("api/Appointment/{email}")
+    suspend fun getUserAppointments(@Path("email")email: String): List<AppointmentDto>
+    @PUT("api/Appointment/{id}")
+    suspend fun updateAppointment(@Path("id")id: Int, @Body appointment: AppointmentDto): AppointmentDto
 
     //User
     @GET("api/Users")
@@ -51,7 +55,6 @@ interface PuppyPlaceAPI {
     suspend fun createUser(@Body user: UserDto): UserDto
     @PUT("api/Users/{id}")
     suspend fun updateUser(@Path("id") id: Int, @Body user: UserDto, @Query("dogId") dogId: Int): UserDto
-
     @GET("api/Users/FavoriteDogs/{userId}")
     suspend fun getFavoritesByUserId(@Path("userId") id: Int): List<DogDto>
 }

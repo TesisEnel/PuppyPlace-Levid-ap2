@@ -11,6 +11,7 @@ import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.AdoptionRepository
 import com.project.puppyplace.di.AppModule.sharedAppointment
 import com.project.puppyplace.di.AppModule.sharedDog
+import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -45,25 +46,45 @@ class AdoptionViewModel @Inject constructor(
 
     fun onBackPressed(navController: NavController){
         navController.popBackStack()
+        sharedAppointment = null
     }
     fun onAdoptClick(navController: NavController){
         viewModelScope.launch {
             if(isValid()){
-                adoptionRepository.createAppointment(
-                    AppointmentDto(
-                        dogId = dog.id,
-                        date = date,
-                        userName = userName,
-                        userSurname = userSurname,
-                        identificationNumber = identificationNumber,
-                        telephone = telephone,
-                        cellphone = cellphone,
-                        email = email,
-                        address = address
+                if(sharedAppointment != null){
+                    adoptionRepository.updateAppointment(
+                        AppointmentDto(
+                            id = sharedAppointment!!.id,
+                            dogId = sharedDog!!.id,
+                            date = date,
+                            userName = sharedAppointment!!.userName,
+                            userSurname = sharedAppointment!!.userSurname,
+                            identificationNumber = sharedAppointment!!.identificationNumber,
+                            telephone = sharedAppointment!!.telephone,
+                            cellphone = sharedAppointment!!.cellphone,
+                            email = sharedAppointment!!.email,
+                            address = sharedAppointment!!.address
+                        )
                     )
-                )
+                }
+                else{
+                    adoptionRepository.createAppointment(
+                        AppointmentDto(
+                            dogId = dog.id,
+                            date = date,
+                            userName = userName,
+                            userSurname = userSurname,
+                            identificationNumber = identificationNumber,
+                            telephone = telephone,
+                            cellphone = cellphone,
+                            email = email,
+                            address = address
+                        )
+                    )
+                }
             }
         }
+        sharedAppointment = null
         showDialog = false
         navController.navigate(Destination.user.route)
     }
@@ -193,6 +214,13 @@ class AdoptionViewModel @Inject constructor(
         }
         else{
             dog = sharedDog!!
+            userName = userLoged!!.name
+            userSurname = userLoged!!.surname
+            identificationNumber = userLoged!!.identificationNumber
+            telephone = userLoged!!.telephone
+            cellphone = userLoged!!.cellphone
+            email = userLoged!!.email
+            address = userLoged!!.address
         }
     }
     init{

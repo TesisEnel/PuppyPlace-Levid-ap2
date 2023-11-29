@@ -25,7 +25,23 @@ class AdoptionRepository @Inject constructor(
             emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
         }
     }
+    fun getUserAppointments(email: String): Flow<Resource<List<AppointmentDto>>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val appointments = puppyPlaceApi.getUserAppointments(email)
+
+            emit(Resource.Success(appointments))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message ?: "Error HTTP GENERAL"))
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
+        }
+    }
 
     suspend fun createAppointment(appointmentDto: AppointmentDto) =
         puppyPlaceApi.createAppointment(appointmentDto)
+
+    suspend fun updateAppointment(appointmentDto: AppointmentDto) =
+        puppyPlaceApi.updateAppointment(appointmentDto.id, appointmentDto)
 }
