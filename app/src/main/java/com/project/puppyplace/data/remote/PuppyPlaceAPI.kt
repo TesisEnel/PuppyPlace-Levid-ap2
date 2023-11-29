@@ -9,6 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PuppyPlaceAPI {
     @GET("api/Dogs")
@@ -49,5 +50,8 @@ interface PuppyPlaceAPI {
     @POST("api/Users")
     suspend fun createUser(@Body user: UserDto): UserDto
     @PUT("api/Users/{id}")
-    suspend fun updateUser(@Path("id")id:Int, @Body user: UserDto): UserDto
+    suspend fun updateUser(@Path("id") id: Int, @Body user: UserDto, @Query("dogId") dogId: Int): UserDto
+
+    @GET("api/Users/FavoriteDogs/{userId}")
+    suspend fun getFavoritesByUserId(@Path("userId") id: Int): List<DogDto>
 }

@@ -82,5 +82,6 @@ class HomeRepository @Inject constructor(
 
     suspend fun getDogById(id: Int) = puppyPlaceApi.getDogById(id)
 
-    suspend fun updateUser(user: UserDto) = puppyPlaceApi.updateUser(user.id, user)
+    suspend fun updateUser(user: UserDto, dogId: Int) = puppyPlaceApi.updateUser(user.id, user, dogId )
+    suspend fun getUserById(id: Int) = puppyPlaceApi.getUsersById(id)
 }

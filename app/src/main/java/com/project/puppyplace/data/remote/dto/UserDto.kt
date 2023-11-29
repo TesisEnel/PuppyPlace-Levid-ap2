@@ -18,5 +18,6 @@ data class UserDto(
     val appointmentDate: String? = "0001-01-01",
     val houseType: String = "",
     val role: String = "User",
-    var favoriteDogs: MutableList<DogDto> = mutableListOf()
+    @Json(name = "userFavoriteDogs")
+    var favoriteDogs: MutableList<FavoriteDogsDto> = mutableListOf()
 )

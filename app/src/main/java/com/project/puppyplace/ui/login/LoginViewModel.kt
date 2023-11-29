@@ -5,13 +5,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.data.repository.LoginRepository
 import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
+import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -20,6 +26,10 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ): ViewModel(){
+
+    private var _state = MutableStateFlow(LoginListState())
+    val state: StateFlow<LoginListState> = _state.asStateFlow()
+
     var email by mutableStateOf("")
     var password by mutableStateOf("")
     var user by mutableStateOf(UserDto())
@@ -40,6 +50,7 @@ class LoginViewModel @Inject constructor(
                 .addOnCompleteListener{
                     if(it.isSuccessful){
                         userLoged = user
+                        loadUserFavorites(userLoged!!.id)
                         Log.d("LOGIN", "Successful")
                         navController.navigate(Destination.home.route){
                             popUpTo(navController.graph.startDestinationRoute!!) {
@@ -55,6 +66,30 @@ class LoginViewModel @Inject constructor(
             Log.d("LOGIN", "Invalid data")
         }
     }
+    fun loadUserFavorites(userId: Int){
+        viewModelScope.launch {
+            loginRepository.getUsersFavoritesDogs(userId).collect { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(isLoading = true)
+                    }
+                    is Resource.Success -> {
+                        _state.value = _state.value.copy(
+                            isLoading = false,
+                            dogsList = resource.data ?: emptyList()
+                        )
+                    }
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(
+                            isLoading = false,
+                            error = resource.message ?: "Unknown error"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
 
 
 

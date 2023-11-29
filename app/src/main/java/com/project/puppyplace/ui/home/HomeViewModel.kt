@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.data.remote.dto.DogDto
-import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.data.repository.HomeRepository
 import com.project.puppyplace.di.AppModule.sharedDog
 import com.project.puppyplace.di.AppModule.userLoged
@@ -39,29 +38,15 @@ class HomeViewModel @Inject constructor(
         return dog.gender == "Male"
     }
 
-    fun onLikedClicked(dog: DogDto, isLiked:Boolean){
-        val favDogs = userLoged!!.favoriteDogs
-        favDogs.add(dog)
-        userLoged!!.favoriteDogs = favDogs
+    fun onLikedClicked(dog: DogDto, isLiked: Boolean) {
         viewModelScope.launch {
-            homeRepository.updateUser(
-                UserDto(
-                    id = userLoged!!.id,
-                    name = userLoged!!.name,
-                    surname = userLoged!!.surname,
-                    identificationNumber = userLoged!!.identificationNumber,
-                    address = userLoged!!.address,
-                    email = userLoged!!.email,
-                    password = userLoged!!.password,
-                    telephone = userLoged!!.telephone,
-                    cellphone = userLoged!!.cellphone,
-                    favoriteDogs = favDogs
-                )
-            )
+            homeRepository.updateUser(userLoged!!, dog.id)
         }
     }
 
-//    fun onLikedClicked(dog: DogDto, isLiked: Boolean){
+
+
+    //    fun onLikedClicked(dog: DogDto, isLiked: Boolean){
 //        viewModelScope.launch {
 //            homeRepository.updateDog(
 //                DogDto(
