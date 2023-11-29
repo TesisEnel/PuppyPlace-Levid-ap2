@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.HomeRepository
+import com.project.puppyplace.di.AppModule
 import com.project.puppyplace.di.AppModule.sharedDog
+import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +32,7 @@ class LikeViewModel @Inject constructor(
     }
     private fun getFavoriteDogs(){
         viewModelScope.launch {
-            homeRepository.getFavorites().onEach { result ->
+            homeRepository.getFavoritesByUserId(userLoged!!.id).onEach { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _state.value = LikeListState(isLoading = true)
@@ -55,29 +57,9 @@ class LikeViewModel @Inject constructor(
     fun isMale(dog:DogDto): Boolean{
         return dog.gender == "Male"
     }
-    fun onLikedClicked(dog: DogDto, isLiked: Boolean){
+    fun onLikedClicked(dog: DogDto, isLiked: Boolean) {
         viewModelScope.launch {
-            homeRepository.updateDog(
-                DogDto(
-                    id = dog.id,
-                    name = dog.name,
-                    breed = dog.breed,
-                    size = dog.size,
-                    weight = dog.weight,
-                    gender = dog.gender,
-                    birthDate = dog.birthDate,
-                    hairColor = dog.hairColor,
-                    isSterilized = dog.isSterilized,
-                    behaviour = dog.behaviour,
-                    activityLevel = dog.activityLevel,
-                    origin = dog.origin,
-                    image = dog.image,
-                    age = dog.age,
-                    isLiked = isLiked,
-                    status = dog.status,
-                    description = dog.description
-                )
-            )
+            homeRepository.updateUser(AppModule.userLoged!!, dog.id)
         }
     }
     fun onHomeSelected(navController: NavController){

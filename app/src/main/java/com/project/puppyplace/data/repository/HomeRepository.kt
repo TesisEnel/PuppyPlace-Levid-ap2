@@ -65,11 +65,11 @@ class HomeRepository @Inject constructor(
             emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
         }
     }
-    fun getFavorites(): Flow<Resource<List<DogDto>>> = flow {
+    fun getFavoritesByUserId(userId: Int): Flow<Resource<List<DogDto>>> = flow {
         try {
             emit(Resource.Loading())
 
-            val dogs = puppyPlaceApi.getFavorites()
+            val dogs = puppyPlaceApi.getFavoritesByUserId(userId)
 
             emit(Resource.Success(dogs))
         } catch (e: HttpException) {
