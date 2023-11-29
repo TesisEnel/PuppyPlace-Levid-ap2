@@ -46,16 +46,16 @@ class UserViewModel @Inject constructor(
 
     var dog by mutableStateOf(DogDto())
 
-    fun getDogFromAppointment(id: Int){
-        viewModelScope.launch {
-            dog = homeRepository.getDogById(id)
-        }
-    }
     fun onModifyPressed(navController: NavController, appointmentDto: AppointmentDto){
-        getDogFromAppointment(appointmentDto.dogId)
-        sharedDog = dog
-        sharedAppointment = appointmentDto
-        navController.navigate(Destination.adoption.route)
+        viewModelScope.launch {
+            val deferred = async {
+                dog = homeRepository.getDogById(appointmentDto.dogId)
+            }
+            deferred.await()
+            sharedDog = dog
+            sharedAppointment = appointmentDto
+            navController.navigate(Destination.adoption.route)
+        }
     }
 
     fun deleteAppointment(id: Int) {

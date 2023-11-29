@@ -53,7 +53,6 @@ interface PuppyPlaceAPI {
     suspend fun createUser(@Body user: UserDto): UserDto
     @PUT("api/Users/{id}")
     suspend fun updateUser(@Path("id") id: Int, @Body user: UserDto, @Query("dogId") dogId: Int): UserDto
-
     @GET("api/Users/FavoriteDogs/{userId}")
     suspend fun getFavoritesByUserId(@Path("userId") id: Int): List<DogDto>
 }
