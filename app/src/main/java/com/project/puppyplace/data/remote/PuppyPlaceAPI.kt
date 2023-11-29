@@ -37,6 +37,8 @@ interface PuppyPlaceAPI {
     suspend fun deleteAppointment(@Path("id")id: Int): AppointmentDto
     @GET("api/Appointment/{id}")
     suspend fun getAppointmentById(@Path("id")id: Int): AppointmentDto
+    @GET("api/Appointment/{email}")
+    suspend fun getUserAppointments(@Path("email")email: String): List<AppointmentDto>
 
     //User
     @GET("api/Users")

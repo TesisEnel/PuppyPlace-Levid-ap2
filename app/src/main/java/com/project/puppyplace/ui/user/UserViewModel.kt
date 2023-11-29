@@ -64,12 +64,12 @@ class UserViewModel @Inject constructor(
                 userRepository.deleteAppointment(id)
             }
             deferred.await()
-            getAppoiment()
+            getUserAppointments()
         }
     }
     init {
         user = userLoged!!
-        getAppoiment()
+        getUserAppointments()
     }
     fun BackHome(navController: NavController){
         navController.navigate(Destination.home.route)
@@ -85,20 +85,17 @@ class UserViewModel @Inject constructor(
         }
 
     }
-
-    fun getAppoiment(){
+    private fun getUserAppointments(){
         viewModelScope.launch {
-            adoptionRepository.getAppointments().onEach { result ->
-                when (result) {
-                    is Resource.Loading -> {
+            adoptionRepository.getUserAppointments(userLoged!!.email).onEach { result ->
+                when(result){
+                    is Resource.Loading ->{
                         _stateAdoption.value = AdoptionListState(isLoading = true)
                     }
-
-                    is Resource.Success -> {
+                    is Resource.Success ->{
                         _stateAdoption.value = AdoptionListState(adoptionList = result.data ?: emptyList())
                     }
-
-                    is Resource.Error -> {
+                    is Resource.Error ->{
                         _stateAdoption.value = AdoptionListState(error = result.message ?: "Unknown error")
                     }
                 }
