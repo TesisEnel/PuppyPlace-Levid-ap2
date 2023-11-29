@@ -52,8 +52,10 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.navigation.Destination
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -204,12 +206,17 @@ fun DateField(viewModel: AdoptionViewModel) {
     val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
     calendar.time = Date()
 
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
     val date = remember { mutableStateOf("") }
+
     val datePickerDialog = DatePickerDialog(
         LocalContext.current,
         { _: DatePicker, yearPicked: Int, monthPicked: Int, dayOfMonth: Int ->
-            date.value = "$yearPicked-${monthPicked + 1}-$day"
-            viewModel.date = date.value
+            calendar.set(yearPicked, monthPicked, dayOfMonth)
+            val formattedDate = dateFormat.format(calendar.time)
+            date.value = formattedDate
+            viewModel.date = formattedDate
         }, year, month, day
     )
 
