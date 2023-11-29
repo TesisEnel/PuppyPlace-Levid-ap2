@@ -32,7 +32,7 @@ object AppModule {
     @Singleton
     fun providePuppyPlaceAPI(moshi: Moshi): PuppyPlaceAPI {
         return Retrofit.Builder()
-            .baseUrl("https://api-puppyplace.azurewebsites.net/")
+            .baseUrl("https://puppyplace-api.azurewebsites.net/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(PuppyPlaceAPI::class.java)
