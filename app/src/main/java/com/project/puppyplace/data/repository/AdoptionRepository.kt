@@ -41,4 +41,7 @@ class AdoptionRepository @Inject constructor(
 
     suspend fun createAppointment(appointmentDto: AppointmentDto) =
         puppyPlaceApi.createAppointment(appointmentDto)
+
+    suspend fun updateAppointment(appointmentDto: AppointmentDto) =
+        puppyPlaceApi.updateAppointment(appointmentDto.id, appointmentDto)
 }

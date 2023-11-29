@@ -51,21 +51,40 @@ class AdoptionViewModel @Inject constructor(
     fun onAdoptClick(navController: NavController){
         viewModelScope.launch {
             if(isValid()){
-                adoptionRepository.createAppointment(
-                    AppointmentDto(
-                        dogId = dog.id,
-                        date = date,
-                        userName = userName,
-                        userSurname = userSurname,
-                        identificationNumber = identificationNumber,
-                        telephone = telephone,
-                        cellphone = cellphone,
-                        email = email,
-                        address = address
+                if(sharedAppointment != null){
+                    adoptionRepository.updateAppointment(
+                        AppointmentDto(
+                            id = sharedAppointment!!.id,
+                            dogId = sharedDog!!.id,
+                            date = date,
+                            userName = sharedAppointment!!.userName,
+                            userSurname = sharedAppointment!!.userSurname,
+                            identificationNumber = sharedAppointment!!.identificationNumber,
+                            telephone = sharedAppointment!!.telephone,
+                            cellphone = sharedAppointment!!.cellphone,
+                            email = sharedAppointment!!.email,
+                            address = sharedAppointment!!.address
+                        )
                     )
-                )
+                }
+                else{
+                    adoptionRepository.createAppointment(
+                        AppointmentDto(
+                            dogId = dog.id,
+                            date = date,
+                            userName = userName,
+                            userSurname = userSurname,
+                            identificationNumber = identificationNumber,
+                            telephone = telephone,
+                            cellphone = cellphone,
+                            email = email,
+                            address = address
+                        )
+                    )
+                }
             }
         }
+        sharedAppointment = null
         showDialog = false
         navController.navigate(Destination.user.route)
     }
