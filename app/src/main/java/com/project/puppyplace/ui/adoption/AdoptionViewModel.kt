@@ -46,6 +46,7 @@ class AdoptionViewModel @Inject constructor(
 
     fun onBackPressed(navController: NavController){
         navController.popBackStack()
+        sharedAppointment = null
     }
     fun onAdoptClick(navController: NavController){
         viewModelScope.launch {
@@ -194,16 +195,16 @@ class AdoptionViewModel @Inject constructor(
         }
         else{
             dog = sharedDog!!
+            userName = userLoged!!.name
+            userSurname = userLoged!!.surname
+            identificationNumber = userLoged!!.identificationNumber
+            telephone = userLoged!!.telephone
+            cellphone = userLoged!!.cellphone
+            email = userLoged!!.email
+            address = userLoged!!.address
         }
     }
     init{
         onModify()
-        userName = userLoged!!.name
-        userSurname = userLoged!!.surname
-        identificationNumber = userLoged!!.identificationNumber
-        telephone = userLoged!!.telephone
-        cellphone = userLoged!!.cellphone
-        email = userLoged!!.email
-        address = userLoged!!.address
     }
 }
