@@ -1,5 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
 )
 
 package com.project.puppyplace.ui.home
@@ -291,7 +292,7 @@ fun DogItem(
     navController: NavController,
     viewModel: HomeViewModel
 ){
-    var isLiked by remember { mutableStateOf(dog.isLiked) }
+    var isLiked by remember { mutableStateOf(viewModel.dogIsLiked(dog)) }
     Column(
         modifier = Modifier
             .size(250.dp)
@@ -347,8 +348,8 @@ fun DogItem(
                         modifier = Modifier.weight(1f)
                     ) {
                         IconButton(onClick = {
-                            isLiked = !isLiked
-                            viewModel.onLikedClicked(dog, isLiked)
+                            viewModel.onLikedClicked(dog)
+                            isLiked = viewModel.isLiked
                         }) {
                             Icon(
                                 imageVector =

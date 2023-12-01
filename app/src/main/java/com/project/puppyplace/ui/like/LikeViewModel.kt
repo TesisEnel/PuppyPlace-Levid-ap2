@@ -1,16 +1,19 @@
 package com.project.puppyplace.ui.like
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.data.repository.HomeRepository
-import com.project.puppyplace.di.AppModule
 import com.project.puppyplace.di.AppModule.sharedDog
 import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,6 +30,7 @@ class LikeViewModel @Inject constructor(
     private var _state = MutableStateFlow(LikeListState())
     val state: StateFlow<LikeListState> = _state.asStateFlow()
 
+    var isLiked by mutableStateOf(true)
     init {
         getFavoriteDogs()
     }
@@ -57,11 +61,17 @@ class LikeViewModel @Inject constructor(
     fun isMale(dog:DogDto): Boolean{
         return dog.gender == "Male"
     }
-    fun onLikedClicked(dog: DogDto, isLiked: Boolean) {
+    fun onLikedClicked(dog: DogDto) {
         viewModelScope.launch {
-            homeRepository.updateUser(AppModule.userLoged!!, dog.id)
+            val deferred = async{
+                homeRepository.updateUser(userLoged!!, dog.id)
+            }
+            deferred.await()
+            getFavoriteDogs()
         }
+            isLiked = !dogIsLiked(dog)
     }
+    fun dogIsLiked(dog: DogDto): Boolean = _state.value.favoriteDogs.contains(dog)
     fun onHomeSelected(navController: NavController){
         navController.navigate(Destination.home.route)
     }

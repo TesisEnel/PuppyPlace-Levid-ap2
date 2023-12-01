@@ -1,5 +1,6 @@
 package com.project.puppyplace.ui.like
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -98,13 +99,14 @@ fun LikeList(
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun DogItem(
     dog: DogDto,
     navController: NavController,
     viewModel: LikeViewModel
 ){
-    var isLiked by remember { mutableStateOf(dog.isLiked) }
+    var isLiked by remember { mutableStateOf(viewModel.dogIsLiked(dog)) }
     Row(
         modifier = Modifier
             .width(300.dp)
@@ -162,8 +164,8 @@ fun DogItem(
                         modifier = Modifier.weight(1f)
                     ) {
                         IconButton(onClick = {
-                            isLiked = !isLiked
-                            viewModel.onLikedClicked(dog, isLiked)
+                            viewModel.onLikedClicked(dog = dog)
+                            isLiked = viewModel.isLiked
                         }) {
                             Icon(
                                 imageVector =
