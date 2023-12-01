@@ -16,6 +16,7 @@ import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import com.project.puppyplace.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,47 +33,28 @@ class HomeViewModel @Inject constructor(
     private var _state = MutableStateFlow(HomeListState())
     val state: StateFlow<HomeListState> = _state.asStateFlow()
 
-    var searchItem by mutableStateOf("")
+    private val _favoriteDogsList = MutableStateFlow<List<DogDto>>(emptyList())
+    val favoriteDogsList: StateFlow<List<DogDto>> = _favoriteDogsList.asStateFlow()
 
-    var isLoadig by mutableStateOf(false)
+    var searchItem by mutableStateOf("")
+    var isLiked by mutableStateOf(false)
+
 
     fun isMale(dog:DogDto): Boolean{
         return dog.gender == "Male"
     }
 
-    fun onLikedClicked(dog: DogDto, isLiked: Boolean) {
+    fun onLikedClicked(dog: DogDto) {
         viewModelScope.launch {
-            homeRepository.updateUser(userLoged!!, dog.id)
+            val deferred = async{
+                homeRepository.updateUser(userLoged!!, dog.id)
+            }
+            deferred.await()
+            getFavoritesDogs()
         }
+            isLiked = !dogIsLiked(dog)
     }
 
-
-
-    //    fun onLikedClicked(dog: DogDto, isLiked: Boolean){
-//        viewModelScope.launch {
-//            homeRepository.updateDog(
-//                DogDto(
-//                    id = dog.id,
-//                    name = dog.name,
-//                    breed = dog.breed,
-//                    size = dog.size,
-//                    weight = dog.weight,
-//                    gender = dog.gender,
-//                    birthDate = dog.birthDate,
-//                    hairColor = dog.hairColor,
-//                    isSterilized = dog.isSterilized,
-//                    behaviour = dog.behaviour,
-//                    activityLevel = dog.activityLevel,
-//                    origin = dog.origin,
-//                    image = dog.image,
-//                    age = dog.age,
-//                    isLiked = isLiked,
-//                    status = dog.status,
-//                    description = dog.description
-//                )
-//            )
-//        }
-//    }
     fun onPetsPressed(context: Context){
         val effectsList = listOf(
             R.raw.dog_bark,
@@ -181,7 +163,29 @@ class HomeViewModel @Inject constructor(
             }.launchIn(viewModelScope)
         }
     }
+    fun getFavoritesDogs() {
+        viewModelScope.launch {
+            homeRepository.getFavoritesByUserId(userLoged!!.id).onEach {
+                result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        _favoriteDogsList.value = emptyList()
+                    }
+
+                    is Resource.Success -> {
+                        _favoriteDogsList.value = result.data ?: emptyList()
+                    }
+
+                    is Resource.Error -> {
+                        _favoriteDogsList.value = emptyList()
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
+    fun dogIsLiked(dog: DogDto): Boolean = favoriteDogsList.value.contains(dog)
     init {
+        getFavoritesDogs()
         getDogs()
     }
 }
