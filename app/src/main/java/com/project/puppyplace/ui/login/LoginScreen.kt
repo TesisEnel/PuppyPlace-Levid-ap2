@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,16 +39,25 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.navigation.Destination
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     navController: NavController
 ){
+    if(viewModel.state.collectAsStateWithLifecycle().value.isLoading) {
+        LoadingIndicator()
+    }else{
+        LoginScreenContent(viewModel, navController)
+    }
+
+}
+@Composable
+fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -68,7 +78,6 @@ fun LoginScreen(
             WelcomeMessageText()
             LoginCard(viewModel, navController)
         }
-        
     }
 }
 @Composable
@@ -217,6 +226,23 @@ fun SignUpButton(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable { navController.navigate(Destination.signUp.route) }
             )
+        }
+    }
+}
+
+@Composable
+fun LoadingIndicator(){
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator()
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+        ){
+            Text(text = "Checking data...")
         }
     }
 }
