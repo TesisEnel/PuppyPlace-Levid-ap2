@@ -43,7 +43,6 @@ class HomeViewModel @Inject constructor(
     fun isMale(dog:DogDto): Boolean{
         return dog.gender == "Male"
     }
-
     fun onLikedClicked(dog: DogDto) {
         viewModelScope.launch {
             val deferred = async{
@@ -54,7 +53,6 @@ class HomeViewModel @Inject constructor(
         }
             isLiked = !dogIsLiked(dog)
     }
-
     fun onPetsPressed(context: Context){
         val effectsList = listOf(
             R.raw.dog_bark,
@@ -163,7 +161,7 @@ class HomeViewModel @Inject constructor(
             }.launchIn(viewModelScope)
         }
     }
-    fun getFavoritesDogs() {
+    private fun getFavoritesDogs() {
         viewModelScope.launch {
             homeRepository.getFavoritesByUserId(userLoged!!.id).onEach {
                 result ->
@@ -184,8 +182,17 @@ class HomeViewModel @Inject constructor(
         }
     }
     fun dogIsLiked(dog: DogDto): Boolean = favoriteDogsList.value.contains(dog)
+
+    private fun getData(){
+        viewModelScope.launch {
+            val deferred = async {
+                getFavoritesDogs()
+            }
+            deferred.await()
+            getDogs()
+        }
+    }
     init {
-        getFavoritesDogs()
-        getDogs()
+        getData()
     }
 }
