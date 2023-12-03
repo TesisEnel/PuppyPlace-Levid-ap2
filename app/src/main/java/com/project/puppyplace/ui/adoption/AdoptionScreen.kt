@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
 
 package com.project.puppyplace.ui.adoption
 
@@ -14,11 +16,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArtTrack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.InsertEmoticon
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Person2
 import androidx.compose.material.icons.filled.Pets
@@ -451,10 +453,10 @@ fun TopBar(
         },
         actions = {
             IconButton(onClick = {
-                navController.navigate(Destination.home.route)
+                navController.navigate(Destination.user.route)
             }) {
                 Icon(
-                    imageVector = Icons.Filled.InsertEmoticon,
+                    imageVector = Icons.Filled.AccountCircle,
                     contentDescription = "Logout",
                 )
             }
