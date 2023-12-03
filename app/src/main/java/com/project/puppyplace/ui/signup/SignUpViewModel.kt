@@ -34,7 +34,8 @@ class SignUpViewModel @Inject constructor(
     //Snackbarh
     val snackbarHostState by mutableStateOf(SnackbarHostState())
 
-    var success by mutableStateOf(false)
+    var isLoading by mutableStateOf(false)
+    var loadingMessage by mutableStateOf("")
     fun showSnackBar(){
         viewModelScope.launch {
             snackbarHostState.showSnackbar("Test message")
@@ -44,10 +45,15 @@ class SignUpViewModel @Inject constructor(
     //SignUp
     fun onSignUpClick(navController: NavController){
         if(isValid()){
+            isLoading = true
+            loadingMessage = "Checking data..."
             FirebaseAuth.getInstance()
             .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener{
+                isLoading = false
                 if(it.isSuccessful){
+                    isLoading = true
+                    loadingMessage = "Redirecting..."
                     showSnackBar()
                     viewModelScope.launch{
                         signUpRepository.createUser(
@@ -60,6 +66,7 @@ class SignUpViewModel @Inject constructor(
                         )
                     }
                     navController.navigate(Destination.login.route)
+                    isLoading = false
                 }
                 else if(it.exception!!.message!!.contains("The email address is already in use by another account.")){
                     emailError = "Email is already registered."

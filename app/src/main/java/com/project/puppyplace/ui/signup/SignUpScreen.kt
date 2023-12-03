@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,28 +54,32 @@ fun SignUpScreen(
     Scaffold(
         snackbarHost = { viewModel.snackbarHostState },
     ) {paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
-        ){
-            Image(
-                painter = painterResource(R.drawable.signup_background),
-                contentDescription = "Login background image",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillHeight
-            )
-            Column(
+        if(viewModel.isLoading){
+            LoadingScreen(viewModel = viewModel)
+        }
+        else{
+            Box(
                 modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment =  Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom
-            ) {
-                SignUpCard(viewModel, navController)
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ){
+                Image(
+                    painter = painterResource(R.drawable.signup_background),
+                    contentDescription = "Login background image",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.FillHeight
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment =  Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    SignUpCard(viewModel, navController)
+                }
             }
         }
-
     }
 }
 
@@ -259,6 +264,20 @@ fun SignUpButton(viewModel: SignUpViewModel, navController: NavController){
                 style = MaterialTheme.typography.titleLarge
             )
         }
+    }
+}
+
+@Composable
+fun LoadingScreen(viewModel: SignUpViewModel){
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    
+    ) {
+        CircularProgressIndicator()
+        Text(text = viewModel.loadingMessage)
     }
 }
 
