@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -136,6 +137,9 @@ fun SignUpTitle(){
 @Composable
 fun NameTextField(viewModel: SignUpViewModel) {
     OutlinedTextField(
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next),
         value = viewModel.name,
         onValueChange = { viewModel.onNameChange(it) },
         label = { Text(text = "First Name") },
@@ -162,6 +166,9 @@ fun NameTextField(viewModel: SignUpViewModel) {
 @Composable
 fun SurnameTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next),
         value = viewModel.surname,
         onValueChange = { viewModel.onSurnameChange(it) },
         label = { Text(text = "Surname") },
@@ -187,6 +194,9 @@ fun SurnameTextField(viewModel: SignUpViewModel){
 @Composable
 fun EmailTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next),
         value = viewModel.email,
         onValueChange = { viewModel.onEmailChange(it) },
         label = { Text(text = "Email") },
@@ -213,7 +223,9 @@ fun EmailTextField(viewModel: SignUpViewModel){
 @Composable
 fun PasswordTextField(viewModel: SignUpViewModel){
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Next),
         value = viewModel.password,
         onValueChange = { viewModel.onPasswordChange(it) },
         label = { Text(text = "Password") },
