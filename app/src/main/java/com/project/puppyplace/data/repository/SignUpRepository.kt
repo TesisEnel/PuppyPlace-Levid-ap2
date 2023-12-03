@@ -8,4 +8,5 @@ class SignUpRepository @Inject constructor(
     private val puppyPlaceAPI: PuppyPlaceAPI
 ){
     suspend fun createUser(user: UserDto) = puppyPlaceAPI.createUser(user)
+    suspend fun updateSimpleUser(id: Int, user: UserDto) = puppyPlaceAPI.updateSimpleUser(id, user)
 }

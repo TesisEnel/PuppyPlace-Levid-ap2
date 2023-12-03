@@ -53,28 +53,27 @@ class SignUpViewModel @Inject constructor(
     fun onSignUpClick(navController: NavController){
         if(isValid()){
             FirebaseAuth.getInstance()
-                .createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener{
-                    if(it.isSuccessful){
-                        showSnackBar()
-                        viewModelScope.launch{
-                            signUpRepository.createUser(
-                                UserDto(
-                                    name = name,
-                                    surname = surname,
-                                    identificationNumber = identificationNumber,
-                                    address = address,
-                                    email = email,
-                                    password = password,
-                                    telephone = telephone,
-                                    cellphone = cellphone
-                                )
+            .createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener{
+                if(it.isSuccessful){
+                    showSnackBar()
+                    viewModelScope.launch{
+                        signUpRepository.createUser(
+                            UserDto(
+                                name = name,
+                                surname = surname,
+                                identificationNumber = identificationNumber,
+                                address = address,
+                                email = email,
+                                password = password,
+                                telephone = telephone,
+                                cellphone = cellphone
                             )
-                        }
-                        navController.navigate(Destination.login.route)
+                        )
                     }
+                    navController.navigate(Destination.login.route)
                 }
-
+            }
         }
     }
 
@@ -83,20 +82,20 @@ class SignUpViewModel @Inject constructor(
     fun isValid(): Boolean{
         onNameChange(name)
         onSurnameChange(surname)
-        onIdentificationNumberChange(identificationNumber)
-        onTelephoneChange(telephone)
-        onCellphoneChange(cellphone)
+        //onIdentificationNumberChange(identificationNumber)
+        //onTelephoneChange(telephone)
+        //onCellphoneChange(cellphone)
         onEmailChange(email)
         onPasswordChange(password)
-        onAddressChange(address)
+        //onAddressChange(address)
         return  nameError.isEmpty() &&
                 surnameError.isEmpty() &&
-                identificationNumberError.isEmpty() &&
-                telephoneError.isEmpty() &&
-                cellphoneError.isEmpty() &&
+                //identificationNumberError.isEmpty() &&
+                //telephoneError.isEmpty() &&
+                //cellphoneError.isEmpty() &&
                 emailError.isEmpty() &&
-                passwordError.isEmpty() &&
-                addressError.isEmpty()
+                passwordError.isEmpty()
+                //addressError.isEmpty()
     }
     fun onNameChange(name: String){
         this.name = name

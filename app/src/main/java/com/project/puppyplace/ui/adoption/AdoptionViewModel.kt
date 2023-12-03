@@ -85,6 +85,22 @@ class AdoptionViewModel @Inject constructor(
                                 address = address
                             )
                         )
+                        if(!editable){
+                            signUpRepository.updateSimpleUser(userLoged!!.id,
+                                UserDto(
+                                    id = userLoged!!.id,
+                                    name = userLoged!!.name,
+                                    surname = userLoged!!.surname,
+                                    identificationNumber = identificationNumber,
+                                    telephone = telephone,
+                                    cellphone = cellphone,
+                                    email = userLoged!!.email,
+                                    password = userLoged!!.password,
+                                    address = address,
+                                    favoriteDogs = userLoged!!.favoriteDogs
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -235,6 +251,7 @@ class AdoptionViewModel @Inject constructor(
         }
     }
     init{
+        editable = userLoged!!.address.isNotEmpty()
         onModify()
     }
 }
