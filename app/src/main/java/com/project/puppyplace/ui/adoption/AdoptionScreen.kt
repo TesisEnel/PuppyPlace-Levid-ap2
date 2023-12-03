@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
 
 package com.project.puppyplace.ui.adoption
 
@@ -14,11 +16,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArtTrack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.InsertEmoticon
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Person2
 import androidx.compose.material.icons.filled.Pets
@@ -265,7 +267,7 @@ fun UserNameField(viewModel: AdoptionViewModel) {
         },
         maxLines = 1,
         singleLine = true,
-        readOnly = viewModel.editable,
+        enabled = !viewModel.editable,
         modifier = Modifier.fillMaxWidth()
     )
     Text(text = viewModel.userNameError, color = MaterialTheme.colorScheme.error)
@@ -288,7 +290,7 @@ fun SurnameField(viewModel: AdoptionViewModel) {
         },
         maxLines = 1,
         singleLine = true,
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.userSurnameError, color = MaterialTheme.colorScheme.error)
 }
@@ -312,7 +314,7 @@ fun IdentificationNumberField(viewModel: AdoptionViewModel){
         maxLines = 1,
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        enabled =viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.identificationNumberError, color = MaterialTheme.colorScheme.error)
 }
@@ -336,7 +338,7 @@ fun AddressField(viewModel: AdoptionViewModel){
         maxLines = 1,
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.addressError, color = MaterialTheme.colorScheme.error)
 }
@@ -359,7 +361,7 @@ fun TelephoneField(viewModel: AdoptionViewModel){
         },
         maxLines = 1,
         singleLine = true,
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.telephoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -381,7 +383,7 @@ fun CellphoneField(viewModel: AdoptionViewModel) {
         },
         maxLines = 1,
         singleLine = true,
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.cellphoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -404,7 +406,7 @@ fun EmailField(viewModel: AdoptionViewModel) {
         maxLines = 1,
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.emailError, color = MaterialTheme.colorScheme.error)
 }
@@ -470,10 +472,10 @@ fun TopBar(
         },
         actions = {
             IconButton(onClick = {
-                navController.navigate(Destination.home.route)
+                navController.navigate(Destination.user.route)
             }) {
                 Icon(
-                    imageVector = Icons.Filled.InsertEmoticon,
+                    imageVector = Icons.Filled.AccountCircle,
                     contentDescription = "Logout",
                 )
             }
