@@ -21,22 +21,14 @@ class SignUpViewModel @Inject constructor(
 ): ViewModel() {
     var name by mutableStateOf("")
     var surname by mutableStateOf("")
-    var identificationNumber by mutableStateOf("")
-    var address by mutableStateOf("")
     var email by mutableStateOf("")
     var password by mutableStateOf("")
-    var telephone by mutableStateOf("")
-    var cellphone by mutableStateOf("")
 
     //Error messages
     var nameError by mutableStateOf("")
     var surnameError by mutableStateOf("")
-    var identificationNumberError by mutableStateOf("")
-    var addressError by mutableStateOf("")
     var emailError by mutableStateOf("")
     var passwordError by mutableStateOf("")
-    var telephoneError by mutableStateOf("")
-    var cellphoneError by mutableStateOf("")
 
     var hidePassword by mutableStateOf(true)
     //Snackbarh
@@ -62,16 +54,15 @@ class SignUpViewModel @Inject constructor(
                             UserDto(
                                 name = name,
                                 surname = surname,
-                                identificationNumber = identificationNumber,
-                                address = address,
                                 email = email,
                                 password = password,
-                                telephone = telephone,
-                                cellphone = cellphone
                             )
                         )
                     }
                     navController.navigate(Destination.login.route)
+                }
+                else if(it.exception!!.message!!.contains("The email address is already in use by another account.")){
+                    emailError = "Email is already registered."
                 }
             }
         }
@@ -79,23 +70,15 @@ class SignUpViewModel @Inject constructor(
 
 
     //Validation
-    fun isValid(): Boolean{
+    private fun isValid(): Boolean{
         onNameChange(name)
         onSurnameChange(surname)
-        //onIdentificationNumberChange(identificationNumber)
-        //onTelephoneChange(telephone)
-        //onCellphoneChange(cellphone)
         onEmailChange(email)
         onPasswordChange(password)
-        //onAddressChange(address)
         return  nameError.isEmpty() &&
                 surnameError.isEmpty() &&
-                //identificationNumberError.isEmpty() &&
-                //telephoneError.isEmpty() &&
-                //cellphoneError.isEmpty() &&
                 emailError.isEmpty() &&
                 passwordError.isEmpty()
-                //addressError.isEmpty()
     }
     fun onNameChange(name: String){
         this.name = name
@@ -110,44 +93,6 @@ class SignUpViewModel @Inject constructor(
         surnameError = if(userSurname.isEmpty()){
             "Surname required."
         }else{
-            ""
-        }
-    }
-    fun onIdentificationNumberChange(identificationNumber: String){
-        this.identificationNumber = identificationNumber
-        identificationNumberError = if(identificationNumber.isEmpty()){
-            "Identification Number required."
-        } else if(identificationNumber.length < 11){
-            "Identification Number must be ${identificationNumber.length}/11 digits."
-        } else if(identificationNumber.length > 11){
-            "Identification Number must be ${identificationNumber.length}/11 digits."
-        }
-        else{
-            ""
-        }
-    }
-    fun onTelephoneChange(telephone: String){
-        this.telephone = telephone
-        telephoneError = if(telephone.isEmpty()){
-            "Telephone required."
-        } else if(telephone.length < 10) {
-            "Telephone must be ${telephone.length}/10 digits."
-        } else if(telephone.length > 10){
-            "Telephone must be ${telephone.length}/10 digits."
-        }
-        else{
-            ""
-        }
-    }
-    fun onCellphoneChange(cellphone: String){
-        this.cellphone = cellphone
-        cellphoneError = if(cellphone.isEmpty()){
-            "Cellphone required."
-        } else if (cellphone.length < 10){
-            "Cellphone must be ${cellphone.length}/10 digits."
-        } else if(cellphone.length > 10){
-            "Cellphone must be ${cellphone.length}/10 digits."
-        } else{
             ""
         }
     }
@@ -173,15 +118,6 @@ class SignUpViewModel @Inject constructor(
                 ""
             }
     }
-    fun onAddressChange(address: String){
-        this.address = address
-        addressError = if(address.isEmpty()){
-            "Address required."
-        }else{
-            ""
-        }
-    }
-
     fun onHidePasswordPressed(){
         hidePassword = !hidePassword
     }
