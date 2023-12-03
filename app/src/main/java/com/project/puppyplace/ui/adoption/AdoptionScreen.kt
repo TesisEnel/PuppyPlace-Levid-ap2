@@ -239,7 +239,7 @@ fun DateField(viewModel: AdoptionViewModel) {
                     modifier = Modifier.padding(8.dp)
                 )
             }
-        },
+        }
     )
     Text(text = viewModel.dateError, color = MaterialTheme.colorScheme.error)
 }
@@ -258,6 +258,7 @@ fun UserNameField(viewModel: AdoptionViewModel) {
             )
         },
         maxLines = 1,
+        singleLine = true,
         readOnly = viewModel.editable,
         modifier = Modifier.fillMaxWidth()
     )
@@ -277,7 +278,8 @@ fun SurnameField(viewModel: AdoptionViewModel) {
             )
         },
         maxLines = 1,
-        readOnly = viewModel.editable
+        singleLine = true,
+        enabled = viewModel.editable
     )
     Text(text = viewModel.userSurnameError, color = MaterialTheme.colorScheme.error)
 }
@@ -297,8 +299,9 @@ fun IdentificationNumberField(viewModel: AdoptionViewModel){
             )
         },
         maxLines = 1,
+        singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        readOnly =viewModel.editable
+        enabled =viewModel.editable
     )
     Text(text = viewModel.identificationNumberError, color = MaterialTheme.colorScheme.error)
 }
@@ -318,8 +321,9 @@ fun AddressField(viewModel: AdoptionViewModel){
             )
         },
         maxLines = 1,
+        singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        readOnly = viewModel.editable
+        enabled = viewModel.editable
     )
     Text(text = viewModel.addressError, color = MaterialTheme.colorScheme.error)
 }
@@ -339,7 +343,8 @@ fun TelephoneField(viewModel: AdoptionViewModel){
             )
         },
         maxLines = 1,
-        readOnly = viewModel.editable
+        singleLine = true,
+        enabled = viewModel.editable
     )
     Text(text = viewModel.telephoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -358,7 +363,8 @@ fun CellphoneField(viewModel: AdoptionViewModel) {
             )
         },
         maxLines = 1,
-        readOnly = viewModel.editable
+        singleLine = true,
+        enabled = viewModel.editable
     )
     Text(text = viewModel.cellphoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -377,8 +383,9 @@ fun EmailField(viewModel: AdoptionViewModel) {
             )
         },
         maxLines = 1,
+        singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        readOnly = viewModel.editable
+        enabled = viewModel.editable
     )
     Text(text = viewModel.emailError, color = MaterialTheme.colorScheme.error)
 }
