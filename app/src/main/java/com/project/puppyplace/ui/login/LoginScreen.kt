@@ -1,5 +1,5 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class
 )
 
 package com.project.puppyplace.ui.login
@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlternateEmail
@@ -108,7 +109,7 @@ fun LoginCard(
         ) {
             LoginTitle()
             EmailTextField(viewModel = viewModel)
-            PasswordTextField(viewModel = viewModel)
+            PasswordTextField(viewModel = viewModel, navController = navController)
             LoginButton(viewModel, navController)
             SignUpButton(navController)
         }
@@ -127,6 +128,7 @@ fun LoginTitle(){
 @Composable
 fun EmailTextField(viewModel: LoginViewModel){
     OutlinedTextField(
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
         value = viewModel.email,
         onValueChange = { viewModel.onEmailChange(it)},
         label = { Text(text = "Email") },
@@ -136,6 +138,8 @@ fun EmailTextField(viewModel: LoginViewModel){
                 contentDescription = "At icon"
             )
         },
+        maxLines = 1,
+        singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
@@ -149,9 +153,12 @@ fun EmailTextField(viewModel: LoginViewModel){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField(viewModel: LoginViewModel){
+fun PasswordTextField(viewModel: LoginViewModel, navController: NavController){
     OutlinedTextField(
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+        keyboardActions = KeyboardActions(
+            onDone = { viewModel.logIn(navController) }
+        ),
         value = viewModel.password,
         onValueChange = { viewModel.onPasswordChange(it) },
         label = { Text(text = "Password") },
@@ -174,6 +181,7 @@ fun PasswordTextField(viewModel: LoginViewModel){
             .fillMaxWidth()
             .padding(8.dp),
         maxLines = 1,
+        singleLine = true,
         visualTransformation = if(viewModel.hidePassword) PasswordVisualTransformation() else VisualTransformation.None
     )
     Text(

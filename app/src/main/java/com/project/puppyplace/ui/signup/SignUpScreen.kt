@@ -16,12 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlternateEmail
-import androidx.compose.material.icons.filled.ArtTrack
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
@@ -103,7 +99,6 @@ fun SignUpCard(
 
         ){
             SignUpTitle()
-            //IdentificationNumberTextField(viewModel = viewModel)
             Row {
                 Column(
                     modifier = Modifier.weight(1f)
@@ -118,21 +113,8 @@ fun SignUpCard(
             }
             EmailTextField(viewModel = viewModel)
             PasswordTextField(viewModel = viewModel)
-            //AddressTextField(viewModel = viewModel)
-            Row {
-                Column(
-                    modifier = Modifier.weight(1f)
-                ){
-                    //TelephoneTextField(viewModel = viewModel)
-                }
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    //CellphoneTextField(viewModel = viewModel)
-                }
-            }
             SignUpButton(viewModel = viewModel, navController = navController)
-            AlreadyAnAccountTextField(viewModel = viewModel, navController)
+            AlreadyAnAccountTextField(navController)
         }
     }
 }
@@ -158,6 +140,8 @@ fun NameTextField(viewModel: SignUpViewModel) {
                 contentDescription = "At icon"
             )
         },
+        maxLines = 1,
+        singleLine = true,
         isError = viewModel.nameError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
@@ -182,6 +166,8 @@ fun SurnameTextField(viewModel: SignUpViewModel){
                 contentDescription = "At icon"
             )
         },
+        maxLines = 1,
+        singleLine = true,
         isError = viewModel.surnameError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
@@ -192,31 +178,6 @@ fun SurnameTextField(viewModel: SignUpViewModel){
         modifier = Modifier.padding(start = 8.dp)
     )
 }
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun IdentificationNumberTextField(viewModel: SignUpViewModel){
-    OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-        value = viewModel.identificationNumber,
-        onValueChange = { viewModel.onIdentificationNumberChange(it) },
-        label = { Text(text = "Identification number") },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.ArtTrack,
-                contentDescription = "At icon"
-            )
-        },
-        isError = viewModel.identificationNumberError.isNotEmpty(),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    )
-    Text(text = viewModel.identificationNumberError,
-        color = MaterialTheme.colorScheme.error,
-        modifier = Modifier.padding(start = 8.dp)
-    )
-}
-
 @ExperimentalMaterial3Api
 @Composable
 fun EmailTextField(viewModel: SignUpViewModel){
@@ -230,6 +191,8 @@ fun EmailTextField(viewModel: SignUpViewModel){
                 contentDescription = "At icon"
             )
         },
+        maxLines = 1,
+        singleLine = true,
         isError = viewModel.emailError.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
@@ -269,9 +232,10 @@ fun PasswordTextField(viewModel: SignUpViewModel){
             .fillMaxWidth()
             .padding(8.dp),
         maxLines = 1,
-       visualTransformation =
-       if(viewModel.hidePassword) PasswordVisualTransformation()
-       else VisualTransformation.None
+        singleLine = true,
+        visualTransformation =
+        if(viewModel.hidePassword) PasswordVisualTransformation()
+        else VisualTransformation.None
     )
     Text(
         text = viewModel.passwordError,
@@ -279,124 +243,6 @@ fun PasswordTextField(viewModel: SignUpViewModel){
         modifier = Modifier.padding(start = 8.dp)
     )
 }
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AddressTextField(viewModel: SignUpViewModel){
-    OutlinedTextField(
-        value = viewModel.address,
-        onValueChange = { viewModel.onAddressChange(it) },
-        label = { Text(text = "Address") },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Home,
-                contentDescription = "Address icon"
-            )
-        },
-        isError = viewModel.addressError.isNotEmpty(),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        maxLines = 1
-    )
-    Text(
-        text = viewModel.addressError,
-        color = MaterialTheme.colorScheme.error,
-        modifier = Modifier.padding(start = 8.dp)
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TelephoneTextField(viewModel: SignUpViewModel){
-    OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-        value = viewModel.telephone,
-        onValueChange = { viewModel.onTelephoneChange(it) },
-        label = { Text(text = "Telephone") },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Phone,
-                contentDescription = "Telephone icon"
-            )
-        },
-        isError = viewModel.telephoneError.isNotEmpty(),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        maxLines = 1
-    )
-    Text(
-        text = viewModel.telephoneError,
-        color = MaterialTheme.colorScheme.error,
-        modifier = Modifier.padding(start = 8.dp)
-    )
-}
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CellphoneTextField(viewModel: SignUpViewModel){
-    OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-        value = viewModel.cellphone,
-        onValueChange = { viewModel.onCellphoneChange(it) },
-        label = { Text(text = "Cellphone") },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.PhoneAndroid,
-                contentDescription = "Cellphone icon"
-            )
-        },
-        isError = viewModel.cellphoneError.isNotEmpty(),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        maxLines = 1
-    )
-    Text(
-        text = viewModel.cellphoneError,
-        color = MaterialTheme.colorScheme.error,
-        modifier = Modifier.padding(start = 8.dp)
-    )
-}
-
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun GenderTextField(){
-//    OutlinedTextField(
-//        value = "",
-//        onValueChange = { TODO() },
-//        label = { Text(text = "Gender") },
-//        leadingIcon = {
-//            Icon(
-//                imageVector = Icons.Filled.Transgender,
-//                contentDescription = "Sex icon"
-//            )
-//        },
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(8.dp),
-//        maxLines = 1
-//    )
-//}
-
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun HouseTypeTextField(){
-//    OutlinedTextField(
-//        value = "",
-//        onValueChange = { TODO() },
-//        label = { Text(text = "House type") },
-//        leadingIcon = {
-//            Icon(
-//                imageVector = Icons.Filled.HomeWork,
-//                contentDescription = "House icon"
-//            )
-//        },
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(8.dp),
-//        maxLines = 1
-//    )
-//}
 @Composable
 fun SignUpButton(viewModel: SignUpViewModel, navController: NavController){
     Box(
@@ -418,7 +264,6 @@ fun SignUpButton(viewModel: SignUpViewModel, navController: NavController){
 
 @Composable
 fun AlreadyAnAccountTextField(
-    viewModel: SignUpViewModel,
     navController: NavController
 ){
     Box(
