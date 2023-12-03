@@ -1,7 +1,6 @@
 package com.project.puppyplace.data.repository
 
 import com.project.puppyplace.data.remote.PuppyPlaceAPI
-import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -28,19 +27,7 @@ class UserRepository @Inject constructor(
     }
 
     suspend fun getUserById(id: Int) = puppyPlaceApi.getUsersById(id)
-    suspend fun getAppointmentById(id: Int): Flow<Resource<AppointmentDto>> = flow {
-        try {
-            emit(Resource.Loading())
-
-            val appointment = puppyPlaceApi.getAppointmentById(id)
-
-            emit(Resource.Success(appointment))
-        } catch (e: HttpException) {
-            emit(Resource.Error(e.message ?: "Error HTTP"))
-        } catch (e: IOException) {
-            emit(Resource.Error(e.message ?: "No internet"))
-        }
-    }
+    suspend fun getAppointmentById(id: Int) = puppyPlaceApi.getAppointmentById(id)
 
     suspend fun deleteAppointment(id: Int) = puppyPlaceApi.deleteAppointment(id)
 }

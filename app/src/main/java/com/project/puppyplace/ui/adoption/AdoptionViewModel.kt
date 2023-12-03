@@ -9,7 +9,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.data.remote.dto.DogDto
+import com.project.puppyplace.data.remote.dto.UserDto
 import com.project.puppyplace.data.repository.AdoptionRepository
+import com.project.puppyplace.data.repository.HomeRepository
+import com.project.puppyplace.data.repository.LoginRepository
+import com.project.puppyplace.data.repository.SignUpRepository
 import com.project.puppyplace.di.AppModule.sharedAppointment
 import com.project.puppyplace.di.AppModule.sharedDog
 import com.project.puppyplace.di.AppModule.userLoged
@@ -22,8 +26,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AdoptionViewModel @Inject constructor(
-    private val adoptionRepository: AdoptionRepository
+    private val adoptionRepository: AdoptionRepository,
+    private val signUpRepository: SignUpRepository,
+    private val loginRepository: LoginRepository,
+    private val homeRepository: HomeRepository
 ): ViewModel(){
+    var editable by mutableStateOf(false)
 
     var dog by mutableStateOf(DogDto())
     var date by mutableStateOf("")
@@ -107,6 +115,28 @@ class AdoptionViewModel @Inject constructor(
             deferred.await()
             sharedAppointment = null
             showDialog = false
+            userLoged = loginRepository.getUserByEmail(userLoged!!.email)
+            homeRepository.updateDog(
+                DogDto(
+                    id = sharedDog!!.id,
+                    name = sharedDog!!.name,
+                    breed = sharedDog!!.breed,
+                    size = sharedDog!!.size,
+                    weight = sharedDog!!.weight,
+                    status = false,
+                    gender = sharedDog!!.gender,
+                    birthDate = sharedDog!!.birthDate,
+                    hairColor = sharedDog!!.hairColor,
+                    isSterilized = sharedDog!!.isSterilized,
+                    behaviour = sharedDog!!.behaviour,
+                    activityLevel = sharedDog!!.activityLevel,
+                    origin = sharedDog!!.origin,
+                    age = sharedDog!!.age,
+                    description = sharedDog!!.description,
+                    image = sharedDog!!.image,
+                    isLiked = sharedDog!!.isLiked,
+                )
+            )
             navController.navigate(Destination.user.route)
         }
     }

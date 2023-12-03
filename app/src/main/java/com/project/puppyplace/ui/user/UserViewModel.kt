@@ -59,7 +59,30 @@ class UserViewModel @Inject constructor(
     }
 
     fun deleteAppointment(id: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch {1
+            val appointment = userRepository.getAppointmentById(id)
+            dog = homeRepository.getDogById(appointment.dogId)
+            homeRepository.updateDog(
+                DogDto(
+                    id = dog.id,
+                    name = dog.name,
+                    breed = dog.breed,
+                    size = dog.size,
+                    weight = dog.weight,
+                    status = true,
+                    gender = dog.gender,
+                    birthDate = dog.birthDate,
+                    hairColor = dog.hairColor,
+                    isSterilized = dog.isSterilized,
+                    behaviour = dog.behaviour,
+                    activityLevel = dog.activityLevel,
+                    origin = dog.origin,
+                    age = dog.age,
+                    description = dog.description,
+                    image = dog.image,
+                    isLiked = dog.isLiked,
+                )
+            )
             val deferred = async {
                 userRepository.deleteAppointment(id)
             }
