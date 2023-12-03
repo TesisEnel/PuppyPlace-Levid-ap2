@@ -267,7 +267,7 @@ fun UserNameField(viewModel: AdoptionViewModel) {
         },
         maxLines = 1,
         singleLine = true,
-        enabled = !viewModel.editable,
+        enabled = false,
         modifier = Modifier.fillMaxWidth()
     )
     Text(text = viewModel.userNameError, color = MaterialTheme.colorScheme.error)
@@ -290,7 +290,7 @@ fun SurnameField(viewModel: AdoptionViewModel) {
         },
         maxLines = 1,
         singleLine = true,
-        enabled = !viewModel.editable
+        enabled = false
     )
     Text(text = viewModel.userSurnameError, color = MaterialTheme.colorScheme.error)
 }
@@ -370,7 +370,7 @@ fun CellphoneField(viewModel: AdoptionViewModel) {
     OutlinedTextField(
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Phone,
-            imeAction = ImeAction.Next),
+            imeAction = ImeAction.Done),
         value = viewModel.cellphone,
         onValueChange = { viewModel.onCellphoneChange(it) },
         label = { Text(text = "Cellphone") },
@@ -406,7 +406,7 @@ fun EmailField(viewModel: AdoptionViewModel) {
         maxLines = 1,
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        enabled = !viewModel.editable
+        enabled = false
     )
     Text(text = viewModel.emailError, color = MaterialTheme.colorScheme.error)
 }
