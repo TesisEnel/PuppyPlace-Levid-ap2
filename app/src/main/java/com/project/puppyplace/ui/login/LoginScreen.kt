@@ -160,7 +160,7 @@ fun PasswordTextField(viewModel: LoginViewModel, navController: NavController){
     OutlinedTextField(
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Next),
+            imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
             onDone = { viewModel.logIn(navController) }
         ),
