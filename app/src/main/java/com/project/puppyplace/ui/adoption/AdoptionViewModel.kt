@@ -1,5 +1,6 @@
 package com.project.puppyplace.ui.adoption
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,6 +15,7 @@ import com.project.puppyplace.di.AppModule.sharedDog
 import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import javax.inject.Inject
@@ -51,43 +53,46 @@ class AdoptionViewModel @Inject constructor(
     }
     fun onAdoptClick(navController: NavController){
         viewModelScope.launch {
-            if(isValid()){
-                if(sharedAppointment != null){
-                    adoptionRepository.updateAppointment(
-                        AppointmentDto(
-                            id = sharedAppointment!!.id,
-                            dogId = sharedDog!!.id,
-                            date = date,
-                            userName = sharedAppointment!!.userName,
-                            userSurname = sharedAppointment!!.userSurname,
-                            identificationNumber = sharedAppointment!!.identificationNumber,
-                            telephone = sharedAppointment!!.telephone,
-                            cellphone = sharedAppointment!!.cellphone,
-                            email = sharedAppointment!!.email,
-                            address = sharedAppointment!!.address
+            val deferred = async{
+                if(isValid()){
+                    if(sharedAppointment != null){
+                        adoptionRepository.updateAppointment(
+                            AppointmentDto(
+                                id = sharedAppointment!!.id,
+                                dogId = sharedDog!!.id,
+                                date = date,
+                                userName = sharedAppointment!!.userName,
+                                userSurname = sharedAppointment!!.userSurname,
+                                identificationNumber = sharedAppointment!!.identificationNumber,
+                                telephone = sharedAppointment!!.telephone,
+                                cellphone = sharedAppointment!!.cellphone,
+                                email = sharedAppointment!!.email,
+                                address = sharedAppointment!!.address
+                            )
                         )
-                    )
-                }
-                else{
-                    adoptionRepository.createAppointment(
-                        AppointmentDto(
-                            dogId = dog.id,
-                            date = date,
-                            userName = userName,
-                            userSurname = userSurname,
-                            identificationNumber = identificationNumber,
-                            telephone = telephone,
-                            cellphone = cellphone,
-                            email = email,
-                            address = address
+                    }
+                    else{
+                        adoptionRepository.createAppointment(
+                            AppointmentDto(
+                                dogId = dog.id,
+                                date = date,
+                                userName = userName,
+                                userSurname = userSurname,
+                                identificationNumber = identificationNumber,
+                                telephone = telephone,
+                                cellphone = cellphone,
+                                email = email,
+                                address = address
+                            )
                         )
-                    )
+                    }
                 }
             }
+            deferred.await()
+            sharedAppointment = null
+            showDialog = false
+            navController.navigate(Destination.user.route)
         }
-        sharedAppointment = null
-        showDialog = false
-        navController.navigate(Destination.user.route)
     }
     fun onShowDialog(){
         if(isValid())
