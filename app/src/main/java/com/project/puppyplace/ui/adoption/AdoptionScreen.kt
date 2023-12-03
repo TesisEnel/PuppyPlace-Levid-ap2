@@ -44,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -221,7 +222,9 @@ fun DateField(viewModel: AdoptionViewModel) {
     )
 
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next),
         value = viewModel.date,
         label = { Text(text = "Appointment date") },
         singleLine = true,
@@ -247,6 +250,9 @@ fun DateField(viewModel: AdoptionViewModel) {
 @Composable
 fun UserNameField(viewModel: AdoptionViewModel) {
     OutlinedTextField(
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next),
         value = viewModel.userName,
         onValueChange = {viewModel.onUserNameChange(it)},
         label = { Text(text = "Name") },
@@ -267,6 +273,9 @@ fun UserNameField(viewModel: AdoptionViewModel) {
 @Composable
 fun SurnameField(viewModel: AdoptionViewModel) {
     OutlinedTextField(
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next),
         value = viewModel.userSurname,
         onValueChange = {viewModel.onUserSurnameChange(it)},
         label = { Text(text = "Surname") },
@@ -287,7 +296,9 @@ fun SurnameField(viewModel: AdoptionViewModel) {
 @Composable
 fun IdentificationNumberField(viewModel: AdoptionViewModel){
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next),
         value = viewModel.identificationNumber,
         onValueChange = { viewModel.onIdentificationNumberChange(it) },
         label = { Text(text = "Identification number") },
@@ -309,7 +320,9 @@ fun IdentificationNumberField(viewModel: AdoptionViewModel){
 @Composable
 fun AddressField(viewModel: AdoptionViewModel){
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next),
         value = viewModel.address,
         onValueChange = { viewModel.onAddressChange(it) },
         label = { Text(text = "Address") },
@@ -331,7 +344,9 @@ fun AddressField(viewModel: AdoptionViewModel){
 @Composable
 fun TelephoneField(viewModel: AdoptionViewModel){
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Phone,
+            imeAction = ImeAction.Next),
         value = viewModel.telephone,
         onValueChange = { viewModel.onTelephoneChange(it) },
         label = { Text(text = "Telephone") },
@@ -351,7 +366,9 @@ fun TelephoneField(viewModel: AdoptionViewModel){
 @Composable
 fun CellphoneField(viewModel: AdoptionViewModel) {
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Phone,
+            imeAction = ImeAction.Next),
         value = viewModel.cellphone,
         onValueChange = { viewModel.onCellphoneChange(it) },
         label = { Text(text = "Cellphone") },
@@ -371,7 +388,9 @@ fun CellphoneField(viewModel: AdoptionViewModel) {
 @Composable
 fun EmailField(viewModel: AdoptionViewModel) {
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next),
         value = viewModel.email,
         onValueChange = { viewModel.onEmailChange(it) },
         label = { Text(text = "Email") },
