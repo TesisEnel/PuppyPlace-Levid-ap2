@@ -24,9 +24,6 @@ interface PuppyPlaceAPI {
     suspend fun getDogsBySex(@Path("sex")sex: String): List<DogDto>
     @PUT("api/Dogs/{id}")
     suspend fun updateDog(@Path("id")id: Int, @Body dog: DogDto): DogDto
-    @GET("api/Dogs/Favorites")
-    suspend fun getFavorites(): List<DogDto>
-
 
     //Appointments
     @GET("api/Appointment")
@@ -35,9 +32,9 @@ interface PuppyPlaceAPI {
     suspend fun createAppointment(@Body appointment: AppointmentDto): AppointmentDto
     @DELETE("api/Appointment/{id}")
     suspend fun deleteAppointment(@Path("id")id: Int): AppointmentDto
-    @GET("api/Appointment/{id}")
+    @GET("api/Appointment/by/{id}")
     suspend fun getAppointmentById(@Path("id")id: Int): AppointmentDto
-    @GET("api/Appointment/{email}")
+    @GET("api/Appointment/with/{email}")
     suspend fun getUserAppointments(@Path("email")email: String): List<AppointmentDto>
     @PUT("api/Appointment/{id}")
     suspend fun updateAppointment(@Path("id")id: Int, @Body appointment: AppointmentDto): AppointmentDto
@@ -55,6 +52,8 @@ interface PuppyPlaceAPI {
     suspend fun createUser(@Body user: UserDto): UserDto
     @PUT("api/Users/{id}")
     suspend fun updateUser(@Path("id") id: Int, @Body user: UserDto, @Query("dogId") dogId: Int): UserDto
+    @PUT("api/Users/Simple/{id}")
+    suspend fun updateSimpleUser(@Path("id") id: Int, @Body user: UserDto): UserDto
     @GET("api/Users/FavoriteDogs/{userId}")
     suspend fun getFavoritesByUserId(@Path("userId") id: Int): List<DogDto>
 }
