@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -128,7 +129,9 @@ fun LoginTitle(){
 @Composable
 fun EmailTextField(viewModel: LoginViewModel){
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next),
         value = viewModel.email,
         onValueChange = { viewModel.onEmailChange(it)},
         label = { Text(text = "Email") },
@@ -155,7 +158,9 @@ fun EmailTextField(viewModel: LoginViewModel){
 @Composable
 fun PasswordTextField(viewModel: LoginViewModel, navController: NavController){
     OutlinedTextField(
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
             onDone = { viewModel.logIn(navController) }
         ),
