@@ -15,6 +15,7 @@ import com.project.puppyplace.di.AppModule.userLoged
 import com.project.puppyplace.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -200,10 +201,15 @@ class AdoptionViewModel @Inject constructor(
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun onModify(){
         if (sharedAppointment != null){
+            val sdf = SimpleDateFormat("yyyy-MM-dd")
+            val date = sdf.parse(sharedAppointment!!.date)
+            val formattedDate = sdf.format(date!!)
+
             dog = sharedDog!!
-            date = sharedAppointment!!.date
+            this.date = formattedDate
             userName = sharedAppointment!!.userName
             userSurname = sharedAppointment!!.userSurname
             identificationNumber = sharedAppointment!!.identificationNumber

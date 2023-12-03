@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
@@ -25,7 +26,6 @@ import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.PhoneAndroid
-import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -50,6 +50,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.data.remote.dto.AppointmentDto
+import java.text.SimpleDateFormat
 
 @Composable
 fun UserScreen(
@@ -227,8 +228,14 @@ fun AppointmentsList(appoiments: List<AppointmentDto>, viewModel: UserViewModel,
 
 }
 
+@SuppressLint("SimpleDateFormat")
 @Composable
 fun AppoimentItem(viewModel:UserViewModel, appoiment: AppointmentDto, navController: NavController){
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    val date = sdf.parse(appoiment.date)
+    val formattedDate = sdf.format(date!!)
+
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor= MaterialTheme.colorScheme.tertiary
@@ -244,8 +251,8 @@ fun AppoimentItem(viewModel:UserViewModel, appoiment: AppointmentDto, navControl
 
         ) {
             Row {
-                Icon(imageVector = Icons.Filled.Update, contentDescription = "update")
-                Text(text = appoiment.date)
+                Icon(imageVector = Icons.Filled.CalendarMonth, contentDescription = "update")
+                Text(text = formattedDate)
             }
         }
         Column(
