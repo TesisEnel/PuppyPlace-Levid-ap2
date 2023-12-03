@@ -72,8 +72,8 @@ fun SignUpScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
-                horizontalAlignment =  Alignment.Start,
-                verticalArrangement = Arrangement.Center
+                horizontalAlignment =  Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Bottom
             ) {
                 SignUpCard(viewModel, navController)
             }
@@ -103,7 +103,7 @@ fun SignUpCard(
 
         ){
             SignUpTitle()
-            IdentificationNumberTextField(viewModel = viewModel)
+            //IdentificationNumberTextField(viewModel = viewModel)
             Row {
                 Column(
                     modifier = Modifier.weight(1f)
@@ -118,17 +118,17 @@ fun SignUpCard(
             }
             EmailTextField(viewModel = viewModel)
             PasswordTextField(viewModel = viewModel)
-            AddressTextField(viewModel = viewModel)
+            //AddressTextField(viewModel = viewModel)
             Row {
                 Column(
                     modifier = Modifier.weight(1f)
                 ){
-                    TelephoneTextField(viewModel = viewModel)
+                    //TelephoneTextField(viewModel = viewModel)
                 }
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    CellphoneTextField(viewModel = viewModel)
+                    //CellphoneTextField(viewModel = viewModel)
                 }
             }
             SignUpButton(viewModel = viewModel, navController = navController)
