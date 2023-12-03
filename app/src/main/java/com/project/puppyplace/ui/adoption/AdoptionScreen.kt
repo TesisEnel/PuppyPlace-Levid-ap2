@@ -267,7 +267,7 @@ fun UserNameField(viewModel: AdoptionViewModel) {
         },
         maxLines = 1,
         singleLine = true,
-        readOnly = viewModel.editable,
+        enabled = !viewModel.editable,
         modifier = Modifier.fillMaxWidth()
     )
     Text(text = viewModel.userNameError, color = MaterialTheme.colorScheme.error)
@@ -290,7 +290,7 @@ fun SurnameField(viewModel: AdoptionViewModel) {
         },
         maxLines = 1,
         singleLine = true,
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.userSurnameError, color = MaterialTheme.colorScheme.error)
 }
@@ -314,7 +314,7 @@ fun IdentificationNumberField(viewModel: AdoptionViewModel){
         maxLines = 1,
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        enabled =viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.identificationNumberError, color = MaterialTheme.colorScheme.error)
 }
@@ -338,7 +338,7 @@ fun AddressField(viewModel: AdoptionViewModel){
         maxLines = 1,
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.addressError, color = MaterialTheme.colorScheme.error)
 }
@@ -361,7 +361,7 @@ fun TelephoneField(viewModel: AdoptionViewModel){
         },
         maxLines = 1,
         singleLine = true,
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.telephoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -383,7 +383,7 @@ fun CellphoneField(viewModel: AdoptionViewModel) {
         },
         maxLines = 1,
         singleLine = true,
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.cellphoneError, color = MaterialTheme.colorScheme.error)
 }
@@ -406,7 +406,7 @@ fun EmailField(viewModel: AdoptionViewModel) {
         maxLines = 1,
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        enabled = viewModel.editable
+        enabled = !viewModel.editable
     )
     Text(text = viewModel.emailError, color = MaterialTheme.colorScheme.error)
 }

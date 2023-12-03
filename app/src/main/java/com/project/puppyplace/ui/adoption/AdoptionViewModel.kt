@@ -147,7 +147,7 @@ class AdoptionViewModel @Inject constructor(
     fun onDismissDialog(){
         showDialog = false
     }
-    fun isValid(): Boolean{
+    private fun isValid(): Boolean{
         onDateChange(date)
         onUserNameChange(userName)
         onUserSurnameChange(userSurname)
