@@ -1,6 +1,7 @@
 package com.project.puppyplace.ui.like
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,11 +42,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.project.puppyplace.R
 import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.navigation.Destination
 
@@ -65,12 +68,21 @@ fun LikeScreen(
             BottomBar(navController = navController, viewModel = viewModel)
         }
     ) {paddingValues ->
-
-        LikeList(
-            dogs = dogs, navController = navController,
-            viewModel = viewModel,
-            paddingValues
-        )
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Image(
+                painter = painterResource(R.drawable.like_background),
+                contentDescription = "User background image",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillHeight
+            )
+            LikeList(
+                dogs = dogs, navController = navController,
+                viewModel = viewModel,
+                paddingValues
+            )
+        }
     }
 }
 
