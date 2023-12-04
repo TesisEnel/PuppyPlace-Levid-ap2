@@ -22,3 +22,7 @@ To ensure the proper functioning of the app, we had to handle all the backend wo
 Additionally, we focused on the frontend development, which was entirely done using Kotlin and Jetpack Compose. This allowed us to create a user-friendly interface that enhances the overall user experience.
 
 In summary, Puppy Place is a project that has undergone a comprehensive development process, encompassing both backend and frontend work. We are confident that our efforts will result in a successful and impactful application.
+
+## Database diagram
+
+![Database diagram](https://i.imgur.com/0GSO92h.png)
