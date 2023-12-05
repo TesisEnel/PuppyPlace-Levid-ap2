@@ -17,7 +17,6 @@ fun NoConnectionScreen() {
         modifier = Modifier.fillMaxSize()
     ) {
         BackgroundImage()
-        InformationText()
     }
 
 }
@@ -28,12 +27,5 @@ fun BackgroundImage(){
         painter = painterResource(id = R.drawable.nointernet_screen), // Esta es la imagen
         contentDescription = "Background",
         contentScale = ContentScale.FillBounds
-    )
-}
-@Composable
-fun InformationText(){
-    Text(
-        text = "No internet connection",
-        style = MaterialTheme.typography.headlineLarge,
     )
 }
