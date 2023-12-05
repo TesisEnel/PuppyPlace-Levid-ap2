@@ -25,7 +25,7 @@ fun NoConnectionScreen() {
 @Composable
 fun BackgroundImage(){
     Image(
-        painter = painterResource(id = R.drawable.no_internet_screen), // Esta es la imagen
+        painter = painterResource(id = R.drawable.nointernet_screen), // Esta es la imagen
         contentDescription = "Background",
         contentScale = ContentScale.FillBounds
     )
