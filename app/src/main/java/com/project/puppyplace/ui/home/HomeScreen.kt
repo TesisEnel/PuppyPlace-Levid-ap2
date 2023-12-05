@@ -1,5 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
     ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
     ExperimentalMaterial3Api::class
 )
 
@@ -24,7 +25,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.HeartBroken
@@ -130,12 +131,12 @@ fun HomeTopBar(viewModel: HomeViewModel, navController: NavController){
         actions = {
             IconButton(
                 onClick = {
-                    viewModel.goToUser(navController)
+                    viewModel.onTopBarSettingsPressed(navController)
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "User"
+                    imageVector = Icons.Filled.Settings,
+                    contentDescription = "Settings"
                 )
             }
         }
@@ -392,7 +393,7 @@ fun BottomBar(
             }
             IconButton(
                 onClick = {
-                    viewModel.onLikeIconPressed(navController)
+                    viewModel.onBottomBarLikePressed(navController)
                 }
             ) {
                 Column(
@@ -405,14 +406,15 @@ fun BottomBar(
             }
             IconButton(
                 onClick = {
+                    viewModel.onBottomBarAppointmentPressed(navController)
                 }
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(vertical = 8.dp)
                 ) {
-                    Icon(Icons.Filled.Settings, contentDescription = "Settings")
-                    Text("Settings")
+                    Icon(Icons.Filled.DateRange, contentDescription = "Appointment")
+                    Text("Appointments")
                 }
             }
         }
