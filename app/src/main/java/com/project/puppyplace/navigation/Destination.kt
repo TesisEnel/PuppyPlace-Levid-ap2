@@ -9,4 +9,5 @@ sealed class Destination(val route: String){
     object adoption: Destination("adoptionScreen")
     object like: Destination("likeScreen")
     object user: Destination("userScreen")
+    object settings: Destination("settingsScreen")
 }
