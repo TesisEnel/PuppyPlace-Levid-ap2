@@ -6,13 +6,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.project.puppyplace.ui.LoadingScreen.LoadingScreen
 import com.project.puppyplace.ui.adoption.AdoptionScreen
+import com.project.puppyplace.ui.appointment.AppointmentScreen
 import com.project.puppyplace.ui.dogDetail.DogDetailScreen
 import com.project.puppyplace.ui.home.HomeScreen
 import com.project.puppyplace.ui.like.LikeScreen
 import com.project.puppyplace.ui.login.LoginScreen
 import com.project.puppyplace.ui.settings.SettingsScreen
 import com.project.puppyplace.ui.signup.SignUpScreen
-import com.project.puppyplace.ui.user.UserScreen
 
 @Composable
 fun NavigationHost() {
@@ -42,8 +42,8 @@ fun NavigationHost() {
         composable(Destination.like.route){
             LikeScreen(navController = navController)
         }
-        composable(Destination.user.route){
-            UserScreen(navController = navController)
+        composable(Destination.appointment.route){
+            AppointmentScreen(navController = navController)
         }
         composable(Destination.settings.route){
             SettingsScreen(navController = navController)

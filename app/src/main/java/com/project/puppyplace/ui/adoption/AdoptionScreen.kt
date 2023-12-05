@@ -472,7 +472,7 @@ fun TopBar(
         },
         actions = {
             IconButton(onClick = {
-                navController.navigate(Destination.user.route)
+                navController.navigate(Destination.appointment.route)
             }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,

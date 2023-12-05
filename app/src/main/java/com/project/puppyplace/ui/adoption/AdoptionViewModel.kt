@@ -137,7 +137,7 @@ class AdoptionViewModel @Inject constructor(
                     isLiked = sharedDog!!.isLiked,
                 )
             )
-            navController.navigate(Destination.user.route)
+            navController.navigate(Destination.appointment.route)
         }
     }
     fun onShowDialog(){
