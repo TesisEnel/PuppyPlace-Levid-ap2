@@ -1,4 +1,4 @@
-package com.project.puppyplace.ui.user
+package com.project.puppyplace.ui.appointment
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,13 +30,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserViewModel @Inject constructor(
+class AppointmentViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val adoptionRepository: AdoptionRepository,
     private val homeRepository: HomeRepository
 ): ViewModel() {
-    private var _state = MutableStateFlow(UserListState())
-    val state: StateFlow<UserListState> = _state.asStateFlow()
+    private var _state = MutableStateFlow(AppointmentListState())
+    val state: StateFlow<AppointmentListState> = _state.asStateFlow()
 
     private var _stateAdoption = MutableStateFlow(AdoptionListState())
     val stateAdoption: StateFlow<AdoptionListState> = _stateAdoption.asStateFlow()
@@ -106,7 +106,6 @@ class UserViewModel @Inject constructor(
                 inclusive = true
             }
         }
-
     }
     private fun getUserAppointments(){
         viewModelScope.launch {

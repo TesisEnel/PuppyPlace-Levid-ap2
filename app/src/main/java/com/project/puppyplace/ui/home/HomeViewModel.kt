@@ -72,12 +72,6 @@ class HomeViewModel @Inject constructor(
         sharedDog = dog
         navController.navigate(Destination.dogDetail.route)
     }
-    fun onLikeIconPressed(navController: NavController){
-        navController.navigate(Destination.like.route)
-    }
-    fun goToUser(navController: NavController){
-        navController.navigate(Destination.user.route)
-    }
     fun onSearchItemChanged(searchItem: String){
         this.searchItem = searchItem
     }
@@ -182,7 +176,6 @@ class HomeViewModel @Inject constructor(
         }
     }
     fun dogIsLiked(dog: DogDto): Boolean = favoriteDogsList.value.contains(dog)
-
     private fun getData(){
         viewModelScope.launch {
             val deferred = async {
@@ -194,5 +187,18 @@ class HomeViewModel @Inject constructor(
     }
     init {
         getData()
+    }
+
+    // BOTTOM BAR ACTIONS
+    fun onBottomBarLikePressed(navController: NavController){
+        navController.navigate(Destination.like.route)
+    }
+    fun onBottomBarAppointmentPressed(navController: NavController){
+        navController.navigate(Destination.appointment.route)
+    }
+
+    // TOP BAR ACTIONS
+    fun onTopBarSettingsPressed(navController: NavController){
+        navController.navigate(Destination.settings.route)
     }
 }

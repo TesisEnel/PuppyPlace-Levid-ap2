@@ -1,4 +1,4 @@
-package com.project.puppyplace.ui.user
+package com.project.puppyplace.ui.appointment
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -34,6 +34,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -50,39 +51,55 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.data.remote.dto.AppointmentDto
+import com.project.puppyplace.util.appBottomBar.AppBottomBar
+import com.project.puppyplace.util.appTopBar.AppTopBar
 import java.text.SimpleDateFormat
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserScreen(
-    viewModel: UserViewModel = hiltViewModel(),
+fun AppointmentScreen(
+    viewModel: AppointmentViewModel = hiltViewModel(),
     navController: NavController
 ){
-    val appointments by viewModel.stateAdoption.collectAsStateWithLifecycle()
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(R.drawable.background_user),
-            contentDescription = "User background image",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillHeight
-        )
-        Column(
+    Scaffold(
+        topBar = {
+            AppTopBar(
+                title = "Appointment",
+                navController = navController
+            )
+        },
+        bottomBar = {
+            AppBottomBar(navController = navController)
+        }
+    ) {paddingValues ->
+        val appointments by viewModel.stateAdoption.collectAsStateWithLifecycle()
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .align(Alignment.Center)
-                .padding(16.dp)
+                .padding(paddingValues)
         ) {
-            TopBar(navController = navController)
-            NameUserText(viewModel = viewModel)
-            InfoUser(viewModel = viewModel)
-            AppointmentsList(appointments.adoptionList, viewModel, navController)
+            Image(
+                painter = painterResource(R.drawable.background_user),
+                contentDescription = "User background image",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillHeight
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center)
+                    .padding(16.dp)
+            ) {
+                NameUserText(viewModel = viewModel)
+                InfoUser(viewModel = viewModel)
+                AppointmentsList(appointments.adoptionList, viewModel, navController)
+            }
         }
     }
 }
 
 @Composable
-fun NameUserText(viewModel: UserViewModel){
+fun NameUserText(viewModel: AppointmentViewModel){
     Row{
         Column {
             Text(
@@ -107,7 +124,7 @@ fun NameUserText(viewModel: UserViewModel){
 }
 
 @Composable
-fun InfoUser(viewModel: UserViewModel){
+fun InfoUser(viewModel: AppointmentViewModel){
     Card(
         colors = CardDefaults.cardColors(
             containerColor= MaterialTheme.colorScheme.secondary
@@ -170,7 +187,7 @@ fun InfoUser(viewModel: UserViewModel){
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(navController: NavController, viewModel: UserViewModel= hiltViewModel()){
+fun TopBar(navController: NavController, viewModel: AppointmentViewModel= hiltViewModel()){
     CenterAlignedTopAppBar(
         title = {
             Text(
@@ -216,7 +233,7 @@ fun TopBar(navController: NavController, viewModel: UserViewModel= hiltViewModel
 }
 
 @Composable
-fun AppointmentsList(appoiments: List<AppointmentDto>, viewModel: UserViewModel, navController: NavController){
+fun AppointmentsList(appoiments: List<AppointmentDto>, viewModel: AppointmentViewModel, navController: NavController){
     Text(text = "Appointments: ",
         style = MaterialTheme.typography.titleLarge
     )
@@ -230,7 +247,7 @@ fun AppointmentsList(appoiments: List<AppointmentDto>, viewModel: UserViewModel,
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun AppoimentItem(viewModel:UserViewModel, appoiment: AppointmentDto, navController: NavController){
+fun AppoimentItem(viewModel:AppointmentViewModel, appoiment: AppointmentDto, navController: NavController){
     val sdf = SimpleDateFormat("yyyy-MM-dd")
     val date = sdf.parse(appoiment.date)
     val formattedDate = sdf.format(date!!)

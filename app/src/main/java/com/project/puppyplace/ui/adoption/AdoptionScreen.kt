@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArtTrack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
@@ -30,7 +28,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,8 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.project.puppyplace.data.remote.dto.DogDto
-import com.project.puppyplace.navigation.Destination
+import com.project.puppyplace.util.appTopBar.AppTopBar
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -68,10 +64,9 @@ fun AdoptionScreen(
 ) {
     Scaffold(
         topBar = {
-            TopBar(
-                navController = navController,
-                viewModel = viewModel,
-                dog = viewModel.dog
+            AppTopBar(
+                title = "Adoption form",
+                navController = navController
             )
         }
     ) {paddingValues ->
@@ -182,6 +177,7 @@ fun AdoptionForm(viewModel: AdoptionViewModel, navController: NavController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DogNameField(viewModel: AdoptionViewModel){
     OutlinedTextField(
@@ -445,40 +441,4 @@ fun ConfirmDialog(viewModel: AdoptionViewModel, navController: NavController){
             }
         )
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBar(
-    navController: NavController,
-    viewModel: AdoptionViewModel,
-    dog: DogDto
-) {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = dog.name
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = {
-                viewModel.onBackPressed(navController = navController)
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back icon",
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = {
-                navController.navigate(Destination.user.route)
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "Logout",
-                )
-            }
-        }
-    )
 }

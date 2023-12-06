@@ -30,9 +30,15 @@ class LikeViewModel @Inject constructor(
     private var _state = MutableStateFlow(LikeListState())
     val state: StateFlow<LikeListState> = _state.asStateFlow()
 
+    var isAvailable by mutableStateOf(true)
+
     var isLiked by mutableStateOf(true)
     init {
         getFavoriteDogs()
+    }
+    fun checkIfDogIsAvailable(dog: DogDto): Boolean{
+        isAvailable = dog.status
+        return isAvailable
     }
     private fun getFavoriteDogs(){
         viewModelScope.launch {
@@ -72,10 +78,4 @@ class LikeViewModel @Inject constructor(
             isLiked = !dogIsLiked(dog)
     }
     fun dogIsLiked(dog: DogDto): Boolean = _state.value.favoriteDogs.contains(dog)
-    fun onHomeSelected(navController: NavController){
-        navController.navigate(Destination.home.route)
-    }
-    fun onBackPressed(navController: NavController){
-        navController.popBackStack()
-    }
 }
