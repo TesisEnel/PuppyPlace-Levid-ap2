@@ -34,12 +34,7 @@ class DogDetailViewModel @Inject constructor(
     fun onAdoptionButtonPressed(navController: NavController){
         navController.navigate(Destination.adoption.route)
     }
-    fun onLikeIconPressed(navController: NavController){
-        navController.navigate(Destination.like.route)
-    }
-    fun onHomeSelected(navController: NavController){
-        navController.navigate(Destination.home.route)
-    }
+
     fun onLikedClicked(dog: DogDto, isLiked: Boolean){
         viewModelScope.launch {
             homeRepository.updateDog(
