@@ -1,4 +1,4 @@
-package com.project.puppyplace.util.BottomBar
+package com.project.puppyplace.util.appBottomBar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.project.puppyplace.util.BottomBar
+package com.project.puppyplace.util.appBottomBar
 
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
