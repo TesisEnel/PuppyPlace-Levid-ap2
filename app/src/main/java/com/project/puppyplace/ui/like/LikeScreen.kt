@@ -35,8 +35,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -117,7 +120,9 @@ fun DogItem(
     navController: NavController,
     viewModel: LikeViewModel
 ){
+    val isAvailable by remember { mutableStateOf(viewModel.checkIfDogIsAvailable(dog)) }
     var isLiked by remember { mutableStateOf(viewModel.dogIsLiked(dog)) }
+
     Row(
         modifier = Modifier
             .width(300.dp)
@@ -127,16 +132,39 @@ fun DogItem(
         horizontalArrangement = Arrangement.Center
     ) {
         Box(
-            modifier = Modifier.clickable {
-                viewModel.onDogSelected(dog = dog, navController = navController)
+            if(isAvailable){
+                Modifier.clickable {
+                    viewModel.onDogSelected(dog = dog, navController = navController)
+                }
+            } else{
+                Modifier
             }
         ){
             AsyncImage(
                 model = dog.image,
                 contentDescription = dog.name,
                 modifier = Modifier.fillMaxHeight(),
-                contentScale = ContentScale.FillBounds
+                contentScale = ContentScale.FillBounds,
+                colorFilter =
+                if(isAvailable) null
+                else ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
             )
+            if(!isAvailable){
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(8.dp)
+                ) {
+                    Text(
+                        text = "Not available :(",
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp),
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.headlineLarge,
+                        textDecoration = TextDecoration.LineThrough
+                    )
+                }
+            }
             Column(
                 modifier = Modifier.align(Alignment.BottomStart)
             ) {
@@ -147,7 +175,6 @@ fun DogItem(
                             .padding(horizontal = 8.dp),
                         color = MaterialTheme.colorScheme.onSecondary
                     )
-
                 }
                 Row {
                     Column {

@@ -30,9 +30,15 @@ class LikeViewModel @Inject constructor(
     private var _state = MutableStateFlow(LikeListState())
     val state: StateFlow<LikeListState> = _state.asStateFlow()
 
+    var isAvailable by mutableStateOf(true)
+
     var isLiked by mutableStateOf(true)
     init {
         getFavoriteDogs()
+    }
+    fun checkIfDogIsAvailable(dog: DogDto): Boolean{
+        isAvailable = dog.status
+        return isAvailable
     }
     private fun getFavoriteDogs(){
         viewModelScope.launch {
