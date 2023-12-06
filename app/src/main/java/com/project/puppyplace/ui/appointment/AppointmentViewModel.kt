@@ -106,7 +106,6 @@ class AppointmentViewModel @Inject constructor(
                 inclusive = true
             }
         }
-
     }
     private fun getUserAppointments(){
         viewModelScope.launch {

@@ -52,6 +52,7 @@ import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.util.appBottomBar.AppBottomBar
+import com.project.puppyplace.util.appTopBar.AppTopBar
 import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +63,10 @@ fun AppointmentScreen(
 ){
     Scaffold(
         topBar = {
-            TopBar(navController = navController, viewModel = viewModel)
+            AppTopBar(
+                title = "Appointment",
+                navController = navController
+            )
         },
         bottomBar = {
             AppBottomBar(navController = navController)
@@ -70,7 +74,9 @@ fun AppointmentScreen(
     ) {paddingValues ->
         val appointments by viewModel.stateAdoption.collectAsStateWithLifecycle()
         Box(
-            modifier = Modifier.fillMaxSize().padding(paddingValues)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
             Image(
                 painter = painterResource(R.drawable.background_user),
