@@ -14,8 +14,15 @@ Overall, Puppy Place is a valuable tool for both dog enthusiasts and animal shel
 The Puppy Place project was born as a proposed idea for the final project of the "Programación Aplicada II" at the Universidad Católica Nordestana. It has been fully developed by my colleague Greilyn Polanco and myself, Levid Tejada.
 
 Throughout a period of approximately 3 weeks, we went through the entire software development process. This included system analysis and the identification of the entities involved, followed by the design of the screens that would guide our development efforts. Currently, we are still in the coding phase, continuously working on the project.
-### Designgs made in Figma
-![Figma screens design](https://i.ibb.co/W6Gt0jB/Screens.png)
+### Designgs 
+![login](https://i.imgur.com/OmbQFqu.jpg)
+![signUp](https://i.imgur.com/sal5t2f.jpg)
+![inicio](https://i.imgur.com/r9rqIJ3.jpg)
+![perro](https://i.imgur.com/SXj0eje.jpg)
+![adoption](https://i.imgur.com/ztzVh91.jpg)
+![favorito](https://i.imgur.com/8H4PIDE.jpg)
+![usuario](https://i.imgur.com/Lc48h2B.jpg)
+![noInternet](https://i.imgur.com/v9VZndO.jpg)
 
 To ensure the proper functioning of the app, we had to handle all the backend work. This involved creating a private API using the .NET framework, specifically with C#. We made sure to include all the necessary components to meet our requirements.
 
