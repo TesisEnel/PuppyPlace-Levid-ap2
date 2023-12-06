@@ -1,4 +1,4 @@
-![image](https://github.com/JaSsT20/PuppyPlace/assets/112819454/b25a7db6-36c1-4670-9fa0-73c5e8a21c71)![image](https://github.com/JaSsT20/PuppyPlace/assets/112819454/1d191349-01c9-4d70-844b-0a9de00061c8)# Welcome to _Puppy Place_
+# Welcome to _Puppy Place_
 ![Puppy Place Logo](https://i.ibb.co/z5H8jYZ/logo.jpg)
 Puppy Place is an innovative Android application designed to connect potential pet owners with adorable dogs available for adoption. This user-friendly app provides a comprehensive platform where users can access detailed information about each dog, schedule appointments with the shelter, and create a personalized profile to enhance their experience.
 
