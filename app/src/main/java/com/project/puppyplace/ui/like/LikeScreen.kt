@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,12 +20,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.HeartBroken
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.InsertEmoticon
 import androidx.compose.material.icons.filled.Male
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -50,7 +44,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.project.puppyplace.R
 import com.project.puppyplace.data.remote.dto.DogDto
-import com.project.puppyplace.navigation.Destination
+import com.project.puppyplace.util.appBottomBar.AppBottomBar
+import com.project.puppyplace.util.appTopBar.AppTopBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,10 +57,14 @@ fun LikeScreen(
     val dogs = viewModel.state.collectAsStateWithLifecycle().value.favoriteDogs
     Scaffold(
         topBar = {
-            TopBar(navController = navController, viewModel = viewModel)
+            AppTopBar(
+                navIcon = Icons.Filled.ArrowBack,
+                title = "Favorite dogs",
+                navController = navController,
+            )
         },
         bottomBar = {
-            BottomBar(navController = navController, viewModel = viewModel)
+            AppBottomBar(navController = navController)
         }
     ) {paddingValues ->
         Box(
@@ -195,92 +194,3 @@ fun DogItem(
         }
     }
 }
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBar(
-    navController: NavController,
-    viewModel: LikeViewModel
-) {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = "Favorite Dogs"
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = {
-                viewModel.onBackPressed(navController = navController)
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back icon",
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = {
-                navController.navigate(Destination.home.route)
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.InsertEmoticon,
-                    contentDescription = "Logout",
-                )
-            }
-        }
-    )
-}
-
-@Composable
-fun BottomBar(
-    navController: NavController,
-    viewModel: LikeViewModel
-) {
-    BottomAppBar {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            IconButton(
-                onClick = {
-                    viewModel.onHomeSelected(navController)
-                }
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                ) {
-                    Icon(Icons.Filled.Home, contentDescription = "Home")
-                    Text("Home")
-                }
-            }
-            IconButton(
-                onClick = {
-
-                }
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                ) {
-                    Icon(Icons.Filled.Favorite, contentDescription = "Favorite")
-                    Text("Favorite")
-                }
-            }
-            IconButton(
-                onClick = {
-                }
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                ) {
-                    Icon(Icons.Filled.Settings, contentDescription = "Settings")
-                    Text("Settings")
-                }
-            }
-        }
-    }
-}
-

@@ -72,10 +72,4 @@ class LikeViewModel @Inject constructor(
             isLiked = !dogIsLiked(dog)
     }
     fun dogIsLiked(dog: DogDto): Boolean = _state.value.favoriteDogs.contains(dog)
-    fun onHomeSelected(navController: NavController){
-        navController.navigate(Destination.home.route)
-    }
-    fun onBackPressed(navController: NavController){
-        navController.popBackStack()
-    }
 }
