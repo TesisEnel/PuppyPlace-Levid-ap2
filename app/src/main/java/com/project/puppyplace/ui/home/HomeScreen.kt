@@ -1,14 +1,13 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
     ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
     ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class
 )
 
 package com.project.puppyplace.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,19 +24,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.HeartBroken
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -65,6 +59,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.project.puppyplace.data.remote.dto.DogDto
+import com.project.puppyplace.util.appBottomBar.AppBottomBar
+import com.project.puppyplace.util.appTopBar.AppTopBar
 
 @Composable
 fun HomeScreen(
@@ -72,12 +68,18 @@ fun HomeScreen(
     navController: NavController
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
     Scaffold(
         topBar = {
-            HomeTopBar(viewModel, navController)
+            AppTopBar(
+                onNavigationPressed = { viewModel.onPetsPressed(context) },
+                navIcon = Icons.Filled.Pets,
+                title = "Discover",
+                navController = navController
+            )
         },
         bottomBar = {
-            BottomBar(navController, viewModel)
+            AppBottomBar(navController = navController)
         }
     ) {paddingValues ->
         if(state.value.isLoading){
@@ -108,39 +110,6 @@ fun HomeScreenContent(
         ChipGroup(viewModel)
         DogsList(dogsList = dogsList, navController = navController, viewModel = viewModel)
     }
-}
-@Composable
-fun HomeTopBar(viewModel: HomeViewModel, navController: NavController){
-    val context = LocalContext.current
-    CenterAlignedTopAppBar(
-        title = {
-            Text(text = "Discover")
-        },
-        navigationIcon = {
-            IconButton(
-                onClick = {
-                    viewModel.onPetsPressed(context = context)
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Pets,
-                    contentDescription = "Like"
-                )
-            }
-        },
-        actions = {
-            IconButton(
-                onClick = {
-                    viewModel.onTopBarSettingsPressed(navController)
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Settings,
-                    contentDescription = "Settings"
-                )
-            }
-        }
-    )
 }
 @Composable
 fun SearchTextField(viewModel: HomeViewModel){
@@ -363,58 +332,6 @@ fun DogItem(
                             )
                         }
                     }
-                }
-            }
-        }
-    }
-}
-@Composable
-fun BottomBar(
-    navController: NavController,
-    viewModel: HomeViewModel
-) {
-    BottomAppBar {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            IconButton(
-                onClick = {
-
-                }
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                ) {
-                    Icon(Icons.Filled.Home, contentDescription = "Home")
-                    Text("Home")
-                }
-            }
-            IconButton(
-                onClick = {
-                    viewModel.onBottomBarLikePressed(navController)
-                }
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                ) {
-                    Icon(Icons.Filled.Favorite, contentDescription = "Favorite")
-                    Text("Favorite")
-                }
-            }
-            IconButton(
-                onClick = {
-                    viewModel.onBottomBarAppointmentPressed(navController)
-                }
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                ) {
-                    Icon(Icons.Filled.DateRange, contentDescription = "Appointment")
-                    Text("Appointments")
                 }
             }
         }

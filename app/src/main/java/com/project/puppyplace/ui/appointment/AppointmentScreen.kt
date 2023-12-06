@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+
 package com.project.puppyplace.ui.appointment
 
 import android.annotation.SuppressLint
@@ -34,6 +36,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -50,6 +53,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.project.puppyplace.R
 import com.project.puppyplace.data.remote.dto.AppointmentDto
+import com.project.puppyplace.util.appBottomBar.AppBottomBar
 import java.text.SimpleDateFormat
 
 @Composable
@@ -57,26 +61,34 @@ fun AppointmentScreen(
     viewModel: AppointmentViewModel = hiltViewModel(),
     navController: NavController
 ){
-    val appointments by viewModel.stateAdoption.collectAsStateWithLifecycle()
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(R.drawable.background_user),
-            contentDescription = "User background image",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillHeight
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .align(Alignment.Center)
-                .padding(16.dp)
+    Scaffold(
+        topBar = {
+            TopBar(navController = navController, viewModel = viewModel)
+        },
+        bottomBar = {
+            AppBottomBar(navController = navController)
+        }
+    ) {paddingValues ->
+        val appointments by viewModel.stateAdoption.collectAsStateWithLifecycle()
+        Box(
+            modifier = Modifier.fillMaxSize().padding(paddingValues)
         ) {
-            TopBar(navController = navController)
-            NameUserText(viewModel = viewModel)
-            InfoUser(viewModel = viewModel)
-            AppointmentsList(appointments.adoptionList, viewModel, navController)
+            Image(
+                painter = painterResource(R.drawable.background_user),
+                contentDescription = "User background image",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillHeight
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center)
+                    .padding(16.dp)
+            ) {
+                NameUserText(viewModel = viewModel)
+                InfoUser(viewModel = viewModel)
+                AppointmentsList(appointments.adoptionList, viewModel, navController)
+            }
         }
     }
 }
