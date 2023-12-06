@@ -1,9 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class
-)
-
 package com.project.puppyplace.ui.home
 
 import androidx.compose.foundation.clickable
@@ -62,6 +56,7 @@ import com.project.puppyplace.data.remote.dto.DogDto
 import com.project.puppyplace.util.appBottomBar.AppBottomBar
 import com.project.puppyplace.util.appTopBar.AppTopBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
@@ -111,6 +106,7 @@ fun HomeScreenContent(
         DogsList(dogsList = dogsList, navController = navController, viewModel = viewModel)
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchTextField(viewModel: HomeViewModel){
     TextField(
@@ -153,6 +149,7 @@ fun SearchTextField(viewModel: HomeViewModel){
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChipGroup(viewModel: HomeViewModel){
     Column(

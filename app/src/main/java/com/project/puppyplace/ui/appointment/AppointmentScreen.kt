@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
-
 package com.project.puppyplace.ui.appointment
 
 import android.annotation.SuppressLint
@@ -56,6 +54,7 @@ import com.project.puppyplace.data.remote.dto.AppointmentDto
 import com.project.puppyplace.util.appBottomBar.AppBottomBar
 import java.text.SimpleDateFormat
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppointmentScreen(
     viewModel: AppointmentViewModel = hiltViewModel(),

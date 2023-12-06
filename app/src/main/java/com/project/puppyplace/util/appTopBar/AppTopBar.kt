@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.project.puppyplace.util.appTopBar
 
 import androidx.compose.material.icons.Icons
@@ -15,6 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(
     viewModel: AppTopBarViewModel = hiltViewModel(),
